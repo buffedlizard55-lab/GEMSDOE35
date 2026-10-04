@@ -52,23 +52,33 @@ def test_site_visible_evidence_is_current_and_caveated():
     assert report.is_file()
     assert validation.is_file()
     challenger = DOCS / "evidence/h35-02-latest.json"
+    latest_h35_03 = DOCS / "evidence/h35-03-latest.json"
     reconstruction = DOCS / "evidence/candidate-reconstruction.json"
     assert challenger.is_file()
+    assert latest_h35_03.is_file()
     assert reconstruction.is_file()
     assert (ROOT / "docs/original-project-prompt.md").is_file()
     index_html = (DOCS / "index.html").read_text(encoding="utf-8")
     executive_html = (DOCS / "executive-summary.html").read_text(encoding="utf-8")
     assert "0.3262" in index_html
     assert "owner-maintained" in index_html
-    assert "H35-02 failed" in index_html
+    assert "H35-03 failed" in index_html
     assert "no prior submission TIFs were supplied" in index_html
     assert "Generative AI" in executive_html
-    assert "three submissions per week" in executive_html
+    assert "three feedback submissions per week" in executive_html
 
     import json
 
     challenger_report = json.loads(challenger.read_text(encoding="utf-8"))
+    h35_03_report = json.loads(latest_h35_03.read_text(encoding="utf-8"))
+    latest_report = json.loads(report.read_text(encoding="utf-8"))
     reconstruction_report = json.loads(reconstruction.read_text(encoding="utf-8"))
+    assert h35_03_report["hypothesis_id"] == "H35-03"
+    assert h35_03_report["gate"]["passed"] is False
+    assert h35_03_report["submission"] is None
+    assert h35_03_report["outer_summary"]["matched_actual_emission_all_outer_folds"] is True
+    assert h35_03_report["outer_summary"]["positive_folds_vs_incumbent"] == 3
+    assert latest_report["hypothesis_id"] == "H35-03"
     assert challenger_report["gate"]["passed"] is False
     assert challenger_report["submission"] is None
     budget = challenger_report["incumbent_budget_comparison"]

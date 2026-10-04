@@ -1,0 +1,57 @@
+{
+  "schema_version": "gemsdoe35-mixed-lhs-v1",
+  "hypothesis_id": "H35-03",
+  "seed": 20261004,
+  "n_designs": 8,
+  "numeric_factors": {
+    "max_scale_m": [200.0, 1000.0],
+    "flank_curvature_weight": [0.0, 1.0],
+    "conductance_weight": [0.0, 0.8],
+    "gravity_edge_weight": [0.0, 0.8],
+    "prediction_fraction": [0.004, 0.012]
+  },
+  "categorical_factors": {
+    "magnetic_source": ["mag_anom", "rtp", "tmi"]
+  },
+  "fixed_factors": {
+    "feature_detector": "magnetic_low_flank_curvature_halo",
+    "n_scales": 3,
+    "baseline": "single_scale_tmi_hg",
+    "incumbent_report": "reports/h35-01-20261004T164802Z-e58e5dbee6.json",
+    "incumbent_design_id": "h35-01-e58e5dbee6",
+    "magnetic_low_signature": "local_gaussian_mean_minus_field; positive low only",
+    "flank_signature": "positive transverse Hessian curvature times line anisotropy",
+    "corroboration_bands": {
+      "conductance": "cond_surf",
+      "gravity_edge": "iso_grav_anom_hg"
+    },
+    "catalogue_mask": "pixel_exact_only_no_buffer",
+    "spatial_grid": "3x2_contiguous_equal-index_tiles",
+    "spatial_rows": 3,
+    "spatial_cols": 2,
+    "outer_validation": "nested_leave_one_tile_out_selection_and_scoring",
+    "spatial_margin_px": 30,
+    "holdout_reuse_status": "labels appeared in prior quadrant-aggregated H35-01/H35-02 summaries; nested folds are exploratory, not a pristine independent replication",
+    "metric_radius_m": 300,
+    "prediction_encoding": "binary_top_k_confidence_on_domain_nan_outside"
+  },
+  "promotion_rule": {
+    "mean_outer_delta_vs_baseline_and_incumbent_must_be_positive": true,
+    "minimum_positive_outer_tiles_against_each_comparator": 5,
+    "outer_tile_count": 6,
+    "comparators": ["tmi_hg", "h35-01-e58e5dbee6"],
+    "require_exact_matched_actual_emission_in_every_outer_tile": true,
+    "emit_tiff_only_if_all_conditions_pass": true,
+    "competition_slot_automated": false
+  },
+  "rationale": {
+    "max_scale_m": "200 to 1000 m Gaussian neighbourhoods on a 100 m grid; test local halo width without asserting a fault-scale optimum",
+    "flank_curvature_weight": "0 to 1 ablates versus emphasizes a two-flank trough shape using positive transverse curvature and Hessian line anisotropy",
+    "conductance_weight": "0 to 0.8 multiplicative corroboration from the provided shallow conductivity surface; this is an ablation-weight range, not a calibrated probability",
+    "gravity_edge_weight": "0 to 0.8 multiplicative corroboration from the provided isostatic gravity horizontal gradient",
+    "prediction_fraction": "0.4% to 1.2% of each fold's eligible area; selection uses only development-tile DTI and all comparisons re-emit at matched actual pixel mass",
+    "magnetic_source": "balanced categorical comparison of supplied anomaly, RTP, and TMI bands; level counts are 3, 3, and 2",
+    "geometry": "3x2 spatial blocks with 30-pixel (3 km) edge margins; each outer tile is scored once after LHS selection on the other five",
+    "provenance": "only existing supplied feature and label rasters are used; data are a public owner-maintained mirror, not organizer-authenticated"
+  }
+}

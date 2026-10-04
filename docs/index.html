@@ -40,16 +40,16 @@
             </div>
           </div>
           <aside class="hero-aside" aria-label="Candidate status">
-            <span class="label">Current candidate · H35-01</span>
-            <strong>Local holdout passed.<br>No organizer score.</strong>
-            <p>Selected by a preregistered mixed Latin-hypercube design. This result is a local proxy on an owner-maintained data mirror, not public or private leaderboard evidence.</p>
+            <span class="label">Current download · H35-01</span>
+            <strong>No newer challenger passed.<br>No organizer score.</strong>
+            <p>H35-01 remains the carry-over candidate. H35-03 failed its matched-mass comparison against H35-01 on nested spatial folds; no replacement TIFF or competition slot was created.</p>
           </aside>
         </div>
       </section>
 
       <div class="alert" role="note" aria-label="Important data provenance warning">
         <div class="alert-icon" aria-hidden="true">!</div>
-        <p><strong>Provenance matters.</strong> The local rasters match a public mirror's pinned hashes, but are not authenticated as organizer-provided. The official DrivenData data tab is login-walled here. Six selected feature bands each contain 3,061 in-footprint sentinel cells that are nearest-filled; sensitivity is not separately measured. Review the provenance/data-quality notes and official rules before using a weekly submission slot.</p>
+        <p><strong>Provenance matters.</strong> The local rasters match a public mirror's pinned hashes, but are not authenticated as organizer-provided. The official DrivenData data tab is login-walled here. Six selected feature bands each contain 3,061 in-footprint sentinel cells that are nearest-filled; sensitivity is not separately measured. No new challenger has beaten H35-01; do not spend a weekly slot on the present evidence. Review the provenance/data-quality notes and official rules before any future upload.</p>
       </div>
 
       <section class="section" id="evidence" aria-labelledby="evidence-title">
@@ -79,15 +79,15 @@
 
       <section class="section" aria-labelledby="challenger-title">
         <div class="section-head">
-          <div><p class="kicker">Latest LHS challenger · 04 Oct 2026</p><h2 id="challenger-title">H35-02 failed before any slot was spent.</h2></div>
-          <a href="evidence/h35-02-latest.json" class="small">Open complete challenger report →</a>
+          <div><p class="kicker">Latest nested LHS challenger · 04 Oct 2026</p><h2 id="challenger-title">H35-03 failed against the current holdout best.</h2></div>
+          <a href="evidence/h35-03-latest.json" class="small">Open complete H35-03 report →</a>
         </div>
         <div class="grid-3">
-          <article class="card metric-card caveat"><span class="metric-label">Development · selected strain setting</span><strong class="metric">2 / 3</strong><p>Positive blocks; mean Δ +0.01807 vs `tmi_hg`, but SE was −0.00035. The predeclared gate required all three development folds to improve.</p></article>
-          <article class="card metric-card local"><span class="metric-label">Reused NW challenger block</span><strong class="metric">0.01699</strong><p>Below matched-mass `tmi_hg` 0.01943 (Δ −0.00244) and H35-01 rescored at the same 27,979-pixel budget: 0.03087 (Δ −0.01388). H35-01's historic 0.02690 used only 23,427 pixels. NW was already seen; this is not independent confirmation.</p></article>
-          <article class="card metric-card board"><span class="metric-label">Outcome</span><strong class="metric">No TIFF</strong><p>H35-02 failed the baseline, development-consistency and incumbent gates. No H35-02 GeoTIFF was generated and no submission slot was used.</p></article>
+          <article class="card metric-card caveat"><span class="metric-label">vs `tmi_hg` · nested outer folds</span><strong class="metric">+0.00532</strong><p>Mean DTI delta; positive on 4/6 spatial tiles. This does not meet the 5/6 consistency requirement.</p></article>
+          <article class="card metric-card local"><span class="metric-label">vs H35-01 · matched actual mass</span><strong class="metric">−0.00300</strong><p>Mean outer-fold delta; positive on 3/6 tiles. Every three-arm comparison matched emitted pixel count exactly.</p></article>
+          <article class="card metric-card board"><span class="metric-label">Outcome · promotion gate</span><strong class="metric">Failed · no TIFF</strong><p>H35-03 did not beat the frozen H35-01 holdout incumbent. No H35-03 GeoTIFF or competition submission slot was created.</p></article>
         </div>
-        <p class="table-note">This is a local comparison on existing catalogue labels from a pinned owner-maintained mirror, not a competition score. The H35-01 TIFF below remains the only download. Do not keep tuning on NW; future confirmation needs fresh outer geography.</p>
+        <p class="table-note">This is exploratory nested validation on existing catalogue labels from a pinned owner-maintained mirror. Historical H35-01/H35-02 quadrant summaries exposed the same geography, so this is not pristine independent confirmation. The H35-01 TIFF below remains the only download, and no candidate is currently eligible under the incumbent-improvement rule.</p>
       </section>
 
       <section class="section" aria-labelledby="file-title">
@@ -97,9 +97,9 @@
         </div>
         <div class="file-panel">
           <div>
-            <span class="pill">Candidate only · not organizer-scored</span>
+            <span class="pill">Carry-over only · no newer candidate beat H35-01 · not organizer-scored</span>
             <h3 style="margin-top:12px">H35-01 · wavelength-persistent magnetic contacts</h3>
-            <p>Newly generated from the H35-01 LHS configuration, not a renamed copy. Its prediction array exactly reconstructs from the saved config and pinned owner mirror; no prior submission TIFs were supplied for a global duplicate comparison. The file was reopened and checked against the local grid template and labels.</p>
+            <p>Generated from the H35-01 LHS configuration, not a renamed copy. Its prediction array exactly reconstructs from the saved config and pinned owner mirror; no prior submission TIFs were supplied for a global duplicate comparison. The file was reopened and checked against the local grid template and labels. It remains available for reproducibility and research, but the latest H35-03 challenger did not beat it, so no submission is recommended now.</p>
             <code class="file-name" id="filename">gemsdoe35-h35-01-e58e5dbee6-20261004T164802Z-candidate.tif</code>
             <div class="file-actions">
               <a class="btn btn-dark" href="downloads/gemsdoe35-h35-01-e58e5dbee6-20261004T164802Z-candidate.tif" download>Download `.tif`</a>
@@ -123,7 +123,7 @@
       <section class="section" aria-labelledby="folds-title">
         <div class="section-head">
           <div><p class="kicker">Transparent holdout</p><h2 id="folds-title">Every block, side by side.</h2></div>
-          <p class="section-intro">Same emitted mass in each H35-01 comparison; NW was not used to select that configuration. H35-02 later reused the block as a paired challenger, so it is no longer a pristine holdout for future ideas.</p>
+          <p class="section-intro">Same emitted mass in each H35-01 comparison; NW was not used to select that configuration. H35-02 reused NW and H35-03 used nested 3×2 folds after quadrant aggregates had exposed that geography; none of these tiles is a pristine holdout for future ideas.</p>
         </div>
         <div class="table-wrap">
           <table>
@@ -155,14 +155,14 @@
 
       <section class="section" aria-labelledby="hyp-title">
         <div class="section-head">
-          <div><p class="kicker">Research queue</p><h2 id="hyp-title">Four fresh hypotheses; one tested and stopped.</h2></div>
+          <div><p class="kicker">Research queue</p><h2 id="hyp-title">Four ranked geological hypotheses; H35-03 tested and stopped.</h2></div>
           <a href="https://github.com/buffedlizard55-lab/GEMSDOE35/blob/main/docs/hypotheses.md" class="small" target="_blank" rel="noopener">Read the complete ranked register →</a>
         </div>
         <div class="hypothesis-list">
-          <article class="hypothesis"><span class="hypothesis-rank">01</span><div><h3>H35-02 · Strain-field discontinuities</h3><p>Three-scale gradient/orientation features from geodetic strain; LHS screen failed the block-consistency and incumbent gates, so stopped without a TIFF.</p></div><span class="status">screen failed</span></article>
-          <article class="hypothesis"><span class="hypothesis-rank">02</span><div><h3>H35-03 · Hydrothermal demagnetization halo</h3><p>Test elongated magnetic lows bracketed by coherent gradients, with conductance/gravity support; mechanism is plausible but non-unique.</p></div><span class="status">registered</span></article>
-          <article class="hypothesis"><span class="hypothesis-rank">03</span><div><h3>H35-04 · Depth-connected MT conductance</h3><p>Cross-depth USGS conductance may add context; native CRS is EPSG:4269, while pixel size and target overlap still need an audit.</p></div><span class="status">data audit pending</span></article>
-          <article class="hypothesis"><span class="hypothesis-rank">04</span><div><h3>H35-05 · Seismicity-gradient terminations</h3><p>Use supplied earthquake-density/distance edges and terminations rather than hotspot ranks; spatial support and catalog completeness are risks.</p></div><span class="status">registered</span></article>
+          <article class="hypothesis"><span class="hypothesis-rank">01</span><div><h3>H35-03 · Magnetic-low corridor with paired flanks</h3><p>Nested 3×2 mixed-LHS screen averaged +0.00532 vs `tmi_hg`, but −0.00300 vs H35-01 and improved only 3/6 tiles against the incumbent. Gate failed; no TIFF.</p></div><span class="status">screen failed</span></article>
+          <article class="hypothesis"><span class="hypothesis-rank">02</span><div><h3>H35-04 · GeoDAWN radiometric alteration contrast</h3><p>Official USGS radiometric release is listed as public domain; actual Area 2 archive, channels, CRS, target overlap and rules/licensing still need audit.</p></div><span class="status">data audit pending</span></article>
+          <article class="hypothesis"><span class="hypothesis-rank">03</span><div><h3>H35-05 · Seismicity-gradient terminations</h3><p>Use supplied earthquake-density/distance edges and terminations rather than hotspot ranks; spatial support and catalog completeness are risks.</p></div><span class="status">registered</span></article>
+          <article class="hypothesis"><span class="hypothesis-rank">04</span><div><h3>H35-06 · Depth-connected MT conductance</h3><p>USGS lists cross-depth rasters, but retrieval failed and ScienceBase/FGDC CRS metadata conflict; not viable until binary files and alignment are verified.</p></div><span class="status">source blocked</span></article>
         </div>
       </section>
 
@@ -185,6 +185,7 @@
           <a class="source" href="https://www.usgs.gov/data/electrical-conductance-maps-great-basin-usa" target="_blank" rel="noopener"><span><b>USGS Great Basin conductance data</b><small>Free public depth-slice raster release · H35-04</small></span><span aria-hidden="true">↗</span></a>
           <a class="source" href="https://github.com/buffedlizard55-lab/GEMSDOE35/blob/main/docs/hypotheses.md" target="_blank" rel="noopener"><span><b>Hypotheses &amp; evidence register</b><small>Ranked geological ideas and full source links</small></span><span aria-hidden="true">→</span></a>
           <a class="source" href="https://github.com/buffedlizard55-lab/GEMSDOE35/blob/main/docs/source-register.md" target="_blank" rel="noopener"><span><b>Claim-by-claim source register</b><small>What each source supports, what it cannot prove, and open blockers</small></span><span aria-hidden="true">→</span></a>
+          <a class="source" href="https://docs.nlr.gov/docs/fy26osti/96647.pdf" target="_blank" rel="noopener"><span><b>GEMS Prize Official Rules · September 2026</b><small>Single final prediction, reproducible solution materials, eligibility and required generative-AI disclosure</small></span><span aria-hidden="true">↗</span></a>
         </div>
         <p class="table-note">The leaderboard entry is a dated human-reviewed snapshot, not a live feed. The current DrivenData Terms of Use prohibit automated monitoring/copying without written permission; a feed requires an organizer-approved API or written authorization.</p>
       </section>

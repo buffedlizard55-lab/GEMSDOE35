@@ -351,3 +351,349 @@ def run_nested_screen(
         "all_design_results": design_results,
     }
     return ValidationOutput(report, prediction, selected_config)
+
+
+def _tile_core_masks(
+    shape: tuple[int, int],
+    domain: np.ndarray,
+    *,
+    rows: int,
+    cols: int,
+    margin_px: int,
+) -> dict[str, np.ndarray]:
+    """Create nonoverlapping spatial evaluation cores inside equal-index tiles."""
+    if rows < 1 or cols < 1 or margin_px < 0:
+        raise ValueError("tile counts must be positive and margin nonnegative")
+    height, width = shape
+    row_edges = np.rint(np.linspace(0, height, rows + 1)).astype(int)
+    col_edges = np.rint(np.linspace(0, width, cols + 1)).astype(int)
+    masks: dict[str, np.ndarray] = {}
+    for row in range(rows):
+        for col in range(cols):
+            r0, r1 = int(row_edges[row]) + margin_px, int(row_edges[row + 1]) - margin_px
+            c0, c1 = int(col_edges[col]) + margin_px, int(col_edges[col + 1]) - margin_px
+            if r0 >= r1 or c0 >= c1:
+                raise ValueError("spatial margin leaves an empty tile")
+            mask = np.zeros(shape, dtype=bool)
+            mask[r0:r1, c0:c1] = True
+            mask &= domain
+            # Keep even empty cores so the caller must fail on missing support
+            # instead of silently changing the registered fold count.
+            masks[f"R{row + 1}C{col + 1}"] = mask
+    return masks
+
+
+def _matched_triad_scores(
+    candidate_score: np.ndarray,
+    baseline_score: np.ndarray,
+    incumbent_score: np.ndarray,
+    labels: np.ndarray,
+    evaluation_mask: np.ndarray,
+    *,
+    fold_name: str,
+    prediction_fraction: float,
+    pixel_size_m: float,
+) -> dict[str, Any]:
+    """Score challenger, baseline and incumbent at one exact emitted mass."""
+    available = int(evaluation_mask.sum())
+    requested = int(round(float(prediction_fraction) * available))
+    truth = (labels == 1) & evaluation_mask
+    if available == 0 or requested < 1 or not truth.any():
+        return {
+            "fold": fold_name,
+            "status": "insufficient_prediction_domain_or_truth",
+            "available_pixels": available,
+            "truth_pixels": int(truth.sum()),
+            "requested_budget": requested,
+        }
+    candidate_prediction, candidate_emitted = _top_k_mask(
+        candidate_score, evaluation_mask, requested
+    )
+    baseline_prediction, baseline_emitted = _top_k_mask(
+        baseline_score, evaluation_mask, requested
+    )
+    incumbent_prediction, incumbent_emitted = _top_k_mask(
+        incumbent_score, evaluation_mask, requested
+    )
+    common_mass = min(candidate_emitted, baseline_emitted, incumbent_emitted)
+    if common_mass < 1:
+        return {
+            "fold": fold_name,
+            "status": "no_common_positive_mass",
+            "available_pixels": available,
+            "truth_pixels": int(truth.sum()),
+            "requested_budget": requested,
+            "requested_emissions": {
+                "candidate": candidate_emitted,
+                "baseline": baseline_emitted,
+                "incumbent": incumbent_emitted,
+            },
+        }
+    if candidate_emitted != common_mass:
+        candidate_prediction, candidate_emitted = _top_k_mask(
+            candidate_score, evaluation_mask, common_mass
+        )
+    if baseline_emitted != common_mass:
+        baseline_prediction, baseline_emitted = _top_k_mask(
+            baseline_score, evaluation_mask, common_mass
+        )
+    if incumbent_emitted != common_mass:
+        incumbent_prediction, incumbent_emitted = _top_k_mask(
+            incumbent_score, evaluation_mask, common_mass
+        )
+    candidate = dti(truth, candidate_prediction, valid=evaluation_mask, pixel_size_m=pixel_size_m)
+    baseline = dti(truth, baseline_prediction, valid=evaluation_mask, pixel_size_m=pixel_size_m)
+    incumbent = dti(truth, incumbent_prediction, valid=evaluation_mask, pixel_size_m=pixel_size_m)
+    matched = candidate_emitted == baseline_emitted == incumbent_emitted == common_mass
+    return {
+        "fold": fold_name,
+        "status": "scored" if matched else "emission_mass_mismatch",
+        "available_pixels": available,
+        "truth_pixels": int(truth.sum()),
+        "prediction_fraction_requested": float(prediction_fraction),
+        "requested_budget": requested,
+        "actual_emitted_pixels": {
+            "candidate": int(candidate_emitted),
+            "baseline": int(baseline_emitted),
+            "incumbent": int(incumbent_emitted),
+        },
+        "all_emissions_matched": bool(matched),
+        "candidate": candidate.as_dict(),
+        "baseline": baseline.as_dict(),
+        "incumbent": incumbent.as_dict(),
+        "delta_vs_baseline": float(candidate.score - baseline.score),
+        "delta_vs_incumbent": float(candidate.score - incumbent.score),
+    }
+
+
+def run_nested_spatial_lhs_screen(
+    bands: Mapping[str, np.ndarray],
+    labels: np.ndarray,
+    domain: np.ndarray,
+    configs: Sequence[Mapping[str, Any]],
+    *,
+    incumbent_config: Mapping[str, Any],
+    pixel_size_m: float = 100.0,
+    spatial_rows: int = 3,
+    spatial_cols: int = 2,
+    spatial_margin_px: int = 30,
+    minimum_positive_outer_folds: int = 5,
+    holdout_reuse_note: str,
+) -> ValidationOutput:
+    """Nested leave-one-tile-out selection and matched incumbent validation.
+
+    The LHS is generated before labels are scored. For each outer tile, the
+    winning config is selected using only the other tiles, then compared against
+    both `tmi_hg` and the frozen incumbent on the held-out tile at identical
+    actual pixel mass. The final config is selected over all tiles only after
+    procedure-level outer-CV results have been computed. This is an exploratory
+    local proxy when historical analysis has already exposed the same geography.
+    """
+    y = np.asarray(labels)
+    valid_domain = np.asarray(domain, dtype=bool)
+    if y.ndim != 2 or y.shape != valid_domain.shape:
+        raise ValueError("labels and domain must be matching 2-D arrays")
+    if not configs:
+        raise ValueError("at least one LHS configuration is required")
+    if not holdout_reuse_note.strip():
+        raise ValueError("holdout_reuse_note must describe prior exposure")
+    ids = [str(config.get("design_id", "")) for config in configs]
+    if any(not item for item in ids) or len(set(ids)) != len(ids):
+        raise ValueError("each configuration must have a unique nonempty design_id")
+
+    tiles = _tile_core_masks(
+        y.shape,
+        valid_domain,
+        rows=spatial_rows,
+        cols=spatial_cols,
+        margin_px=spatial_margin_px,
+    )
+    if len(tiles) < 3:
+        raise ValueError("nested spatial screening needs at least three nonempty tiles")
+    tile_metadata = {
+        name: {
+            "available_pixels": int(mask.sum()),
+            "truth_pixels": int(((y == 1) & mask).sum()),
+        }
+        for name, mask in tiles.items()
+    }
+    unusable = [name for name, info in tile_metadata.items() if info["available_pixels"] < 1 or info["truth_pixels"] < 1]
+    if unusable:
+        raise ValueError(f"spatial tiles require valid domain and truth pixels: {unusable}")
+    if minimum_positive_outer_folds < 1 or minimum_positive_outer_folds > len(tiles):
+        raise ValueError("minimum_positive_outer_folds must be within the number of tiles")
+
+    if "tmi_hg" not in bands:
+        raise ValueError("bands must include `tmi_hg` for the declared baseline")
+    baseline_surface = normalize_for_ranking(bands["tmi_hg"], valid_domain)
+    incumbent_surface, incumbent_diagnostics = candidate_surface(
+        bands,
+        valid_domain,
+        dict(incumbent_config),
+        pixel_size_m=pixel_size_m,
+    )
+    surfaces: list[np.ndarray] = []
+    design_results: list[dict[str, Any]] = []
+    for raw_config in configs:
+        config = dict(raw_config)
+        surface, diagnostics = candidate_surface(
+            bands, valid_domain, config, pixel_size_m=pixel_size_m
+        )
+        if surface.shape != y.shape or not np.isfinite(surface[valid_domain]).all():
+            raise ValueError(f"candidate surface {config['design_id']} is invalid on the domain")
+        fold_results: dict[str, dict[str, Any]] = {}
+        for fold_name, core in tiles.items():
+            score = _paired_fold_scores(
+                surface,
+                baseline_surface,
+                y,
+                valid_domain,
+                tiles,
+                heldout_name=fold_name,
+                prediction_fraction=float(config["prediction_fraction"]),
+                pixel_size_m=pixel_size_m,
+            )
+            fold_results[fold_name] = score
+        deltas = [
+            float(value["delta_dti"])
+            for value in fold_results.values()
+            if value.get("status") == "scored"
+        ]
+        inner_mean = float(np.mean(deltas)) if len(deltas) == len(tiles) else None
+        design_results.append(
+            {
+                "design_id": str(config["design_id"]),
+                "config": config,
+                "folds_vs_baseline": fold_results,
+                "all_tile_mean_delta_vs_baseline": inner_mean,
+                "all_tile_positive_folds_vs_baseline": int(sum(delta > 0 for delta in deltas)),
+                "surface_diagnostics": diagnostics,
+            }
+        )
+        surfaces.append(surface)
+
+    outer_results: list[dict[str, Any]] = []
+    for heldout_name in tiles:
+        development_names = [name for name in tiles if name != heldout_name]
+        rankings: list[tuple[float, int]] = []
+        for result_index, result in enumerate(design_results):
+            development_deltas = [
+                result["folds_vs_baseline"][name].get("delta_dti")
+                for name in development_names
+            ]
+            if any(value is None for value in development_deltas):
+                mean_delta = float("-inf")
+            else:
+                mean_delta = float(np.mean(np.asarray(development_deltas, dtype=np.float64)))
+            rankings.append((mean_delta, result_index))
+        selected_mean, selected_index = max(rankings, key=lambda item: (item[0], -item[1]))
+        selected_config = dict(configs[selected_index])
+        test_result = _matched_triad_scores(
+            surfaces[selected_index],
+            baseline_surface,
+            incumbent_surface,
+            y,
+            tiles[heldout_name],
+            fold_name=heldout_name,
+            prediction_fraction=float(selected_config["prediction_fraction"]),
+            pixel_size_m=pixel_size_m,
+        )
+        outer_results.append(
+            {
+                "heldout_tile": heldout_name,
+                "development_tiles": development_names,
+                "selected_config_id": selected_config["design_id"],
+                "selected_development_mean_delta_vs_baseline": selected_mean,
+                **test_result,
+            }
+        )
+
+    scored_outer = [row for row in outer_results if row.get("status") == "scored"]
+    deltas_baseline = [float(row["delta_vs_baseline"]) for row in scored_outer]
+    deltas_incumbent = [float(row["delta_vs_incumbent"]) for row in scored_outer]
+    matched_every_fold = (
+        len(scored_outer) == len(tiles)
+        and all(row.get("all_emissions_matched") is True for row in scored_outer)
+    )
+    mean_baseline = float(np.mean(deltas_baseline)) if deltas_baseline else None
+    mean_incumbent = float(np.mean(deltas_incumbent)) if deltas_incumbent else None
+    positive_baseline = int(sum(delta > 0 for delta in deltas_baseline))
+    positive_incumbent = int(sum(delta > 0 for delta in deltas_incumbent))
+    gate = bool(
+        matched_every_fold
+        and mean_baseline is not None
+        and mean_incumbent is not None
+        and mean_baseline > 0.0
+        and mean_incumbent > 0.0
+        and positive_baseline >= minimum_positive_outer_folds
+        and positive_incumbent >= minimum_positive_outer_folds
+    )
+
+    final_index = max(
+        range(len(design_results)),
+        key=lambda index: (
+            float("-inf")
+            if design_results[index]["all_tile_mean_delta_vs_baseline"] is None
+            else float(design_results[index]["all_tile_mean_delta_vs_baseline"]),
+            -index,
+        ),
+    )
+    final_config = dict(configs[final_index])
+    final_prediction: np.ndarray | None = None
+    final_emitted = 0
+    if gate:
+        output_domain = valid_domain & (y != 1)
+        allowed = output_domain & np.isfinite(surfaces[final_index]) & (surfaces[final_index] > 0.0)
+        requested = int(round(float(final_config["prediction_fraction"]) * int(output_domain.sum())))
+        final_prediction, final_emitted = _top_k_mask(surfaces[final_index], allowed, requested)
+        if final_emitted < 1:
+            gate = False
+            final_prediction = None
+
+    report = {
+        "schema_version": "gemsdoe35-nested-spatial-lhs-v1",
+        "hypothesis_id": "H35-03",
+        "instrument": "official DTI formula applied locally to withheld public catalogue labels",
+        "target_population_caveat": "Existing public catalogue faults are a proxy, not the newly identified private target. No local DTI delta is a leaderboard estimate.",
+        "data_provenance": "pinned public owner-maintained mirror; not organizer-authenticated",
+        "holdout_reuse_note": holdout_reuse_note,
+        "split": {
+            "grid": f"{spatial_rows}x{spatial_cols} equal-index contiguous tiles",
+            "outer_tiles": list(tiles),
+            "outer_fold_count": len(tiles),
+            "spatial_margin_px": int(spatial_margin_px),
+            "metric_radius_m": 300.0,
+            "selection": "each outer tile is scored after selecting the highest mean development-tile delta against tmi_hg; its labels do not select its own configuration",
+            "outer_tile_support": tile_metadata,
+            "holdout_reuse_status": "nested within-run exclusion; prior quadrant reports exposed the same geographic labels; exploratory rather than pristine independent confirmation",
+        },
+        "baseline": "single-scale supplied tmi_hg edge-strength ranking",
+        "incumbent": {
+            "design_id": str(incumbent_config.get("design_id", "unknown")),
+            "method": incumbent_diagnostics.get("method"),
+            "source_prediction_fraction": incumbent_config.get("prediction_fraction"),
+            "comparison": "rescored at each selected challenger's prediction fraction and matched to identical actual emitted mass",
+        },
+        "all_design_results": design_results,
+        "outer_fold_results": outer_results,
+        "outer_summary": {
+            "mean_delta_vs_baseline": mean_baseline,
+            "positive_folds_vs_baseline": positive_baseline,
+            "mean_delta_vs_incumbent": mean_incumbent,
+            "positive_folds_vs_incumbent": positive_incumbent,
+            "required_positive_folds": int(minimum_positive_outer_folds),
+            "matched_actual_emission_all_outer_folds": bool(matched_every_fold),
+        },
+        "selected_design_id": final_config["design_id"],
+        "selected_config": final_config,
+        "selection_diagnostic": "final config selected using all spatial tiles after nested procedure-level outer scores; its own score is not an untouched holdout estimate",
+        "gate": {
+            "criterion": "nested outer-fold mean delta > 0 and at least the registered number of positive tiles against both tmi_hg and the frozen H35-01 incumbent, with matched actual pixel mass across challenger, baseline and incumbent in every outer tile",
+            "passed": bool(gate),
+            "slot_eligible": False,
+            "slot_note": "Local proxy CV never spends a competition slot; a pass still requires official-data provenance review and human decision. Historical quadrant exposure means this is exploratory, not pristine independent confirmation.",
+        },
+        "submission": None,
+        "final_candidate_emitted_pixels": int(final_emitted),
+    }
+    return ValidationOutput(report, final_prediction, final_config)
