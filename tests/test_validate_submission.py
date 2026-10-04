@@ -65,6 +65,27 @@ def test_cli_accepts_valid_probability_geotiff_and_nan_outside(tmp_path):
     assert '"sha256"' in result.stdout
 
 
+def test_cli_rejects_probability_values_above_one_with_range_diagnostic(tmp_path):
+    template = tmp_path / "template.tif"
+    labels = tmp_path / "labels.tif"
+    submission = tmp_path / "submission.tif"
+    template_values = np.full((8, 9), np.nan, dtype=np.float32)
+    template_values[1:7, 1:8] = 0.0
+    label_values = np.full((8, 9), -1, dtype=np.int8)
+    label_values[1:7, 1:8] = 0
+    prediction = np.full((8, 9), np.nan, dtype=np.float32)
+    prediction[1:7, 1:8] = 0.0
+    prediction[3, 4] = 1.0001
+    _write_raster(template, template_values, dtype="float32", nodata=np.nan)
+    _write_raster(labels, label_values, dtype="int8", nodata=-1)
+    _write_raster(submission, prediction, dtype="float32", nodata=np.nan)
+
+    result = _validate(submission, template, labels)
+    assert result.returncode == 1
+    assert "submission predictions outside [0, 1]" in result.stdout
+    assert '"range_gate": "fail"' in result.stdout
+
+
 def test_cli_rejects_infinity_outside_footprint(tmp_path):
     template = tmp_path / "template.tif"
     labels = tmp_path / "labels.tif"

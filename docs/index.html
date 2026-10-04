@@ -21,7 +21,7 @@
         <a href="#evidence">Evidence</a>
         <a href="https://github.com/buffedlizard55-lab/GEMSDOE35/blob/main/docs/hypotheses.md" target="_blank" rel="noopener">Hypotheses</a>
         <a href="executive-summary.html">How to submit</a>
-        <a class="nav-cta" href="downloads/gemsdoe35-h35-04-2101f9ab04-20261004T211253030616Z-candidate.tif" download>Download TIFF ↓</a>
+        <a class="nav-cta" href="downloads/gemsdoe35-h35-05-a10b466a43-20261004T221711596712Z-candidate.tif" download>Download experimental TIFF ↓</a>
       </nav>
     </header>
 
@@ -33,23 +33,23 @@
             <h1 id="hero-title">Fault traces hiding in plain sight.</h1>
             <p class="hero-copy">A reproducible geophysical screening experiment for fault pixels not yet captured in the public map—built around physical hypotheses, designed search, and a genuinely spatial holdout.</p>
             <div class="hero-actions">
-              <a class="btn btn-primary" href="downloads/gemsdoe35-h35-04-2101f9ab04-20261004T211253030616Z-candidate.tif" download>
-                <span aria-hidden="true">↓</span> Download candidate GeoTIFF
+              <a class="btn btn-primary" href="downloads/gemsdoe35-h35-05-a10b466a43-20261004T221711596712Z-candidate.tif" download>
+                <span aria-hidden="true">↓</span> Download experimental H35-05 GeoTIFF
               </a>
               <a class="btn btn-secondary" href="executive-summary.html">Executive summary &amp; upload steps <span aria-hidden="true">→</span></a>
             </div>
           </div>
           <aside class="hero-aside" aria-label="Candidate status">
-            <span class="label">New unique local artifact · H35-04</span>
+            <span class="label">New locally unique research artifact · H35-05</span>
             <strong>Experimental only.<br>NOT slot-eligible.</strong>
-            <p>H35-04 produced a locally unique, format-checked TIF. Its spatial proxy gate failed to beat H35-01 on average and across enough folds. Download for audit; do not spend a competition slot on it.</p>
+            <p>H35-05 produced a locally unique, format-checked TIF. Its preregistered spatial proxy gate failed to beat H35-01. Download for audit; do not spend a competition slot on it.</p>
           </aside>
         </div>
       </section>
 
       <div class="alert" role="note" aria-label="Important data provenance warning">
         <div class="alert-icon" aria-hidden="true">!</div>
-        <p><strong>Experimental download — not a recommendation to submit.</strong> The H35-04 TIFF below is unique within the local download folder and passed local format/range checks, but failed the registered incumbent gate: mean spatial ΔDTI −0.000129 vs H35-01 (4/6 folds positive). The score is on existing catalogue labels from an owner-maintained mirror, not organizer-authenticated data or the hidden new-fault target. Do not spend a weekly competition slot on it.</p>
+        <p><strong>Experimental download — not a recommendation to submit.</strong> The H35-05 TIFF below is unique among readable same-grid rasters in the local repository scan and passed local format/range checks, but failed the registered incumbent gate: mean spatial ΔDTI −0.011534 vs H35-01 (2/6 tiles positive) and −0.003956 vs `tmi_hg` (3/6 positive). The results use existing catalogue labels from an owner-maintained mirror, not organizer-authenticated data or the hidden new-fault target. Do not spend a weekly competition slot on it.</p>
       </div>
 
       <section class="section" id="evidence" aria-labelledby="evidence-title">
@@ -59,12 +59,12 @@
         </div>
         <div class="grid-3">
           <article class="card metric-card local">
-            <span class="metric-label">Frozen NW proxy · H35-01</span>
+            <span class="metric-label">Frozen incumbent · H35-01</span>
             <strong class="metric">0.02690</strong>
             <p>vs 0.01657 for matched-mass single-scale `tmi_hg` · Δ +0.01033. Existing catalogue labels, local mirror only.</p>
           </article>
           <article class="card metric-card caveat">
-            <span class="metric-label">Development screen</span>
+            <span class="metric-label">H35-01 development screen</span>
             <strong class="metric">3 / 3</strong>
             <p>All NE, SW, SE deltas positive · mean Δ +0.01445. The held-out NW block was not used to select the configuration.</p>
           </article>
@@ -74,70 +74,73 @@
             <p>`nchuzhoy`, public leaderboard rank 1. This is not the private initial-round or final prize score.</p>
           </article>
         </div>
-        <p class="table-note">The local DTI values above are spatial-blocked proxy results; they are not numerically comparable to the leaderboard values because the target label population differs. No organizer score exists for this candidate.</p>
+        <p class="table-note">The first two cards summarize historical H35-01 local proxy selection, not the current H35-05 screen. Local DTI is not numerically comparable to leaderboard values because its label population differs. H35-05 has no organizer score.</p>
       </section>
 
       <section class="section" aria-labelledby="challenger-title">
         <div class="section-head">
-          <div><p class="kicker">Latest designed candidate · 04 Oct 2026</p><h2 id="challenger-title">H35-04 cross-physics edge concurrence.</h2></div>
-          <a href="evidence/h35-04-latest.json" class="small">Open complete H35-04 report →</a>
+          <div><p class="kicker">Latest designed candidate · 04 Oct 2026</p><h2 id="challenger-title">H35-05 seismicity-ridge curvature did not clear the gate.</h2></div>
+          <a href="evidence/h35-05-latest.json" class="small">Open complete H35-05 report →</a>
         </div>
         <div class="grid-3">
-          <article class="card metric-card caveat"><span class="metric-label">vs `tmi_hg` · nested outer folds</span><strong class="metric">+0.00732</strong><p>Mean local DTI delta; 5/6 tiles positive. Existing catalogue labels only.</p></article>
-          <article class="card metric-card local"><span class="metric-label">vs H35-01 · matched actual mass</span><strong class="metric">−0.00013</strong><p>Mean local DTI delta; only 4/6 tiles positive. Every three-arm comparison matched emitted mass exactly.</p></article>
-          <article class="card metric-card board"><span class="metric-label">Promotion result</span><strong class="metric">Failed · no slot</strong><p>The predeclared gate requires a positive mean and ≥5/6 positive folds against both comparators.</p></article>
+          <article class="card metric-card caveat"><span class="metric-label">vs `tmi_hg` · nested outer folds</span><strong class="metric">−0.00396</strong><p>Mean local DTI delta; 3/6 tiles positive. Existing catalogue labels only.</p></article>
+          <article class="card metric-card local"><span class="metric-label">vs H35-01 · matched actual mass</span><strong class="metric">−0.01153</strong><p>Mean local DTI delta; only 2/6 tiles positive. All three arms matched emissions on every tile.</p></article>
+          <article class="card metric-card board"><span class="metric-label">Promotion result</span><strong class="metric">Failed · no slot</strong><p>The predeclared gate requires a positive mean and ≥5/6 positive tiles against both comparators.</p></article>
         </div>
-        <p class="table-note">H35-04 evaluates co-located, orientation-concordant magnetic (`mag_anom`/RTP), gravity (`iso_grav_anom`), and shear-strain (`geod_shearrate`) edges. The nested 3×2 proxy uses previously exposed geography and is exploratory, not independent evidence on newly mapped private faults. The local TIF is available below strictly for review and reproducibility. <a href="evidence/h35-03-latest.json">H35-03 archived report</a>.</p>
+        <p class="table-note">H35-05 uses the owner-mirror bands `ieq_n100a15` and `deq_n100a15` to test multiscale density ridges and earthquake-distance troughs. Its six 3×2 tiles were previously exposed by H35-01–04 summaries, and the labels are known catalogue faults: results are exploratory, not independent evidence on the hidden new-fault target. Earlier attempts remain archived: <a href="evidence/h35-04-latest.json">H35-04 report</a> · <a href="evidence/h35-03-latest.json">H35-03 report</a>.</p>
       </section>
 
       <section class="section" aria-labelledby="file-title">
         <div class="section-head">
-          <div><p class="kicker">One-click unique local TIF · not slot eligible</p><h2 id="file-title">H35-04 experimental GeoTIFF</h2></div>
+          <div><p class="kicker">One-click locally unique TIF · not slot eligible</p><h2 id="file-title">H35-05 experimental GeoTIFF</h2></div>
           <a href="executive-summary.html#upload" class="small">Manual submission steps &amp; cautions →</a>
         </div>
         <div class="file-panel">
           <div>
-            <span class="pill">EXPERIMENTAL ONLY · H35-04 proxy gate FAILED · DO NOT SUBMIT</span>
-            <h3 style="margin-top:12px">Cross-physics edge-concurrence hypothesis</h3>
-            <p>This is a newly generated, locally unique prediction array from the preregistered H35-04 Latin-hypercube design; it is not copied or renamed from a previous submission. It is unique only relative to the GeoTIFFs in this repository's downloads folder—no complete prior-submission raster archive was available. Its holdout gate failed versus H35-01, so the artifact is for research/audit only and is not recommended for a competition slot.</p>
-            <code class="file-name" id="filename">gemsdoe35-h35-04-2101f9ab04-20261004T211253030616Z-candidate.tif</code>
+            <span class="pill">EXPERIMENTAL ONLY · H35-05 PROXY GATE FAILED · DO NOT SUBMIT</span>
+            <h3 style="margin-top:12px">Seismicity-ridge / distance-trough hypothesis</h3>
+            <p>This is a newly generated prediction array from the preregistered H35-05 Latin-hypercube design; it is not copied or renamed from a previous submission. The array was checked against readable, one-band GeoTIFFs under local `docs/`, `data/`, and `outputs/` that match CRS, transform and footprint. No complete archive of prior competition uploads was supplied, so global uniqueness cannot be asserted. The holdout gate failed versus H35-01 and `tmi_hg`; this download is for research/audit only, not a competition slot.</p>
+            <code class="file-name" id="filename">gemsdoe35-h35-05-a10b466a43-20261004T221711596712Z-candidate.tif</code>
             <div class="file-actions">
-              <a class="btn btn-dark" href="downloads/gemsdoe35-h35-04-2101f9ab04-20261004T211253030616Z-candidate.tif" download>Download `.tif`</a>
+              <a class="btn btn-dark" href="downloads/gemsdoe35-h35-05-a10b466a43-20261004T221711596712Z-candidate.tif" download>Download `.tif`</a>
               <button class="btn btn-plain" id="copy-note" type="button">Copy identifying note</button>
             </div>
             <p class="copy-status" id="copy-status" aria-live="polite"></p>
-            <code class="file-name" id="submission-note">GEMSDOE35 H35-04 cross-physics LHS h35-04-2101f9ab04; proxy gate FAILED; unverified owner mirror; not organizer-scored.</code>
+            <code class="file-name" id="submission-note">GEMSDOE35 H35-05 seismic-ridge LHS h35-05-a10b466a43; proxy gate FAILED; owner mirror unverified; not organizer-scored.</code>
           </div>
-          <div class="specs" aria-label="H35-04 local GeoTIFF properties">
+          <div class="specs" aria-label="H35-05 local GeoTIFF properties">
             <div class="spec"><b>Raster</b><span>3292 × 3730 · 1 band</span></div>
             <div class="spec"><b>Data type</b><span>float32 · [0, 1]</span></div>
             <div class="spec"><b>Grid</b><span>EPSG:32611 · 100 m</span></div>
             <div class="spec"><b>Outside footprint</b><span>NaN / nodata</span></div>
-            <div class="spec"><b>Positive cells</b><span>45,869</span></div>
-            <div class="spec"><b>SHA-256</b><span class="mono" style="font-size:10px">056e8a3cb954…a0993bfa3</span></div>
+            <div class="spec"><b>Positive cells</b><span>51,819</span></div>
+            <div class="spec"><b>SHA-256</b><span class="mono" style="font-size:10px">bbce3ab4b8e3…092c9b51</span></div>
           </div>
         </div>
-        <p class="table-note"><a href="evidence/h35-04-submission-validation.json">H35-04 format receipt</a> · <a href="evidence/h35-04-latest.json">full nested LHS report and local duplicate audit</a>. Local format checks do not authenticate organizer inputs or prove global uniqueness.</p>
+        <p class="table-note"><a href="evidence/h35-05-submission-validation.json">H35-05 format receipt</a> · <a href="evidence/h35-05-latest.json">full nested LHS report and duplicate audit</a>. Local format checks do not authenticate organizer inputs or prove global uniqueness.</p>
       </section>
 
       <section class="section" aria-labelledby="folds-title">
         <div class="section-head">
-          <div><p class="kicker">Transparent holdout</p><h2 id="folds-title">Every block, side by side.</h2></div>
-          <p class="section-intro">Same emitted mass in each H35-01 comparison; NW was not used to select that configuration. H35-02 reused NW and H35-03 used nested 3×2 folds after quadrant aggregates had exposed that geography; none of these tiles is a pristine holdout for future ideas.</p>
+          <div><p class="kicker">Transparent nested spatial proxy</p><h2 id="folds-title">Every H35-05 outer tile, side by side.</h2></div>
+          <p class="section-intro">Each row holds one contiguous tile out while the selected LHS configuration is chosen from the other five. Candidate, `tmi_hg`, and frozen H35-01 emissions are matched per fold. These geographies were exposed in earlier H35-01–04 analyses, so this is exploratory, not pristine confirmation.</p>
         </div>
         <div class="table-wrap">
           <table>
-            <caption class="sr-only">Local proxy DTI by spatial quadrant</caption>
-            <thead><tr><th scope="col">Spatial block</th><th scope="col">Candidate DTI</th><th scope="col">tmi_hg baseline</th><th scope="col">Δ DTI</th><th scope="col">Role</th></tr></thead>
+            <caption class="sr-only">H35-05 local DTI delta on six nested spatial outer folds</caption>
+            <thead><tr><th scope="col">Held-out tile</th><th scope="col">Δ vs `tmi_hg`</th><th scope="col">Δ vs H35-01</th><th scope="col">Emissions matched?</th></tr></thead>
             <tbody>
-              <tr><th scope="row">NE</th><td class="num">0.014244</td><td class="num">0.011281</td><td class="num delta-positive">+0.002962</td><td>Development</td></tr>
-              <tr><th scope="row">SW</th><td class="num">0.047369</td><td class="num">0.012181</td><td class="num delta-positive">+0.035188</td><td>Development</td></tr>
-              <tr><th scope="row">SE</th><td class="num">0.024249</td><td class="num">0.019044</td><td class="num delta-positive">+0.005205</td><td>Development</td></tr>
-              <tr><th scope="row">NW</th><td class="num">0.026904</td><td class="num">0.016573</td><td class="num delta-positive">+0.010331</td><td><strong>Frozen holdout</strong></td></tr>
+              <tr><th scope="row">R1C1</th><td class="num delta-negative">−0.017911</td><td class="num delta-negative">−0.012213</td><td>Yes</td></tr>
+              <tr><th scope="row">R1C2</th><td class="num delta-positive">+0.006714</td><td class="num delta-positive">+0.003833</td><td>Yes</td></tr>
+              <tr><th scope="row">R2C1</th><td class="num delta-positive">+0.005670</td><td class="num delta-negative">−0.006417</td><td>Yes</td></tr>
+              <tr><th scope="row">R2C2</th><td class="num delta-negative">−0.016337</td><td class="num delta-negative">−0.013431</td><td>Yes</td></tr>
+              <tr><th scope="row">R3C1</th><td class="num delta-negative">−0.005691</td><td class="num delta-negative">−0.041178</td><td>Yes</td></tr>
+              <tr><th scope="row">R3C2</th><td class="num delta-positive">+0.003819</td><td class="num delta-positive">+0.000204</td><td>Yes</td></tr>
             </tbody>
+            <tfoot><tr><th scope="row">Mean · positive tiles</th><td class="num">−0.003956 · 3/6</td><td class="num">−0.011534 · 2/6</td><td>Gate failed</td></tr></tfoot>
           </table>
         </div>
-        <p class="table-note">Proxy limitation: these spatial blocks hold out existing public catalogue labels, whereas competition scoring targets newly identified fault pixels absent from the public catalogue. Do not treat these values as a leaderboard prediction.</p>
+        <p class="table-note">Proxy limitation: these spatial blocks score existing public catalogue labels from an owner-maintained mirror, while the competition target is newly identified faults. Neither local DTI nor these deltas estimate the public or private leaderboard score. <a href="evidence/h35-05-latest.json">Reproducible fold-level report</a>.</p>
       </section>
 
       <section class="section" aria-labelledby="method-title">
@@ -155,14 +158,14 @@
 
       <section class="section" aria-labelledby="hyp-title">
         <div class="section-head">
-          <div><p class="kicker">Research queue</p><h2 id="hyp-title">Four ranked hypotheses; H35-04 tested and stopped.</h2></div>
+          <div><p class="kicker">Research queue</p><h2 id="hyp-title">Four ranked hypotheses; H35-05 tested and stopped.</h2></div>
           <a href="https://github.com/buffedlizard55-lab/GEMSDOE35/blob/main/docs/hypotheses.md" class="small" target="_blank" rel="noopener">Read the complete ranked register →</a>
         </div>
         <div class="hypothesis-list">
-          <article class="hypothesis"><span class="hypothesis-rank">01</span><div><h3>H35-04 · Cross-physics edge concurrence</h3><p>Nested 3×2 mixed-LHS screen averaged +0.00732 vs `tmi_hg`, but −0.00013 vs H35-01 (4/6 positive). Gate failed; unique experimental TIF is not slot-eligible.</p></div><span class="status">screen failed</span></article>
-          <article class="hypothesis"><span class="hypothesis-rank">02</span><div><h3>H35-05 · Seismicity-gradient terminations</h3><p>Use supplied earthquake-density/distance edges and terminations rather than hotspot ranks; spatial support and catalog completeness are risks.</p></div><span class="status">registered</span></article>
-          <article class="hypothesis"><span class="hypothesis-rank">03</span><div><h3>H35-06 · Relief-residual scarp persistence</h3><p>Test local break-in-slope ridges and strike-consistent scarp geometry from supplied detrended elevation; DEM tile coverage and geomorphic look-alikes remain open checks.</p></div><span class="status">registered</span></article>
-          <article class="hypothesis"><span class="hypothesis-rank">04</span><div><h3>H35-07 · GeoDAWN radiometric alteration contrast</h3><p>Official USGS archive has a catalogued Area 2 TIFF download, but raster channels, CRS and target overlap are not verified locally.</p></div><span class="status">data audit pending</span></article>
+          <article class="hypothesis"><span class="hypothesis-rank">01</span><div><h3>H35-05 · Seismicity-corridor ridges</h3><p>Nested 3×2 screen averaged −0.003956 vs `tmi_hg` and −0.011534 vs H35-01; only 3/6 and 2/6 tiles improved. Gate failed; the unique experimental TIFF is not slot-eligible.</p></div><span class="status">screen failed</span></article>
+          <article class="hypothesis"><span class="hypothesis-rank">02</span><div><h3>H35-06 · Detrended-relief scarp curvature</h3><p>Next local-data candidate: test paired break-in-slope ridges and strike persistence in `det_elev` / `det_elev_slope`; roads, drainage and alluvial fans can mimic scarps.</p></div><span class="status">next · preregister</span></article>
+          <article class="hypothesis"><span class="hypothesis-rank">03</span><div><h3>H35-07 · GeoDAWN radiometric contrasts</h3><p>The official Area 2 archive is catalogued, but its raster has not been downloaded, checksum-verified or aligned to the target; not yet viable.</p></div><span class="status">data audit blocked</span></article>
+          <article class="hypothesis"><span class="hypothesis-rank">04</span><div><h3>H35-08 · Depth-persistent MT conductance</h3><p>USGS depth-stack rasters remain unavailable locally, and metadata conflicts need resolution; regional ~1 km cells cannot resolve 100 m traces by resampling.</p></div><span class="status">data audit blocked</span></article>
         </div>
       </section>
 

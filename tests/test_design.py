@@ -45,6 +45,33 @@ def test_fixed_protocol_factors_are_hashed_and_repeated():
     assert [row["design_id"] for row in rows] != [row["design_id"] for row in alternate]
 
 
+def test_h35_05_preregistration_records_all_lhs_dimensions_and_promotion_gate():
+    path = Path(__file__).resolve().parents[1] / "configs/h35-05-lhs.json"
+    spec = json.loads(path.read_text(encoding="utf-8"))
+    assert spec["n_designs"] == 8
+    assert set(spec["numeric_factors"]) == {
+        "max_scale_m",
+        "linearity_power",
+        "distance_weight",
+        "prediction_fraction",
+    }
+    rows = mixed_latin_hypercube(
+        spec["n_designs"],
+        {name: tuple(bounds) for name, bounds in spec["numeric_factors"].items()},
+        spec["categorical_factors"],
+        seed=spec["seed"],
+        prefix="h35-05",
+        fixed=spec["fixed_factors"],
+    )
+    assert_latin_stratified(rows, {name: tuple(bounds) for name, bounds in spec["numeric_factors"].items()})
+    assert len({row["design_id"] for row in rows}) == 8
+    assert spec["fixed_factors"]["catalogue_mask"] == "pixel_exact_only_no_buffer"
+    assert spec["fixed_factors"]["spatial_rows"] * spec["fixed_factors"]["spatial_cols"] == 6
+    assert spec["promotion_rule"]["outer_tile_count"] == 6
+    assert spec["promotion_rule"]["minimum_positive_outer_tiles_against_each_comparator"] == 5
+    assert spec["promotion_rule"]["competition_slot_automated"] is False
+
+
 def test_h35_03_preregistration_records_lhs_and_promotion_gate():
     path = Path(__file__).resolve().parents[1] / "configs/h35-03-lhs.json"
     spec = json.loads(path.read_text(encoding="utf-8"))

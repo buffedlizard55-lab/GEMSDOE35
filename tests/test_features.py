@@ -6,6 +6,7 @@ from gemsdoe35.features import (
     candidate_surface,
     magnetic_low_halo_surface,
     multiphysics_edge_concurrence_surface,
+    seismicity_ridge_surface,
     magnetic_persistence,
     strain_discontinuity_surface,
 )
@@ -189,3 +190,57 @@ def test_multiphysics_edge_concurrence_rejects_missing_or_invalid_factors():
     config["multiphysics_balance"] = 1.5
     with np.testing.assert_raises(ValueError):
         multiphysics_edge_concurrence_surface(bands, domain, config)
+
+
+def test_h35_05_seismic_curvature_rewards_coherent_ridge_and_distance_trough():
+    shape = (96, 112)
+    yy, xx = np.indices(shape)
+    distance_from_line = yy.astype(np.float32) - 48.0
+    density = (250.0 + 1800.0 * np.exp(-(distance_from_line**2) / (2.0 * 7.0**2))).astype(np.float32)
+    distance = (100.0 + 5000.0 * (1.0 - np.exp(-(distance_from_line**2) / (2.0 * 9.0**2)))).astype(np.float32)
+    domain = np.ones(shape, dtype=bool)
+    domain[:2, :] = False
+    domain[-2:, :] = False
+    bands = {"ieq_n100a15": density, "deq_n100a15": distance}
+    config = {
+        "feature_detector": "seismicity_ridge_curvature",
+        "design_id": "test-h35-05",
+        "max_scale_m": 600.0,
+        "smoothing_scales": 3,
+        "linearity_power": 1.4,
+        "distance_weight": 0.5,
+        "prediction_fraction": 0.01,
+    }
+    score, diagnostics = seismicity_ridge_surface(bands, domain, config, pixel_size_m=100.0)
+    assert score.shape == shape
+    assert np.isfinite(score).all()
+    assert np.all(score[~domain] == 0.0)
+    assert float(np.max(score[45:52, :])) > float(np.max(score[10:20, :]))
+    assert diagnostics["method"] == "multiscale_seismicity_density_ridge_and_distance_trough"
+    assert diagnostics["scale_levels_m"] == [200.0, 400.0, 600.0]
+    json.dumps(diagnostics, allow_nan=False)
+
+    routed, routed_diagnostics = candidate_surface(bands, domain, config)
+    assert np.array_equal(routed, score)
+    assert routed_diagnostics == diagnostics
+
+
+def test_h35_05_seismic_curvature_rejects_bad_inputs_and_handles_constant_layers():
+    shape = (24, 24)
+    domain = np.ones(shape, dtype=bool)
+    config = {
+        "feature_detector": "seismicity_ridge_curvature",
+        "max_scale_m": 400.0,
+        "linearity_power": 1.0,
+        "distance_weight": 1.0,
+    }
+    with np.testing.assert_raises(ValueError):
+        seismicity_ridge_surface({"ieq_n100a15": np.ones(shape)}, domain, config)
+    bands = {name: np.ones(shape, dtype=np.float32) for name in ("ieq_n100a15", "deq_n100a15")}
+    config["distance_weight"] = 1.1
+    with np.testing.assert_raises(ValueError):
+        seismicity_ridge_surface(bands, domain, config)
+    config["distance_weight"] = 0.5
+    score, _ = seismicity_ridge_surface(bands, domain, config)
+    assert np.isfinite(score).all()
+    assert np.all(score == 0.0)

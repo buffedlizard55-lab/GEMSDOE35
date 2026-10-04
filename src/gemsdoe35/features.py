@@ -453,6 +453,121 @@ def multiphysics_edge_concurrence_surface(
     del orientation_x, orientation_y, orientation_weight
     return score.astype(np.float32, copy=False), diagnostics
 
+def seismicity_ridge_surface(
+    bands: Mapping[str, np.ndarray],
+    domain: np.ndarray,
+    config: Mapping[str, Any],
+    *,
+    pixel_size_m: float = 100.0,
+) -> tuple[np.ndarray, dict[str, Any]]:
+    """Build H35-05's seismicity-ridge / earthquake-distance-trough surface.
+
+    The detector tests whether multi-scale, line-like curvature in earthquake
+    intensity/density is supported by a nearby-earthquake distance trough. The
+    two surfaces may be derived from correlated catalogue products; this is a
+    ranking hypothesis, not independent evidence, a fault classifier, or a
+    calibrated probability. A bright density ridge has negative dominant
+    transverse curvature; a trough in positive distance has positive dominant
+    transverse curvature.
+    """
+    if pixel_size_m <= 0.0 or not np.isfinite(pixel_size_m):
+        raise ValueError("pixel_size_m must be finite and positive")
+    required = ("ieq_n100a15", "deq_n100a15")
+    missing = [name for name in required if name not in bands]
+    if missing:
+        raise ValueError(f"missing H35-05 feature band(s): {missing}")
+    for name in required:
+        if np.asarray(bands[name]).shape != domain.shape:
+            raise ValueError(f"band {name!r} shape does not match the scoring domain")
+
+    max_scale_m = float(config["max_scale_m"])
+    linearity_power = float(config["linearity_power"])
+    distance_weight = float(config["distance_weight"])
+    n_scales = int(config.get("smoothing_scales", 3))
+    if not np.isfinite(max_scale_m) or max_scale_m <= 0.0:
+        raise ValueError("max_scale_m must be finite and positive")
+    if not np.isfinite(linearity_power) or linearity_power < 0.0:
+        raise ValueError("linearity_power must be finite and nonnegative")
+    if not np.isfinite(distance_weight) or not 0.0 <= distance_weight <= 1.0:
+        raise ValueError("distance_weight must be in [0,1]")
+    if n_scales < 2:
+        raise ValueError("smoothing_scales must be at least two")
+
+    density_raw = _fill_nearest(np.asarray(bands["ieq_n100a15"], dtype=np.float32), domain)
+    distance_raw = _fill_nearest(np.asarray(bands["deq_n100a15"], dtype=np.float32), domain)
+    # These two bands are nonnegative by their local owner-mirror descriptions.
+    # Clamping protects log1p against small numerical negatives without allowing
+    # the raw nodata sentinel to enter the transform (read_inputs masks it).
+    density_log = np.log1p(np.maximum(density_raw, 0.0)).astype(np.float32, copy=False)
+    distance_log = np.log1p(np.maximum(distance_raw, 0.0)).astype(np.float32, copy=False)
+    density_activity = _robust_unit(density_log, domain)
+    distance_proximity = _robust_unit(-distance_log, domain)
+
+    def curvature_response(field: np.ndarray, *, sign: float, sigma_m: float) -> np.ndarray:
+        sigma_px = float(sigma_m / pixel_size_m)
+        scale_factor = sigma_m * sigma_m / (pixel_size_m * pixel_size_m)
+        hxx = ndimage.gaussian_filter(
+            field, sigma=sigma_px, order=(0, 2), mode="reflect"
+        ) * scale_factor
+        hyy = ndimage.gaussian_filter(
+            field, sigma=sigma_px, order=(2, 0), mode="reflect"
+        ) * scale_factor
+        hxy = ndimage.gaussian_filter(
+            field, sigma=sigma_px, order=(1, 1), mode="reflect"
+        ) * scale_factor
+        trace = hxx + hyy
+        discriminant = np.sqrt(np.maximum((hxx - hyy) ** 2 + 4.0 * hxy * hxy, 0.0))
+        eigen_low = 0.5 * (trace - discriminant)
+        eigen_high = 0.5 * (trace + discriminant)
+        high_dominant = np.abs(eigen_high) >= np.abs(eigen_low)
+        dominant = np.where(high_dominant, eigen_high, eigen_low)
+        tangent = np.where(high_dominant, eigen_low, eigen_high)
+        epsilon = np.finfo(np.float32).eps
+        line_likeness = np.clip(
+            1.0 - np.abs(tangent) / (np.abs(dominant) + epsilon), 0.0, 1.0
+        )
+        signed_curvature = np.maximum(sign * dominant, 0.0)
+        response = signed_curvature * np.power(line_likeness, linearity_power)
+        response[~domain] = 0.0
+        return _robust_unit(response, domain)
+
+    density_sum = np.zeros(domain.shape, dtype=np.float32)
+    distance_sum = np.zeros(domain.shape, dtype=np.float32)
+    scale_levels_m = np.linspace(max_scale_m / n_scales, max_scale_m, n_scales).tolist()
+    for sigma_m in scale_levels_m:
+        density_ridge = curvature_response(density_log, sign=-1.0, sigma_m=sigma_m)
+        distance_trough = curvature_response(distance_log, sign=1.0, sigma_m=sigma_m)
+        density_sum += density_ridge * density_activity
+        distance_sum += distance_trough * distance_proximity
+        del density_ridge, distance_trough
+    density_evidence = density_sum / float(n_scales)
+    distance_evidence = distance_sum / float(n_scales)
+    score = (
+        (1.0 - distance_weight) * density_evidence
+        + distance_weight * distance_evidence
+    ).astype(np.float32, copy=False)
+    score[~domain] = 0.0
+    diagnostics = {
+        "method": "multiscale_seismicity_density_ridge_and_distance_trough",
+        "feature_layers": list(required),
+        "scale_levels_m": scale_levels_m,
+        "distance_weight": distance_weight,
+        "linearity_power": linearity_power,
+        "median_density_evidence_valid": float(np.median(density_evidence[domain])),
+        "p95_density_evidence_valid": float(np.quantile(density_evidence[domain], 0.95)),
+        "median_distance_evidence_valid": float(np.median(distance_evidence[domain])),
+        "p95_distance_evidence_valid": float(np.quantile(distance_evidence[domain], 0.95)),
+        "median_score_valid": float(np.median(score[domain])),
+        "p95_score_valid": float(np.quantile(score[domain], 0.95)),
+        "config": dict(config),
+        "correlation_caveat": "earthquake intensity and distance layers may derive from correlated seismic catalog products",
+    }
+    del density_raw, distance_raw, density_log, distance_log
+    del density_activity, distance_proximity, density_sum, distance_sum
+    del density_evidence, distance_evidence
+    return score, diagnostics
+
+
 def candidate_surface(
     bands: Mapping[str, np.ndarray],
     domain: np.ndarray,
@@ -465,6 +580,10 @@ def candidate_surface(
     detector = str(config.get("feature_detector", "deterministic_poisson_gradient_persistence"))
     if detector == "multiphysics_edge_concurrence":
         return multiphysics_edge_concurrence_surface(
+            bands, domain, config, pixel_size_m=pixel_size_m
+        )
+    if detector == "seismicity_ridge_curvature":
+        return seismicity_ridge_surface(
             bands, domain, config, pixel_size_m=pixel_size_m
         )
     if detector == "magnetic_low_flank_curvature_halo":
