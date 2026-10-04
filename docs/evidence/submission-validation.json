@@ -5,18 +5,18 @@
     572550.0,
     4508550.0
   ],
-  "bytes": 273752,
+  "bytes": 233860,
   "crs": "EPSG:32611",
   "dtype": "float32",
   "errors": [],
-  "file": "docs/downloads/gemsdoe35-h35-01-e58e5dbee6-20261004T164802Z-candidate.tif",
+  "file": "docs/downloads/gemsdoe35-h35-06-aaa86efb25-20261004T225420098147Z-candidate.tif",
   "finite_pixels": 5167373,
   "max_inside": 1.0,
   "min_inside": 0.0,
   "nodata": "NaN",
-  "positive_pixels": 51205,
+  "positive_pixels": 39530,
   "range_gate": "pass",
-  "sha256": "5d26cdea082e18e97b693365de0fcfb41f97a432e18ff138d08cd7c622679929",
+  "sha256": "465935789e62e6a042881a0e2dd11f96dc89d0913a29d3079455c2833c1bc464",
   "shape": [
     3730,
     3292
