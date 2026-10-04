@@ -1,4 +1,6 @@
+import json
 from collections import Counter
+from pathlib import Path
 
 import numpy as np
 
@@ -41,3 +43,15 @@ def test_fixed_protocol_factors_are_hashed_and_repeated():
         fixed={"mask": "buffered"},
     )
     assert [row["design_id"] for row in rows] != [row["design_id"] for row in alternate]
+
+
+def test_h35_03_preregistration_records_lhs_and_promotion_gate():
+    path = Path(__file__).resolve().parents[1] / "configs/h35-03-lhs.json"
+    spec = json.loads(path.read_text(encoding="utf-8"))
+    assert spec["n_designs"] == 8
+    assert len(spec["numeric_factors"]) == 5
+    assert spec["categorical_factors"]["magnetic_source"] == ["mag_anom", "rtp", "tmi"]
+    assert spec["fixed_factors"]["spatial_rows"] * spec["fixed_factors"]["spatial_cols"] == 6
+    assert spec["promotion_rule"]["outer_tile_count"] == 6
+    assert spec["promotion_rule"]["minimum_positive_outer_tiles_against_each_comparator"] == 5
+    assert spec["promotion_rule"]["emit_tiff_only_if_all_conditions_pass"] is True

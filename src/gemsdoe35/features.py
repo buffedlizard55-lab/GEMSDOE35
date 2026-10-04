@@ -238,6 +238,121 @@ def strain_discontinuity_surface(
     return score, diagnostics
 
 
+def magnetic_low_halo_surface(
+    bands: Mapping[str, np.ndarray],
+    domain: np.ndarray,
+    config: Mapping[str, Any],
+    *,
+    pixel_size_m: float = 100.0,
+) -> tuple[np.ndarray, dict[str, Any]]:
+    """Build H35-03's magnetic-low centerline and paired-flank ranking surface.
+
+    A candidate is a positive local-low residual (Gaussian neighborhood mean
+    minus the magnetic field) whose flank geometry is supported by positive
+    transverse Hessian curvature and line anisotropy. Supplied shallow
+    conductance and isostatic-gravity horizontal gradient enter only as
+    registered corroboration weights. This is a physical hypothesis ranking,
+    not a calibrated probability or proof of a fault.
+    """
+    if pixel_size_m <= 0 or not np.isfinite(pixel_size_m):
+        raise ValueError("pixel_size_m must be finite and positive")
+    source = str(config["magnetic_source"])
+    if source not in {"mag_anom", "rtp", "tmi"}:
+        raise ValueError(f"unsupported magnetic_source {source!r}")
+    required = (source, "cond_surf", "iso_grav_anom_hg")
+    missing = [name for name in required if name not in bands]
+    if missing:
+        raise ValueError(f"missing H35-03 input band(s): {missing}")
+    if any(np.asarray(bands[name]).shape != domain.shape for name in required):
+        raise ValueError("H35-03 feature band shapes must match the domain")
+
+    max_scale_m = float(config["max_scale_m"])
+    if not np.isfinite(max_scale_m) or max_scale_m <= 0.0:
+        raise ValueError("max_scale_m must be finite and positive")
+    n_scales = int(config.get("n_scales", 3))
+    if n_scales < 2:
+        raise ValueError("n_scales must be at least two")
+    flank_weight = float(config["flank_curvature_weight"])
+    cond_weight = float(config["conductance_weight"])
+    gravity_weight = float(config["gravity_edge_weight"])
+    if not 0.0 <= flank_weight <= 1.0:
+        raise ValueError("flank_curvature_weight must be in [0,1]")
+    if not 0.0 <= cond_weight <= 1.0 or not 0.0 <= gravity_weight <= 1.0:
+        raise ValueError("corroboration weights must be in [0,1]")
+
+    magnetic = _fill_nearest(np.asarray(bands[source], dtype=np.float32), domain)
+    halo_sum = np.zeros(domain.shape, dtype=np.float32)
+    line_sum = np.zeros(domain.shape, dtype=np.float32)
+    scale_levels_m = np.linspace(max_scale_m / n_scales, max_scale_m, n_scales).tolist()
+    eps = np.finfo(np.float32).eps
+    for sigma_m in scale_levels_m:
+        sigma_px = float(sigma_m / pixel_size_m)
+        local_mean = ndimage.gaussian_filter(magnetic, sigma=sigma_px, mode="reflect")
+        local_low = np.maximum(local_mean - magnetic, 0.0)
+        low_unit = _robust_unit(local_low, domain)
+
+        # Gaussian scale-normalized Hessian. The positive dominant eigenvalue
+        # selects a magnetic trough; eigenvalue anisotropy favours a line-like
+        # centre between two flanks over a point-like low.
+        scale_factor = sigma_m * sigma_m
+        hxx = ndimage.gaussian_filter(
+            magnetic, sigma=sigma_px, order=(0, 2), mode="reflect"
+        ) * (scale_factor / (pixel_size_m * pixel_size_m))
+        hyy = ndimage.gaussian_filter(
+            magnetic, sigma=sigma_px, order=(2, 0), mode="reflect"
+        ) * (scale_factor / (pixel_size_m * pixel_size_m))
+        hxy = ndimage.gaussian_filter(
+            magnetic, sigma=sigma_px, order=(1, 1), mode="reflect"
+        ) * (scale_factor / (pixel_size_m * pixel_size_m))
+        trace = hxx + hyy
+        discriminant = np.sqrt(np.maximum((hxx - hyy) ** 2 + 4.0 * hxy * hxy, 0.0))
+        eigen_plus = 0.5 * (trace + discriminant)
+        eigen_minus = 0.5 * (trace - discriminant)
+        plus_dominant = np.abs(eigen_plus) >= np.abs(eigen_minus)
+        normal_curvature = np.where(plus_dominant, eigen_plus, eigen_minus)
+        tangent_curvature = np.where(plus_dominant, eigen_minus, eigen_plus)
+        positive_trough_curvature = np.maximum(normal_curvature, 0.0)
+        anisotropy = np.clip(
+            1.0 - np.abs(tangent_curvature) / (np.abs(normal_curvature) + eps),
+            0.0,
+            1.0,
+        )
+        line_unit = _robust_unit(positive_trough_curvature * anisotropy, domain)
+        halo_sum += low_unit
+        line_sum += line_unit
+        del local_mean, local_low, low_unit
+        del hxx, hyy, hxy, trace, discriminant, eigen_plus, eigen_minus
+        del plus_dominant, normal_curvature, tangent_curvature
+        del positive_trough_curvature, anisotropy, line_unit
+
+    mean_low = halo_sum / float(n_scales)
+    mean_line = line_sum / float(n_scales)
+    magnetic_halo = mean_low * ((1.0 - flank_weight) + flank_weight * mean_line)
+    conductance = _robust_unit(np.asarray(bands["cond_surf"], dtype=np.float32), domain)
+    gravity_edge = _robust_unit(
+        np.asarray(bands["iso_grav_anom_hg"], dtype=np.float32), domain
+    )
+    score = (
+        magnetic_halo
+        * (1.0 + cond_weight * conductance)
+        * (1.0 + gravity_weight * gravity_edge)
+    ).astype(np.float32, copy=False)
+    score[~domain] = 0.0
+    diagnostics = {
+        "method": "magnetic_low_flank_curvature_halo",
+        "magnetic_source": source,
+        "scale_levels_m": scale_levels_m,
+        "median_magnetic_low_valid": float(np.median(mean_low[domain])),
+        "p95_magnetic_low_valid": float(np.quantile(mean_low[domain], 0.95)),
+        "median_flank_line_score_valid": float(np.median(mean_line[domain])),
+        "p95_flank_line_score_valid": float(np.quantile(mean_line[domain], 0.95)),
+        "config": dict(config),
+    }
+    del magnetic, halo_sum, line_sum, mean_low, mean_line, magnetic_halo
+    del conductance, gravity_edge
+    return score, diagnostics
+
+
 def candidate_surface(
     bands: Mapping[str, np.ndarray],
     domain: np.ndarray,
@@ -248,6 +363,10 @@ def candidate_surface(
 ) -> tuple[np.ndarray, dict[str, Any]]:
     """Build a deterministic ranking field from a pre-registered configuration."""
     detector = str(config.get("feature_detector", "deterministic_poisson_gradient_persistence"))
+    if detector == "magnetic_low_flank_curvature_halo":
+        return magnetic_low_halo_surface(
+            bands, domain, config, pixel_size_m=pixel_size_m
+        )
     if detector == "multiscale_strain_gradient_orientation":
         return strain_discontinuity_surface(
             bands, domain, config, pixel_size_m=pixel_size_m

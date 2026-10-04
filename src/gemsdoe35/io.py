@@ -13,6 +13,7 @@ from rasterio.crs import CRS
 
 
 FEATURE_BANDS = {
+    "mag_anom": 1,
     "rtp": 2,
     "tmi_hg": 3,
     "geod_2ndinv": 4,
