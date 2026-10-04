@@ -1,0 +1,53 @@
+{
+  "schema_version": "gemsdoe35-seismic-ridge-lhs-v1",
+  "hypothesis_id": "H35-05",
+  "seed": 20261004,
+  "n_designs": 8,
+  "numeric_factors": {
+    "max_scale_m": [200.0, 1200.0],
+    "linearity_power": [0.5, 3.0],
+    "distance_weight": [0.0, 1.0],
+    "prediction_fraction": [0.004, 0.012]
+  },
+  "categorical_factors": {},
+  "fixed_factors": {
+    "feature_detector": "seismicity_ridge_curvature",
+    "feature_layers": ["ieq_n100a15", "deq_n100a15"],
+    "density_transform": "log1p_nonnegative",
+    "distance_transform": "log1p_nonnegative_then_inverse_rank",
+    "density_signature": "bright_ridge_negative_dominant_hessian_curvature",
+    "distance_signature": "low_distance_trough_positive_dominant_hessian_curvature",
+    "smoothing_scales": 3,
+    "scale_aggregation": "mean_of_per_scale_robust_ridge_responses",
+    "baseline": "single_scale_tmi_hg",
+    "incumbent_report": "reports/h35-01-20261004T164802Z-e58e5dbee6.json",
+    "incumbent_design_id": "h35-01-e58e5dbee6",
+    "catalogue_mask": "pixel_exact_only_no_buffer",
+    "spatial_grid": "3x2_contiguous_equal-index_tiles",
+    "spatial_rows": 3,
+    "spatial_cols": 2,
+    "outer_validation": "nested_leave_one_tile_out_selection_and_scoring",
+    "spatial_margin_px": 30,
+    "holdout_reuse_status": "same geography exposed by H35-01 through H35-04; exploratory only",
+    "metric_radius_m": 300,
+    "prediction_encoding": "binary_top_k_confidence_on_domain_nan_outside"
+  },
+  "promotion_rule": {
+    "mean_outer_delta_vs_baseline_and_incumbent_must_be_positive": true,
+    "minimum_positive_outer_tiles_against_each_comparator": 5,
+    "outer_tile_count": 6,
+    "comparators": ["tmi_hg", "h35-01-e58e5dbee6"],
+    "require_exact_matched_actual_emission_in_every_outer_tile": true,
+    "emit_tiff_only_if_all_conditions_pass": true,
+    "competition_slot_automated": false
+  },
+  "rationale": {
+    "max_scale_m": "200 to 1200 m Gaussian Hessian scales on 100 m input grid; screening range only",
+    "linearity_power": "0.5 to 3 controls preference for elongated rather than point-like curvature; not calibrated",
+    "distance_weight": "0 to 1 interpolates seismic-density ridge and inverse earthquake-distance trough evidence",
+    "prediction_fraction": "0.4% to 1.2% of eligible pixels; comparator arms matched at actual emissions",
+    "feature_layers": "earthquake intensity/density and distance bands from the owner-mirror band descriptions; official-file provenance unverified",
+    "correlation_caveat": "density and distance surfaces may be derived from correlated catalog products and are not independent evidence",
+    "provenance": "existing competition features/labels are a public owner-maintained mirror, not organizer-authenticated"
+  }
+}
