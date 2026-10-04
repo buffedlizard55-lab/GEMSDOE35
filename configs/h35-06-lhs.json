@@ -1,0 +1,49 @@
+{
+  "hypothesis_id": "H35-06",
+  "hypothesis_title": "Topographic scarp curvature and slope-break discontinuity",
+  "description": "Multi-scale Hessian scarp curvature and slope-break discontinuity on detrended relief and slope, corroborated by potential-field tilt curvature and basement gradient.",
+  "layers": [
+    "det_elev",
+    "det_elev_slope",
+    "tc",
+    "depth_to_base_surf",
+    "iso_grav_anom_hg"
+  ],
+  "n_designs": 8,
+  "seed": 3506,
+  "numeric_factors": {
+    "max_scarp_scale_m": [200.0, 1000.0],
+    "slope_gradient_weight": [0.1, 0.9],
+    "tc_corroboration_weight": [0.0, 0.8],
+    "depth_step_weight": [0.0, 0.8],
+    "prediction_fraction": [0.004, 0.012]
+  },
+  "categorical_factors": {
+    "curvature_mode": [
+      "asymmetric_step",
+      "symmetric_ridge",
+      "inflection_gradient"
+    ]
+  },
+  "fixed_factors": {
+    "feature_detector": "topographic_scarp_curvature",
+    "smoothing_scales": 3,
+    "incumbent_report": "reports/h35-01-20261004T164802Z-e58e5dbee6.json",
+    "incumbent_design_id": "h35-01-e58e5dbee6",
+    "spatial_rows": 3,
+    "spatial_cols": 2,
+    "spatial_margin_px": 30,
+    "metric_radius_m": 300.0,
+    "catalogue_mask_convention": "exact_catalogue_pixels_only_no_buffer",
+    "prediction_convention": "top_k_binary"
+  },
+  "promotion_rule": {
+    "target_metric": "DTI",
+    "outer_tile_aggregation": "mean_delta_over_outer_tiles",
+    "minimum_positive_outer_tiles_against_each_comparator": 5,
+    "require_positive_mean_delta_vs_baseline": true,
+    "require_positive_mean_delta_vs_incumbent": true,
+    "require_matched_actual_pixel_mass": true,
+    "competition_slot_automated": false
+  }
+}

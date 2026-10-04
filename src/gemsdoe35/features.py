@@ -568,6 +568,134 @@ def seismicity_ridge_surface(
     return score, diagnostics
 
 
+def topographic_scarp_curvature_surface(
+    bands: Mapping[str, np.ndarray],
+    domain: np.ndarray,
+    config: Mapping[str, Any],
+    *,
+    pixel_size_m: float = 100.0,
+) -> tuple[np.ndarray, dict[str, Any]]:
+    """Build H35-06's topographic scarp curvature and slope-break discontinuity surface.
+
+    Quaternary faults in the Basin and Range create subtle topographic scarps,
+    facet base lineaments, and slope breaks visible in detrended elevation and slope.
+    This detector computes multi-scale Hessian curvature on detrended relief and slope
+    gradient discontinuities, corroborated by tilt-angle/curvature (tc), basement
+    depth steps, and isostatic gravity gradients.
+    """
+    if pixel_size_m <= 0.0 or not np.isfinite(pixel_size_m):
+        raise ValueError("pixel_size_m must be finite and positive")
+    required = ("det_elev", "det_elev_slope", "tc", "depth_to_base_surf", "iso_grav_anom_hg")
+    missing = [name for name in required if name not in bands]
+    if missing:
+        raise ValueError(f"missing H35-06 feature band(s): {missing}")
+    for name in required:
+        if np.asarray(bands[name]).shape != domain.shape:
+            raise ValueError(f"band {name!r} shape does not match the scoring domain")
+
+    max_scale_m = float(config["max_scarp_scale_m"])
+    slope_weight = float(config["slope_gradient_weight"])
+    tc_weight = float(config["tc_corroboration_weight"])
+    depth_weight = float(config["depth_step_weight"])
+    mode = str(config.get("curvature_mode", "inflection_gradient"))
+    n_scales = int(config.get("smoothing_scales", 3))
+
+    if not np.isfinite(max_scale_m) or max_scale_m <= 0.0:
+        raise ValueError("max_scarp_scale_m must be finite and positive")
+    if not np.isfinite(slope_weight) or not 0.0 <= slope_weight <= 1.0:
+        raise ValueError("slope_gradient_weight must be in [0,1]")
+    if not np.isfinite(tc_weight) or not 0.0 <= tc_weight <= 1.0:
+        raise ValueError("tc_corroboration_weight must be in [0,1]")
+    if not np.isfinite(depth_weight) or not 0.0 <= depth_weight <= 1.0:
+        raise ValueError("depth_step_weight must be in [0,1]")
+    if mode not in {"asymmetric_step", "symmetric_ridge", "inflection_gradient"}:
+        raise ValueError(f"unsupported curvature_mode {mode!r}")
+    if n_scales < 2:
+        raise ValueError("smoothing_scales must be at least two")
+
+    elev_raw = _fill_nearest(np.asarray(bands["det_elev"], dtype=np.float32), domain)
+    slope_raw = _fill_nearest(np.asarray(bands["det_elev_slope"], dtype=np.float32), domain)
+    tc_raw = _fill_nearest(np.asarray(bands["tc"], dtype=np.float32), domain)
+    depth_raw = _fill_nearest(np.asarray(bands["depth_to_base_surf"], dtype=np.float32), domain)
+    grav_raw = _fill_nearest(np.asarray(bands["iso_grav_anom_hg"], dtype=np.float32), domain)
+
+    slope_unit = _robust_unit(slope_raw, domain)
+
+    def hessian_curvature(field: np.ndarray, sigma_m: float) -> tuple[np.ndarray, np.ndarray]:
+        sigma_px = float(sigma_m / pixel_size_m)
+        scale_factor = sigma_m * sigma_m / (pixel_size_m * pixel_size_m)
+        hxx = ndimage.gaussian_filter(field, sigma=sigma_px, order=(0, 2), mode="reflect") * scale_factor
+        hyy = ndimage.gaussian_filter(field, sigma=sigma_px, order=(2, 0), mode="reflect") * scale_factor
+        hxy = ndimage.gaussian_filter(field, sigma=sigma_px, order=(1, 1), mode="reflect") * scale_factor
+        trace = hxx + hyy
+        discriminant = np.sqrt(np.maximum((hxx - hyy) ** 2 + 4.0 * hxy * hxy, 0.0))
+        eigen_high = 0.5 * (trace + discriminant)
+        eigen_low = 0.5 * (trace - discriminant)
+        high_dominant = np.abs(eigen_high) >= np.abs(eigen_low)
+        dominant = np.where(high_dominant, eigen_high, eigen_low)
+        tangent = np.where(high_dominant, eigen_low, eigen_high)
+        eps = np.finfo(np.float32).eps
+        anisotropy = np.clip(1.0 - np.abs(tangent) / (np.abs(dominant) + eps), 0.0, 1.0)
+        return dominant, anisotropy
+
+    scale_levels_m = np.linspace(max_scale_m / n_scales, max_scale_m, n_scales).tolist()
+    scarp_sum = np.zeros(domain.shape, dtype=np.float32)
+
+    for sigma_m in scale_levels_m:
+        sigma_px = float(sigma_m / pixel_size_m)
+        if mode == "inflection_gradient":
+            smoothed_slope = ndimage.gaussian_filter(slope_raw, sigma=sigma_px, mode="reflect")
+            grad_y, grad_x = np.gradient(smoothed_slope, pixel_size_m)
+            slope_break = np.sqrt(grad_x * grad_x + grad_y * grad_y)
+            slope_break_unit = _robust_unit(slope_break, domain)
+
+            dom_curv, aniso = hessian_curvature(elev_raw, sigma_m)
+            elev_curv_unit = _robust_unit(np.abs(dom_curv) * aniso, domain)
+            scale_evidence = (1.0 - slope_weight) * elev_curv_unit + slope_weight * slope_break_unit
+        elif mode == "asymmetric_step":
+            dom_curv, aniso = hessian_curvature(elev_raw, sigma_m)
+            step_resp = np.abs(dom_curv) * aniso * slope_unit
+            scale_evidence = _robust_unit(step_resp, domain)
+        else:
+            dom_curv, aniso = hessian_curvature(elev_raw, sigma_m)
+            ridge_resp = np.maximum(-dom_curv, 0.0) * aniso
+            scale_evidence = _robust_unit(ridge_resp, domain)
+
+        scarp_sum += scale_evidence
+
+    mean_scarp = scarp_sum / float(n_scales)
+
+    tc_evidence = _robust_unit(np.abs(tc_raw), domain)
+    depth_gy, depth_gx = np.gradient(depth_raw, pixel_size_m)
+    depth_grad_mag = np.hypot(depth_gx, depth_gy, dtype=np.float32)
+    depth_evidence = _robust_unit(depth_grad_mag, domain)
+    grav_evidence = _robust_unit(grav_raw, domain)
+
+    score = (
+        mean_scarp
+        * (1.0 + tc_weight * tc_evidence)
+        * (1.0 + depth_weight * depth_evidence)
+        * (1.0 + 0.25 * grav_evidence)
+    ).astype(np.float32, copy=False)
+    score[~domain] = 0.0
+
+    diagnostics = {
+        "method": "multiscale_topographic_scarp_curvature_and_slope_break",
+        "feature_layers": list(required),
+        "scale_levels_m": scale_levels_m,
+        "curvature_mode": mode,
+        "slope_gradient_weight": slope_weight,
+        "tc_corroboration_weight": tc_weight,
+        "depth_step_weight": depth_weight,
+        "median_scarp_evidence_valid": float(np.median(mean_scarp[domain])),
+        "p95_scarp_evidence_valid": float(np.quantile(mean_scarp[domain], 0.95)),
+        "median_score_valid": float(np.median(score[domain])),
+        "p95_score_valid": float(np.quantile(score[domain], 0.95)),
+        "config": dict(config),
+    }
+    return score, diagnostics
+
+
 def candidate_surface(
     bands: Mapping[str, np.ndarray],
     domain: np.ndarray,
@@ -578,6 +706,10 @@ def candidate_surface(
 ) -> tuple[np.ndarray, dict[str, Any]]:
     """Build a deterministic ranking field from a pre-registered configuration."""
     detector = str(config.get("feature_detector", "deterministic_poisson_gradient_persistence"))
+    if detector == "topographic_scarp_curvature":
+        return topographic_scarp_curvature_surface(
+            bands, domain, config, pixel_size_m=pixel_size_m
+        )
     if detector == "multiphysics_edge_concurrence":
         return multiphysics_edge_concurrence_surface(
             bands, domain, config, pixel_size_m=pixel_size_m

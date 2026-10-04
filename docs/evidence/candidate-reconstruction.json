@@ -7,7 +7,7 @@
   "exact_prediction_array_match_on_domain": true,
   "feature_detector": "poisson_continuation_gradient_orientation_persistence",
   "finite_footprint_matches_template": true,
-  "generated_utc": "2026-10-04T18:08:37+00:00",
+  "generated_utc": "2026-10-04T22:58:59+00:00",
   "global_duplicate_comparison": "not possible from this checkout because prior submission rasters were not supplied; this receipt proves exact reconstruction from the saved local config, not uniqueness versus every external artifact",
   "grid_matches_owner_mirror_template": true,
   "hypothesis_id": "H35-01",

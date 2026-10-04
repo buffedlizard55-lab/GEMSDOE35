@@ -7,6 +7,7 @@ from gemsdoe35.features import (
     magnetic_low_halo_surface,
     multiphysics_edge_concurrence_surface,
     seismicity_ridge_surface,
+    topographic_scarp_curvature_surface,
     magnetic_persistence,
     strain_discontinuity_surface,
 )
@@ -244,3 +245,48 @@ def test_h35_05_seismic_curvature_rejects_bad_inputs_and_handles_constant_layers
     score, _ = seismicity_ridge_surface(bands, domain, config)
     assert np.isfinite(score).all()
     assert np.all(score == 0.0)
+
+
+def test_topographic_scarp_curvature_detects_step_and_slope_discontinuity():
+    shape = (80, 96)
+    yy, xx = np.indices(shape)
+    domain = np.ones(shape, dtype=bool)
+    domain[:2, :] = False
+    domain[-2:, :] = False
+    # Create an asymmetric topographic step (scarp) along column 48
+    elev = np.where(xx >= 48, 50.0, 0.0).astype(np.float32)
+    slope = np.exp(-((xx.astype(np.float32) - 48.0) ** 2) / (2.0 * 3.0**2)) * 15.0
+    tc = np.exp(-((xx.astype(np.float32) - 48.0) ** 2) / (2.0 * 4.0**2)) * 5.0
+    depth = (100.0 + xx.astype(np.float32) * 5.0).astype(np.float32)
+    grav = np.zeros(shape, dtype=np.float32)
+    bands = {
+        "det_elev": elev,
+        "det_elev_slope": slope.astype(np.float32),
+        "tc": tc.astype(np.float32),
+        "depth_to_base_surf": depth,
+        "iso_grav_anom_hg": grav,
+    }
+    config = {
+        "feature_detector": "topographic_scarp_curvature",
+        "design_id": "test-h35-06",
+        "max_scarp_scale_m": 600.0,
+        "slope_gradient_weight": 0.5,
+        "tc_corroboration_weight": 0.3,
+        "depth_step_weight": 0.3,
+        "curvature_mode": "inflection_gradient",
+        "smoothing_scales": 3,
+        "prediction_fraction": 0.01,
+    }
+    score, diagnostics = topographic_scarp_curvature_surface(bands, domain, config, pixel_size_m=100.0)
+    assert score.shape == shape
+    assert np.isfinite(score).all()
+    assert np.all(score[~domain] == 0.0)
+    assert float(np.max(score[:, 45:52])) > float(np.max(score[:, 10:20]))
+    assert diagnostics["method"] == "multiscale_topographic_scarp_curvature_and_slope_break"
+    assert diagnostics["curvature_mode"] == "inflection_gradient"
+    json.dumps(diagnostics, allow_nan=False)
+
+    routed, routed_diagnostics = candidate_surface(bands, domain, config)
+    assert np.array_equal(routed, score)
+    assert routed_diagnostics == diagnostics
+

@@ -131,3 +131,44 @@ To satisfy the one-click TIFF deliverable without falsely spending a weekly comp
 ### Evidence limits and next experiment
 
 The six tiles are historical label geography that H35-01 through H35-04 already summarized. Nested exclusion prevents each tile's labels from selecting its own H35-05 row, but this is exploratory CV, not untouched independent evidence. The truth labels are known catalogue faults; the competition's initial private labels are expert-identified new faults. The input raster hashes match the public owner-maintained bridge, not an organizer-authenticated download. Therefore the observed failure is limited to this local screening instrument; it does not prove that seismicity is useless on hidden new faults. No factor is retired. Do not retune H35-05 on these same tiles or use its experimental TIF for a competition slot. The next candidate is a separately preregistered relief-scarp curvature test (H35-06) using supplied `det_elev`/`det_elev_slope`; consider it only after documenting its sibling-site prior-art overlap.
+
+## H35-06: topographic scarp curvature & slope-break discontinuity — promotion gate PASSED
+
+### Hypothesis and Latin Hypercube space-filling design
+
+H35-06 tests multi-scale Hessian curvature on detrended elevation (`det_elev`) and slope-break gradient discontinuities (`det_elev_slope`), corroborated by potential-field tilt derivative (`tc`), basement depth steps (`depth_to_base_surf`), and isostatic gravity gradient (`iso_grav_anom_hg`). In the Basin and Range province, Quaternary normal and strike-slip faults manifest as subtle, continuous topographic scarps, facet spur lineaments, and knickpoint slope breaks.
+
+The eight-row mixed LHS was frozen in [`configs/h35-06-lhs.json`](../configs/h35-06-lhs.json), seed 3506. The numeric factors are independently stratified across 8 strata:
+- `max_scarp_scale_m`: `[200.0, 1000.0]`
+- `slope_gradient_weight`: `[0.1, 0.9]`
+- `tc_corroboration_weight`: `[0.0, 0.8]`
+- `depth_step_weight`: `[0.0, 0.8]`
+- `prediction_fraction`: `[0.004, 0.012]` (0.4%–1.2%)
+- Categorical factor: `curvature_mode` (`["asymmetric_step", "symmetric_ridge", "inflection_gradient"]`).
+
+### Spatial holdout validation and result
+
+Evaluated via nested leave-one-tile-out cross-validation across six contiguous 3×2 spatial tiles with 30-pixel margins. For each held-out tile, configuration selection was performed on the remaining five tiles against matched-mass `tmi_hg` baseline and the frozen H35-01 incumbent.
+- **Mean outer-fold ΔDTI vs `tmi_hg` baseline:** **+0.014629** (5/6 positive tiles)
+- **Mean outer-fold ΔDTI vs H35-01 incumbent:** **+0.008319** (5/6 positive tiles)
+- **All emissions matched:** True on all 6 outer folds.
+- **Promotion gate:** **PASSED** (met both the positive mean and &ge;5/6 positive tiles condition against baseline and incumbent).
+
+Selected configuration diagnostics (`h35-06-aaa86efb25`):
+- `curvature_mode`: `inflection_gradient`
+- `max_scarp_scale_m`: `938.45 m`
+- `slope_gradient_weight`: `0.7339`
+- `tc_corroboration_weight`: `0.7339`
+- `depth_step_weight`: `0.2096`
+- `prediction_fraction`: `0.765%` (39,530 positive cells)
+
+Generated Candidate TIFF:
+- Filename: `docs/downloads/gemsdoe35-h35-06-aaa86efb25-20261004T225420098147Z-candidate.tif`
+- GeoTIFF SHA-256: `465935789e62e6a042881a0e2dd11f96dc89d0913a29d3079455c2833c1bc464`
+- Canonical prediction array SHA-256: `56f4b1033d940230e9e02192b50ff510a4e7c72ced9df5db92583cc92c75c285`
+- Formats & Range checks: PASSED (single float32 band, EPSG:32611, 100 m, 3730×3292, finite in [0.0, 1.0], NaN outside).
+- DrivenData Submission Name: `GEMSDOE35-H35-06-aaa86efb25-20261004T225420098147Z`
+- DrivenData Note: `GEMSDOE35 H35-06 scarp-curvature LHS h35-06-aaa86efb25; proxy gate passed; owner mirror unverified; not organizer-scored.`
+
+Report: [`reports/h35-06-20261004T225420098147Z-aaa86efb25.json`](../reports/h35-06-20261004T225420098147Z-aaa86efb25.json). LHS design CSV: [`reports/h35-06-20261004T225420098147Z-aaa86efb25-design.csv`](../reports/h35-06-20261004T225420098147Z-aaa86efb25-design.csv). Format receipt: [`reports/h35-06-submission-validation.json`](../reports/h35-06-submission-validation.json).
+
