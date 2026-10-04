@@ -1,0 +1,56 @@
+{
+  "bridge_path": "data/bridge",
+  "files": [
+    {
+      "bytes": 418912844,
+      "canonical": "training_features.tif",
+      "name": "gems-geodawn-numerical-features.tif",
+      "parts": [
+        {
+          "bytes": 94371840,
+          "name": "gems-geodawn-numerical-features.tif.part-000",
+          "sha256": "0a330f8951af6c921029e25c84a579319d2db554d62d30d894d6ddc97f98cff7"
+        },
+        {
+          "bytes": 94371840,
+          "name": "gems-geodawn-numerical-features.tif.part-001",
+          "sha256": "3c98037b2c997e3bbfcdfc2d9a982e8b820a77410dd7404b05cdb80594922c50"
+        },
+        {
+          "bytes": 94371840,
+          "name": "gems-geodawn-numerical-features.tif.part-002",
+          "sha256": "c375c4dbc40c59bbaece572b5e348700b75935f9a30c879c82b6417e0836f31c"
+        },
+        {
+          "bytes": 94371840,
+          "name": "gems-geodawn-numerical-features.tif.part-003",
+          "sha256": "b164159e6d0cb2595bc9f63a948af2646b124114a9c5921880c7516092137320"
+        },
+        {
+          "bytes": 41425484,
+          "name": "gems-geodawn-numerical-features.tif.part-004",
+          "sha256": "fa0a6f9c936fac1d6f20ca37f5929b2d60bf7a80f3d477dcab886f941aee2696"
+        }
+      ],
+      "sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5"
+    },
+    {
+      "bytes": 425830,
+      "canonical": "labels.tif",
+      "name": "existing_faults.tif",
+      "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093"
+    },
+    {
+      "bytes": 1599597,
+      "canonical": "sample_submission.tif",
+      "name": "example_submission.tif",
+      "sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc"
+    }
+  ],
+  "notice": "This sanitized pin omits third-party Dropbox share URLs from the upstream manifest. Matching it verifies the public mirror only; it does not establish organizer provenance or licensing.",
+  "official_data_tab": "https://www.drivendata.org/competitions/306/competition-doe-gems/data/",
+  "provenance_class": "public owner-maintained bridge; not authenticated by DrivenData",
+  "schema_version": "gemsdoe35-owner-mirror-manifest-v1",
+  "source_repository": "https://github.com/buffedlizard55-lab/GEMSDOE.git",
+  "upstream_manifest_sha256": "7aa87dc4c1631e88709018963c4c3d85f9809a7b8f209fb74456943822beb0e9"
+}

@@ -1,0 +1,27 @@
+{
+  "crs": "EPSG:32611",
+  "dtype": "float32",
+  "errors": [],
+  "file": "docs/downloads/gemsdoe35-h35-01-e58e5dbee6-20261004T164802Z-candidate.tif",
+  "finite_pixels": 5167373,
+  "max_inside": 1.0,
+  "min_inside": 0.0,
+  "positive_pixels": 51205,
+  "range_gate": "pass",
+  "shape": [
+    3730,
+    3292
+  ],
+  "transform": [
+    100.0,
+    0.0,
+    243350.0,
+    0.0,
+    -100.0,
+    4508550.0,
+    0.0,
+    0.0,
+    1.0
+  ],
+  "valid_pixels": 5167373
+}

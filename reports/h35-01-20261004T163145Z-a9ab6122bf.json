@@ -1,0 +1,1010 @@
+{
+  "all_design_results": [
+    {
+      "config": {
+        "catalogue_buffer_px": 1,
+        "depth_edge_weight": 0.5871470928898033,
+        "design_id": "h35-01-6f1e1a2d05",
+        "gravity_edge_weight": 0.602819868567713,
+        "magnetic_source": "tmi",
+        "max_continuation_m": 204.90369816367354,
+        "min_orientation_coherence": 0.6648497667298989,
+        "prediction_fraction": 0.007571164139008484,
+        "quiescence_weight": 0.38990420538523296
+      },
+      "design_id": "h35-01-6f1e1a2d05",
+      "inner_folds": [
+        {
+          "available_pixels": 1240984,
+          "baseline": {
+            "fn_weighted": 11404.621261751838,
+            "fp_weighted": 9188.08482748187,
+            "predicted_mass": 9396.0,
+            "score": 0.01032700538110841,
+            "tp_weighted": 114.37873824816204,
+            "truth_pixels": 11519
+          },
+          "candidate": {
+            "fn_weighted": 11362.07409024263,
+            "fp_weighted": 9112.291461607267,
+            "predicted_mass": 9396.0,
+            "score": 0.014177007265542335,
+            "tp_weighted": 156.9259097573713,
+            "truth_pixels": 11519
+          },
+          "delta_dti": 0.003850001884433924,
+          "emitted_pixels_baseline": 9396,
+          "emitted_pixels_candidate": 9396,
+          "fold": "NE",
+          "requested_budget": 9396,
+          "status": "scored",
+          "truth_pixels": 11519
+        },
+        {
+          "available_pixels": 499835,
+          "baseline": {
+            "fn_weighted": 8368.431430216724,
+            "fp_weighted": 3658.6013195473497,
+            "predicted_mass": 3784.0,
+            "score": 0.01020501439939535,
+            "tp_weighted": 76.56856978327639,
+            "truth_pixels": 8445
+          },
+          "candidate": {
+            "fn_weighted": 8194.719772699296,
+            "fp_weighted": 3351.676848769462,
+            "predicted_mass": 3784.0,
+            "score": 0.03347607333551275,
+            "tp_weighted": 250.28022730070296,
+            "truth_pixels": 8445
+          },
+          "delta_dti": 0.023271058936117403,
+          "emitted_pixels_baseline": 3784,
+          "emitted_pixels_candidate": 3784,
+          "fold": "SW",
+          "requested_budget": 3784,
+          "status": "scored",
+          "truth_pixels": 8445
+        },
+        {
+          "available_pixels": 734899,
+          "baseline": {
+            "fn_weighted": 8639.393229352376,
+            "fp_weighted": 5410.729895687773,
+            "predicted_mass": 5564.0,
+            "score": 0.014863544137023746,
+            "tp_weighted": 120.60677064762524,
+            "truth_pixels": 8760
+          },
+          "candidate": {
+            "fn_weighted": 8611.349187212614,
+            "fp_weighted": 5380.640251845907,
+            "predicted_mass": 5564.0,
+            "score": 0.01832060764268234,
+            "tp_weighted": 148.65081278738504,
+            "truth_pixels": 8760
+          },
+          "delta_dti": 0.0034570635056585947,
+          "emitted_pixels_baseline": 5564,
+          "emitted_pixels_candidate": 5564,
+          "fold": "SE",
+          "requested_budget": 5564,
+          "status": "scored",
+          "truth_pixels": 8760
+        }
+      ],
+      "inner_mean_delta_dti": 0.010192708108736641,
+      "inner_positive_folds": 3
+    },
+    {
+      "config": {
+        "catalogue_buffer_px": 0,
+        "depth_edge_weight": 0.47404304229174876,
+        "design_id": "h35-01-f9eb97b07c",
+        "gravity_edge_weight": 0.18182028530624383,
+        "magnetic_source": "rtp",
+        "max_continuation_m": 795.0600016619408,
+        "min_orientation_coherence": 0.8912342449406365,
+        "prediction_fraction": 0.004984736717567061,
+        "quiescence_weight": 0.49674653819523695
+      },
+      "design_id": "h35-01-f9eb97b07c",
+      "inner_folds": [
+        {
+          "available_pixels": 1240984,
+          "baseline": {
+            "fn_weighted": 11444.889685918857,
+            "fp_weighted": 6063.168847325116,
+            "predicted_mass": 6186.0,
+            "score": 0.007096883711521658,
+            "tp_weighted": 74.11031408114349,
+            "truth_pixels": 11519
+          },
+          "candidate": {
+            "fn_weighted": 11426.443430137686,
+            "fp_weighted": 5984.108296076281,
+            "predicted_mass": 6186.0,
+            "score": 0.008873618452694285,
+            "tp_weighted": 92.55656986231475,
+            "truth_pixels": 11519
+          },
+          "delta_dti": 0.001776734741172627,
+          "emitted_pixels_baseline": 6186,
+          "emitted_pixels_candidate": 6186,
+          "fold": "NE",
+          "requested_budget": 6186,
+          "status": "scored",
+          "truth_pixels": 11519
+        },
+        {
+          "available_pixels": 499835,
+          "baseline": {
+            "fn_weighted": 8393.01137197952,
+            "fp_weighted": 2415.0125140783784,
+            "predicted_mass": 2492.0,
+            "score": 0.007171438516619473,
+            "tp_weighted": 51.98862802047957,
+            "truth_pixels": 8445
+          },
+          "candidate": {
+            "fn_weighted": 8257.979847317558,
+            "fp_weighted": 2257.849587632508,
+            "predicted_mass": 2492.0,
+            "score": 0.02581377849294311,
+            "tp_weighted": 187.02015268244156,
+            "truth_pixels": 8445
+          },
+          "delta_dti": 0.018642339976323634,
+          "emitted_pixels_baseline": 2492,
+          "emitted_pixels_candidate": 2492,
+          "fold": "SW",
+          "requested_budget": 2492,
+          "status": "scored",
+          "truth_pixels": 8445
+        },
+        {
+          "available_pixels": 734899,
+          "baseline": {
+            "fn_weighted": 8681.063863761385,
+            "fp_weighted": 3569.012514078379,
+            "predicted_mass": 3663.0,
+            "score": 0.010201644050978597,
+            "tp_weighted": 78.93613623861437,
+            "truth_pixels": 8760
+          },
+          "candidate": {
+            "fn_weighted": 8685.458038425342,
+            "fp_weighted": 3560.8501222794393,
+            "predicted_mass": 3663.0,
+            "score": 0.009636872124404115,
+            "tp_weighted": 74.54196157465864,
+            "truth_pixels": 8760
+          },
+          "delta_dti": -0.0005647719265744824,
+          "emitted_pixels_baseline": 3663,
+          "emitted_pixels_candidate": 3663,
+          "fold": "SE",
+          "requested_budget": 3663,
+          "status": "scored",
+          "truth_pixels": 8760
+        }
+      ],
+      "inner_mean_delta_dti": 0.006618100930307259,
+      "inner_positive_folds": 2
+    },
+    {
+      "config": {
+        "catalogue_buffer_px": 2,
+        "depth_edge_weight": 0.797603224326305,
+        "design_id": "h35-01-44ab2268e8",
+        "gravity_edge_weight": 0.518528731906694,
+        "magnetic_source": "tmi",
+        "max_continuation_m": 593.2966548417701,
+        "min_orientation_coherence": 0.7446118260737997,
+        "prediction_fraction": 0.009571637705934954,
+        "quiescence_weight": 0.09191907222276272
+      },
+      "design_id": "h35-01-44ab2268e8",
+      "inner_folds": [
+        {
+          "available_pixels": 1240984,
+          "baseline": {
+            "fn_weighted": 11392.173546501668,
+            "fp_weighted": 11646.285616932435,
+            "predicted_mass": 11878.0,
+            "score": 0.010961832339269197,
+            "tp_weighted": 126.82645349833123,
+            "truth_pixels": 11519
+          },
+          "candidate": {
+            "fn_weighted": 11309.491540113137,
+            "fp_weighted": 11333.273372446329,
+            "predicted_mass": 11878.0,
+            "score": 0.018180570052358812,
+            "tp_weighted": 209.50845988686257,
+            "truth_pixels": 11519
+          },
+          "delta_dti": 0.0072187377130896145,
+          "emitted_pixels_baseline": 11878,
+          "emitted_pixels_candidate": 11878,
+          "fold": "NE",
+          "requested_budget": 11878,
+          "status": "scored",
+          "truth_pixels": 11519
+        },
+        {
+          "available_pixels": 499835,
+          "baseline": {
+            "fn_weighted": 8350.971711646172,
+            "fp_weighted": 4621.79302801495,
+            "predicted_mass": 4784.0,
+            "score": 0.01221279156263185,
+            "tp_weighted": 94.02828835382638,
+            "truth_pixels": 8445
+          },
+          "candidate": {
+            "fn_weighted": 8166.3430251676455,
+            "fp_weighted": 4179.0362590639015,
+            "predicted_mass": 4784.0,
+            "score": 0.03643747193742013,
+            "tp_weighted": 278.65697483235493,
+            "truth_pixels": 8445
+          },
+          "delta_dti": 0.024224680374788275,
+          "emitted_pixels_baseline": 4784,
+          "emitted_pixels_candidate": 4784,
+          "fold": "SW",
+          "requested_budget": 4784,
+          "status": "scored",
+          "truth_pixels": 8445
+        },
+        {
+          "available_pixels": 734899,
+          "baseline": {
+            "fn_weighted": 8604.355759922233,
+            "fp_weighted": 6827.245125071532,
+            "predicted_mass": 7034.0,
+            "score": 0.018518983633577256,
+            "tp_weighted": 155.64424007776555,
+            "truth_pixels": 8760
+          },
+          "candidate": {
+            "fn_weighted": 8634.019504251486,
+            "fp_weighted": 6855.636698167632,
+            "predicted_mass": 7034.0,
+            "score": 0.014989962804995666,
+            "tp_weighted": 125.98049574851393,
+            "truth_pixels": 8760
+          },
+          "delta_dti": -0.0035290208285815895,
+          "emitted_pixels_baseline": 7034,
+          "emitted_pixels_candidate": 7034,
+          "fold": "SE",
+          "requested_budget": 7034,
+          "status": "scored",
+          "truth_pixels": 8760
+        }
+      ],
+      "inner_mean_delta_dti": 0.009304799086432098,
+      "inner_positive_folds": 2
+    },
+    {
+      "config": {
+        "catalogue_buffer_px": 3,
+        "depth_edge_weight": 0.27665325104918853,
+        "design_id": "h35-01-a3b6cea921",
+        "gravity_edge_weight": 0.2955839528638182,
+        "magnetic_source": "tmi",
+        "max_continuation_m": 608.724775724394,
+        "min_orientation_coherence": 0.6471211812093063,
+        "prediction_fraction": 0.005259145246717921,
+        "quiescence_weight": 0.18777837399275363
+      },
+      "design_id": "h35-01-a3b6cea921",
+      "inner_folds": [
+        {
+          "available_pixels": 1240984,
+          "baseline": {
+            "fn_weighted": 11439.484967403518,
+            "fp_weighted": 6390.866507406232,
+            "predicted_mass": 6527.0,
+            "score": 0.007566175849420621,
+            "tp_weighted": 79.51503259648203,
+            "truth_pixels": 11519
+          },
+          "candidate": {
+            "fn_weighted": 11429.352326826822,
+            "fp_weighted": 6328.165293646841,
+            "predicted_mass": 6527.0,
+            "score": 0.008538879927606173,
+            "tp_weighted": 89.64767317317845,
+            "truth_pixels": 11519
+          },
+          "delta_dti": 0.0009727040781855522,
+          "emitted_pixels_baseline": 6527,
+          "emitted_pixels_candidate": 6527,
+          "fold": "NE",
+          "requested_budget": 6527,
+          "status": "scored",
+          "truth_pixels": 11519
+        },
+        {
+          "available_pixels": 499835,
+          "baseline": {
+            "fn_weighted": 8391.306821818645,
+            "fp_weighted": 2548.1148926748338,
+            "predicted_mass": 2629.0,
+            "score": 0.007379124489467923,
+            "tp_weighted": 53.69317818135534,
+            "truth_pixels": 8445
+          },
+          "candidate": {
+            "fn_weighted": 8243.952504275314,
+            "fp_weighted": 2286.5961858172136,
+            "predicted_mass": 2629.0,
+            "score": 0.027717198488277903,
+            "tp_weighted": 201.047495724687,
+            "truth_pixels": 8445
+          },
+          "delta_dti": 0.02033807399880998,
+          "emitted_pixels_baseline": 2629,
+          "emitted_pixels_candidate": 2629,
+          "fold": "SW",
+          "requested_budget": 2629,
+          "status": "scored",
+          "truth_pixels": 8445
+        },
+        {
+          "available_pixels": 734899,
+          "baseline": {
+            "fn_weighted": 8672.651841102219,
+            "fp_weighted": 3760.8223651731246,
+            "predicted_mass": 3865.0,
+            "score": 0.011230685028460568,
+            "tp_weighted": 87.34815889778096,
+            "truth_pixels": 8760
+          },
+          "candidate": {
+            "fn_weighted": 8687.227815122671,
+            "fp_weighted": 3777.353565619609,
+            "predicted_mass": 3865.0,
+            "score": 0.009356126198228926,
+            "tp_weighted": 72.77218487732836,
+            "truth_pixels": 8760
+          },
+          "delta_dti": -0.0018745588302316422,
+          "emitted_pixels_baseline": 3865,
+          "emitted_pixels_candidate": 3865,
+          "fold": "SE",
+          "requested_budget": 3865,
+          "status": "scored",
+          "truth_pixels": 8760
+        }
+      ],
+      "inner_mean_delta_dti": 0.006478739748921297,
+      "inner_positive_folds": 2
+    },
+    {
+      "config": {
+        "catalogue_buffer_px": 2,
+        "depth_edge_weight": 0.015049673048802548,
+        "design_id": "h35-01-a9ab6122bf",
+        "gravity_edge_weight": 0.4876645623063047,
+        "magnetic_source": "rtp",
+        "max_continuation_m": 462.2961766277345,
+        "min_orientation_coherence": 0.5618548436272843,
+        "prediction_fraction": 0.010027565359928364,
+        "quiescence_weight": 0.71682310048903
+      },
+      "design_id": "h35-01-a9ab6122bf",
+      "inner_folds": [
+        {
+          "available_pixels": 1240984,
+          "baseline": {
+            "fn_weighted": 11387.218734139706,
+            "fp_weighted": 12199.961778646137,
+            "predicted_mass": 12444.0,
+            "score": 0.011281146898612171,
+            "tp_weighted": 131.78126586029407,
+            "truth_pixels": 11519
+          },
+          "candidate": {
+            "fn_weighted": 11352.738566006088,
+            "fp_weighted": 12121.12049618394,
+            "predicted_mass": 12444.0,
+            "score": 0.014243642888345249,
+            "tp_weighted": 166.2614339939111,
+            "truth_pixels": 11519
+          },
+          "delta_dti": 0.0029624959897330775,
+          "emitted_pixels_baseline": 12444,
+          "emitted_pixels_candidate": 12444,
+          "fold": "NE",
+          "requested_budget": 12444,
+          "status": "scored",
+          "truth_pixels": 11519
+        },
+        {
+          "available_pixels": 499835,
+          "baseline": {
+            "fn_weighted": 8350.659876680256,
+            "fp_weighted": 4848.83602474978,
+            "predicted_mass": 5012.0,
+            "score": 0.012181351415881664,
+            "tp_weighted": 94.34012331974438,
+            "truth_pixels": 8445
+          },
+          "candidate": {
+            "fn_weighted": 8078.366283284104,
+            "fp_weighted": 4553.067469755142,
+            "predicted_mass": 5012.0,
+            "score": 0.04736906299990602,
+            "tp_weighted": 366.633716715897,
+            "truth_pixels": 8445
+          },
+          "delta_dti": 0.03518771158402436,
+          "emitted_pixels_baseline": 5012,
+          "emitted_pixels_candidate": 5012,
+          "fold": "SW",
+          "requested_budget": 5012,
+          "status": "scored",
+          "truth_pixels": 8445
+        },
+        {
+          "available_pixels": 734899,
+          "baseline": {
+            "fn_weighted": 8598.707669285568,
+            "fp_weighted": 7146.083778677521,
+            "predicted_mass": 7369.0,
+            "score": 0.019043958036240632,
+            "tp_weighted": 161.29233071443193,
+            "truth_pixels": 8760
+          },
+          "candidate": {
+            "fn_weighted": 8554.655274197632,
+            "fp_weighted": 7095.815671880643,
+            "predicted_mass": 7369.0,
+            "score": 0.024248830673710687,
+            "tp_weighted": 205.34472580236806,
+            "truth_pixels": 8760
+          },
+          "delta_dti": 0.005204872637470055,
+          "emitted_pixels_baseline": 7369,
+          "emitted_pixels_candidate": 7369,
+          "fold": "SE",
+          "requested_budget": 7369,
+          "status": "scored",
+          "truth_pixels": 8760
+        }
+      ],
+      "inner_mean_delta_dti": 0.014451693403742498,
+      "inner_positive_folds": 3
+    },
+    {
+      "config": {
+        "catalogue_buffer_px": 1,
+        "depth_edge_weight": 0.16515749394058613,
+        "design_id": "h35-01-27240e7038",
+        "gravity_edge_weight": 0.008302014389982194,
+        "magnetic_source": "rtp",
+        "max_continuation_m": 825.5915606077839,
+        "min_orientation_coherence": 0.2867354520043698,
+        "prediction_fraction": 0.008581254711598419,
+        "quiescence_weight": 0.5363487039362854
+      },
+      "design_id": "h35-01-27240e7038",
+      "inner_folds": [
+        {
+          "available_pixels": 1240984,
+          "baseline": {
+            "fn_weighted": 11398.958976891583,
+            "fp_weighted": 10431.409079832238,
+            "predicted_mass": 10649.0,
+            "score": 0.010599190224016636,
+            "tp_weighted": 120.0410231084157,
+            "truth_pixels": 11519
+          },
+          "candidate": {
+            "fn_weighted": 11396.429967348307,
+            "fp_weighted": 10397.105059768146,
+            "predicted_mass": 10649.0,
+            "score": 0.010828568830704691,
+            "tp_weighted": 122.57003265169348,
+            "truth_pixels": 11519
+          },
+          "delta_dti": 0.00022937860668805453,
+          "emitted_pixels_baseline": 10649,
+          "emitted_pixels_candidate": 10649,
+          "fold": "NE",
+          "requested_budget": 10649,
+          "status": "scored",
+          "truth_pixels": 11519
+        },
+        {
+          "available_pixels": 499835,
+          "baseline": {
+            "fn_weighted": 8358.419426896344,
+            "fp_weighted": 4144.7948048540875,
+            "predicted_mass": 4289.0,
+            "score": 0.011388771419445137,
+            "tp_weighted": 86.58057310365717,
+            "truth_pixels": 8445
+          },
+          "candidate": {
+            "fn_weighted": 8209.886015057138,
+            "fp_weighted": 3993.8862084449956,
+            "predicted_mass": 4289.0,
+            "score": 0.030928725268569834,
+            "tp_weighted": 235.1139849428622,
+            "truth_pixels": 8445
+          },
+          "delta_dti": 0.019539953849124696,
+          "emitted_pixels_baseline": 4289,
+          "emitted_pixels_candidate": 4289,
+          "fold": "SW",
+          "requested_budget": 4289,
+          "status": "scored",
+          "truth_pixels": 8445
+        },
+        {
+          "available_pixels": 734899,
+          "baseline": {
+            "fn_weighted": 8621.465028598448,
+            "fp_weighted": 6124.40208965913,
+            "predicted_mass": 6306.0,
+            "score": 0.016770595659667785,
+            "tp_weighted": 138.53497140155122,
+            "truth_pixels": 8760
+          },
+          "candidate": {
+            "fn_weighted": 8638.75097999112,
+            "fp_weighted": 6088.751273472326,
+            "predicted_mass": 6306.0,
+            "score": 0.014696850805603724,
+            "tp_weighted": 121.24902000888068,
+            "truth_pixels": 8760
+          },
+          "delta_dti": -0.0020737448540640614,
+          "emitted_pixels_baseline": 6306,
+          "emitted_pixels_candidate": 6306,
+          "fold": "SE",
+          "requested_budget": 6306,
+          "status": "scored",
+          "truth_pixels": 8760
+        }
+      ],
+      "inner_mean_delta_dti": 0.005898529200582896,
+      "inner_positive_folds": 2
+    },
+    {
+      "config": {
+        "catalogue_buffer_px": 3,
+        "depth_edge_weight": 0.37961867169439045,
+        "design_id": "h35-01-f36d5cd985",
+        "gravity_edge_weight": 0.32331081885813173,
+        "magnetic_source": "blend",
+        "max_continuation_m": 995.6381058463294,
+        "min_orientation_coherence": 0.35015462154609817,
+        "prediction_fraction": 0.011306249098595728,
+        "quiescence_weight": 0.6659148101382373
+      },
+      "design_id": "h35-01-f36d5cd985",
+      "inner_folds": [
+        {
+          "available_pixels": 1240984,
+          "baseline": {
+            "fn_weighted": 11370.828209847954,
+            "fp_weighted": 13761.621555233043,
+            "predicted_mass": 14031.0,
+            "score": 0.012350573518208265,
+            "tp_weighted": 148.17179015204536,
+            "truth_pixels": 11519
+          },
+          "candidate": {
+            "fn_weighted": 11339.324035073576,
+            "fp_weighted": 13677.016754812415,
+            "predicted_mass": 14031.0,
+            "score": 0.014989812469017231,
+            "tp_weighted": 179.67596492642394,
+            "truth_pixels": 11519
+          },
+          "delta_dti": 0.0026392389508089666,
+          "emitted_pixels_baseline": 14031,
+          "emitted_pixels_candidate": 14031,
+          "fold": "NE",
+          "requested_budget": 14031,
+          "status": "scored",
+          "truth_pixels": 11519
+        },
+        {
+          "available_pixels": 499835,
+          "baseline": {
+            "fn_weighted": 8339.65079569729,
+            "fp_weighted": 5459.665597372804,
+            "predicted_mass": 5651.0,
+            "score": 0.013387871987561662,
+            "tp_weighted": 105.34920430271012,
+            "truth_pixels": 8445
+          },
+          "candidate": {
+            "fn_weighted": 8143.842286888099,
+            "fp_weighted": 5169.069346687628,
+            "predicted_mass": 5651.0,
+            "score": 0.03836381795359728,
+            "tp_weighted": 301.15771311190144,
+            "truth_pixels": 8445
+          },
+          "delta_dti": 0.02497594596603562,
+          "emitted_pixels_baseline": 5651,
+          "emitted_pixels_candidate": 5651,
+          "fold": "SW",
+          "requested_budget": 5651,
+          "status": "scored",
+          "truth_pixels": 8445
+        },
+        {
+          "available_pixels": 734899,
+          "baseline": {
+            "fn_weighted": 8582.37036820989,
+            "fp_weighted": 8056.584399773625,
+            "predicted_mass": 8309.0,
+            "score": 0.020523727093061512,
+            "tp_weighted": 177.62963179010947,
+            "truth_pixels": 8760
+          },
+          "candidate": {
+            "fn_weighted": 8599.6515271315,
+            "fp_weighted": 8057.08356140073,
+            "predicted_mass": 8309.0,
+            "score": 0.01853421080815325,
+            "tp_weighted": 160.34847286850157,
+            "truth_pixels": 8760
+          },
+          "delta_dti": -0.0019895162849082604,
+          "emitted_pixels_baseline": 8309,
+          "emitted_pixels_candidate": 8309,
+          "fold": "SE",
+          "requested_budget": 8309,
+          "status": "scored",
+          "truth_pixels": 8760
+        }
+      ],
+      "inner_mean_delta_dti": 0.008541889543978776,
+      "inner_positive_folds": 2
+    },
+    {
+      "config": {
+        "catalogue_buffer_px": 0,
+        "depth_edge_weight": 0.615146417424112,
+        "design_id": "h35-01-5948640969",
+        "gravity_edge_weight": 0.7686050766691532,
+        "magnetic_source": "blend",
+        "max_continuation_m": 340.63575876490677,
+        "min_orientation_coherence": 0.41631690178225556,
+        "prediction_fraction": 0.006395956726217823,
+        "quiescence_weight": 0.2513804038642742
+      },
+      "design_id": "h35-01-5948640969",
+      "inner_folds": [
+        {
+          "available_pixels": 1240984,
+          "baseline": {
+            "fn_weighted": 11417.161860551427,
+            "fp_weighted": 7751.909918205132,
+            "predicted_mass": 7937.0,
+            "score": 0.0094417407012269,
+            "tp_weighted": 101.83813944857228,
+            "truth_pixels": 11519
+          },
+          "candidate": {
+            "fn_weighted": 11350.386970613476,
+            "fp_weighted": 7528.463324564306,
+            "predicted_mass": 7937.0,
+            "score": 0.015678201882728598,
+            "tp_weighted": 168.61302938652415,
+            "truth_pixels": 11519
+          },
+          "delta_dti": 0.006236461181501698,
+          "emitted_pixels_baseline": 7937,
+          "emitted_pixels_candidate": 7937,
+          "fold": "NE",
+          "requested_budget": 7937,
+          "status": "scored",
+          "truth_pixels": 11519
+        },
+        {
+          "available_pixels": 499835,
+          "baseline": {
+            "fn_weighted": 8381.271129227644,
+            "fp_weighted": 3100.5600996516564,
+            "predicted_mass": 3197.0,
+            "score": 0.00862499625089232,
+            "tp_weighted": 63.72887077235795,
+            "truth_pixels": 8445
+          },
+          "candidate": {
+            "fn_weighted": 8204.972539774311,
+            "fp_weighted": 2781.2552309699126,
+            "predicted_mass": 3197.0,
+            "score": 0.03261128997048699,
+            "tp_weighted": 240.0274602256888,
+            "truth_pixels": 8445
+          },
+          "delta_dti": 0.02398629371959467,
+          "emitted_pixels_baseline": 3197,
+          "emitted_pixels_candidate": 3197,
+          "fold": "SW",
+          "requested_budget": 3197,
+          "status": "scored",
+          "truth_pixels": 8445
+        },
+        {
+          "available_pixels": 734899,
+          "baseline": {
+            "fn_weighted": 8651.590682401456,
+            "fp_weighted": 4565.346261475781,
+            "predicted_mass": 4700.0,
+            "score": 0.01364883728796293,
+            "tp_weighted": 108.4093175985431,
+            "truth_pixels": 8760
+          },
+          "candidate": {
+            "fn_weighted": 8655.03620674842,
+            "fp_weighted": 4570.2759250981235,
+            "predicted_mass": 4700.0,
+            "score": 0.013214548621128397,
+            "tp_weighted": 104.96379325158038,
+            "truth_pixels": 8760
+          },
+          "delta_dti": -0.00043428866683453346,
+          "emitted_pixels_baseline": 4700,
+          "emitted_pixels_candidate": 4700,
+          "fold": "SE",
+          "requested_budget": 4700,
+          "status": "scored",
+          "truth_pixels": 8760
+        }
+      ],
+      "inner_mean_delta_dti": 0.009929488744753944,
+      "inner_positive_folds": 2
+    }
+  ],
+  "baseline": "single-scale supplied tmi_hg edge-strength ranking; matched emitted mass",
+  "design_csv": "reports/h35-01-20261004T163145Z-a9ab6122bf-design.csv",
+  "design_seed": 20261004,
+  "design_spec": "configs/h35-01-lhs.json",
+  "final_holdout": {
+    "available_pixels": 2336231,
+    "baseline": {
+      "fn_weighted": 27458.09746214311,
+      "fp_weighted": 22465.275032102025,
+      "predicted_mass": 23427.0,
+      "score": 0.01657295372992584,
+      "tp_weighted": 445.90253785688924,
+      "truth_pixels": 27904
+    },
+    "candidate": {
+      "fn_weighted": 27179.976880601695,
+      "fp_weighted": 22217.330715813576,
+      "predicted_mass": 23427.0,
+      "score": 0.026903885174681442,
+      "tp_weighted": 724.0231193983044,
+      "truth_pixels": 27904
+    },
+    "delta_dti": 0.010330931444755602,
+    "emitted_pixels_baseline": 23427,
+    "emitted_pixels_candidate": 23427,
+    "fold": "NW",
+    "requested_budget": 23427,
+    "status": "scored",
+    "truth_pixels": 27904
+  },
+  "gate": {
+    "criterion": "all three development block deltas > 0 and final NW spatial holdout delta > 0, all compared to a matched-mass single-scale tmi_hg baseline",
+    "passed": false,
+    "slot_eligible": false,
+    "slot_note": "A local proxy pass alone cannot establish hidden-test gain. No competition slot is spent automatically."
+  },
+  "generated_utc": "2026-10-04T16:31:45+00:00",
+  "hypothesis_register": "docs/hypotheses.md#rank-1",
+  "input_provenance": {
+    "band_count": 19,
+    "crs": "EPSG:32611",
+    "domain_pixels": 5167373,
+    "feature_band_descriptions": {
+      "1": "mag_anom - Magnetic anomaly - deviation from expected Earth's magnetic field",
+      "10": "deq_n100a15 - Distance to earthquake (n=100km radius, a=15\u00b0 azimuth parameters)",
+      "11": "iso_grav_anom_vg - Isostatic gravity anomaly vertical gradient - vertical rate of change",
+      "12": "det_elev - Detrended elevation - topography with regional trends removed",
+      "13": "iso_grav_anom - Isostatic gravity anomaly - gravity after compensating for topographic mass",
+      "14": "tmi - Total magnetic intensity - total strength of magnetic field",
+      "15": "depth_to_base_surf - Depth to basement surface - thickness of sedimentary cover",
+      "16": "ieq_n100a15 - Earthquake intensity or density (n=100km radius, a=15\u00b0 parameters)",
+      "17": "cond_surf - Conductivity surface - electrical conductivity of subsurface",
+      "18": "iso_grav_anom_hg - Isostatic gravity anomaly horizontal gradient - horizontal rate of change",
+      "19": "det_elev_slope - Detrended elevation slope - gradient of elevation after detrending",
+      "2": "rtp - Reduced to pole magnetic data - magnetic anomaly corrected for latitude effects",
+      "3": "tmi_hg - Total magnetic intensity horizontal gradient - rate of change in horizontal direction",
+      "4": "geod_2ndinv - Geodetic second invariant - measure of strain rate tensor magnitude",
+      "5": "iso_grav_anom_slope - Isostatic gravity anomaly slope - gradient of gravity after isostatic correction",
+      "6": "tc - Tilt angle or total curvature - magnetic field derivative for edge detection",
+      "7": "geod_shearrate - Geodetic shear rate - rate of angular deformation from GPS/InSAR",
+      "8": "geod_dilaterate - Geodetic dilatation rate - rate of volumetric strain (expansion/contraction)",
+      "9": "tmi_vg - Total magnetic intensity vertical gradient - rate of change in vertical direction"
+    },
+    "feature_missing_inside_domain": {
+      "depth_to_base_surf": 3061,
+      "det_elev_slope": 3061,
+      "iso_grav_anom_hg": 3061,
+      "rtp": 3061,
+      "tmi": 3061,
+      "tmi_hg": 3061
+    },
+    "features_file": "/home/user/GEMSDOE35/data/raw/training_features.tif",
+    "features_sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+    "height": 3730,
+    "label_positive_pixels": 60988,
+    "label_template_footprints_identical": true,
+    "labels_file": "/home/user/GEMSDOE35/data/raw/labels.tif",
+    "labels_sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+    "official_data_tab_requires_login": true,
+    "pixel_size_m": 100.0,
+    "provenance_class": "owner-supplied mirror; SHA-256 pinned; not organizer-authenticated",
+    "template_file": "/home/user/GEMSDOE35/data/raw/sample_submission.tif",
+    "template_sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+    "template_values_used": false,
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "width": 3292
+  },
+  "instrument": "official DTI formula, used locally against withheld public catalogue labels",
+  "invalidation_reason": "This run varied and applied a 2-pixel buffer around known labels. DrivenData staff clarified that only known USGS/INGENIOUS pixels are masked exactly and nearby pixels remain scored; new-fault pixels may lie within 300 m of known traces. Do not use this result or any artifact derived from it.",
+  "invalidation_source": "https://community.drivendata.org/t/scoring-clarification-are-known-usgs-ingenious-faults-masked-when-scoring-and-are-they-in-the-final-round-label-set/11516/4",
+  "organizer_score": null,
+  "public_score": null,
+  "reported_gate_passed_before_invalidation": true,
+  "result": "INVALIDATED; superseded by the exact-pixel-mask v2 preregistered rerun.",
+  "run_id": "h35-01-20261004T163145Z-a9ab6122bf",
+  "schema_version": "gemsdoe35-h35-01-holdout-v1",
+  "selected_config": {
+    "catalogue_buffer_px": 2,
+    "depth_edge_weight": 0.015049673048802548,
+    "design_id": "h35-01-a9ab6122bf",
+    "gravity_edge_weight": 0.4876645623063047,
+    "magnetic_source": "rtp",
+    "max_continuation_m": 462.2961766277345,
+    "min_orientation_coherence": 0.5618548436272843,
+    "prediction_fraction": 0.010027565359928364,
+    "quiescence_weight": 0.71682310048903
+  },
+  "selected_design_id": "h35-01-a9ab6122bf",
+  "selected_inner_folds": [
+    {
+      "available_pixels": 1240984,
+      "baseline": {
+        "fn_weighted": 11387.218734139706,
+        "fp_weighted": 12199.961778646137,
+        "predicted_mass": 12444.0,
+        "score": 0.011281146898612171,
+        "tp_weighted": 131.78126586029407,
+        "truth_pixels": 11519
+      },
+      "candidate": {
+        "fn_weighted": 11352.738566006088,
+        "fp_weighted": 12121.12049618394,
+        "predicted_mass": 12444.0,
+        "score": 0.014243642888345249,
+        "tp_weighted": 166.2614339939111,
+        "truth_pixels": 11519
+      },
+      "delta_dti": 0.0029624959897330775,
+      "emitted_pixels_baseline": 12444,
+      "emitted_pixels_candidate": 12444,
+      "fold": "NE",
+      "requested_budget": 12444,
+      "status": "scored",
+      "truth_pixels": 11519
+    },
+    {
+      "available_pixels": 499835,
+      "baseline": {
+        "fn_weighted": 8350.659876680256,
+        "fp_weighted": 4848.83602474978,
+        "predicted_mass": 5012.0,
+        "score": 0.012181351415881664,
+        "tp_weighted": 94.34012331974438,
+        "truth_pixels": 8445
+      },
+      "candidate": {
+        "fn_weighted": 8078.366283284104,
+        "fp_weighted": 4553.067469755142,
+        "predicted_mass": 5012.0,
+        "score": 0.04736906299990602,
+        "tp_weighted": 366.633716715897,
+        "truth_pixels": 8445
+      },
+      "delta_dti": 0.03518771158402436,
+      "emitted_pixels_baseline": 5012,
+      "emitted_pixels_candidate": 5012,
+      "fold": "SW",
+      "requested_budget": 5012,
+      "status": "scored",
+      "truth_pixels": 8445
+    },
+    {
+      "available_pixels": 734899,
+      "baseline": {
+        "fn_weighted": 8598.707669285568,
+        "fp_weighted": 7146.083778677521,
+        "predicted_mass": 7369.0,
+        "score": 0.019043958036240632,
+        "tp_weighted": 161.29233071443193,
+        "truth_pixels": 8760
+      },
+      "candidate": {
+        "fn_weighted": 8554.655274197632,
+        "fp_weighted": 7095.815671880643,
+        "predicted_mass": 7369.0,
+        "score": 0.024248830673710687,
+        "tp_weighted": 205.34472580236806,
+        "truth_pixels": 8760
+      },
+      "delta_dti": 0.005204872637470055,
+      "emitted_pixels_baseline": 7369,
+      "emitted_pixels_candidate": 7369,
+      "fold": "SE",
+      "requested_budget": 7369,
+      "status": "scored",
+      "truth_pixels": 8760
+    }
+  ],
+  "selected_inner_mean_delta_dti": 0.014451693403742498,
+  "selected_surface_diagnostics": {
+    "config": {
+      "catalogue_buffer_px": 2,
+      "depth_edge_weight": 0.015049673048802548,
+      "design_id": "h35-01-a9ab6122bf",
+      "gravity_edge_weight": 0.4876645623063047,
+      "magnetic_source": "rtp",
+      "max_continuation_m": 462.2961766277345,
+      "min_orientation_coherence": 0.5618548436272843,
+      "prediction_fraction": 0.010027565359928364,
+      "quiescence_weight": 0.71682310048903
+    },
+    "continuation_heights_m": [
+      0.0,
+      231.14808831386725,
+      462.2961766277345
+    ],
+    "magnetic_source": "rtp",
+    "median_orientation_coherence_valid": 0.9617238640785217,
+    "median_persistence_valid": 0.15393175184726715,
+    "method": "poisson_continuation_gradient_orientation_persistence",
+    "p95_persistence_valid": 0.8345261216163635
+  },
+  "split": {
+    "development_folds": [
+      "NE",
+      "SW",
+      "SE"
+    ],
+    "final_holdout": "NW",
+    "grid": "2x2 contiguous spatial quadrants",
+    "metric_radius_m": 300.0,
+    "selection": "maximize mean inner-fold delta over single-scale tmi_hg baseline; final NW block is not used for selection",
+    "spatial_margin_px": 30,
+    "visible-label-collar_px": 30
+  },
+  "submission": null,
+  "target_population_caveat": "The public labels are existing mapped faults, whereas the competition's initial private labels are newly identified faults. This holdout is a spatial screening proxy, not a leaderboard-score estimate.",
+  "validity_status": "INVALIDATED"
+}

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Executive summary and manual submission steps for the GEMSDOE35 local-proxy-screened DOE GEMS candidate GeoTIFF.">
+  <meta name="theme-color" content="#064b3a">
+  <title>Executive Summary &amp; Upload Steps — GEMSDOE35</title>
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="index.html" aria-label="GEMSDOE35 home"><span class="brand-mark">G</span><span>GEMSDOE35<small>DOE GEMS · 306</small></span></a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="index.html">Project</a>
+<a href="https://github.com/buffedlizard55-lab/GEMSDOE35/blob/main/docs/hypotheses.md" target="_blank" rel="noopener">Hypotheses</a>
+        <a aria-current="page" href="executive-summary.html">How to submit</a>
+        <a class="nav-cta" href="downloads/gemsdoe35-h35-01-e58e5dbee6-20261004T164802Z-candidate.tif" download>Download TIFF ↓</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="section" style="padding-top:34px">
+        <p class="kicker">Executive summary · submission checklist</p>
+        <h1 style="font-size:clamp(38px,6vw,62px);color:var(--ink);max-width:950px">One candidate file.<br>Clear evidence. No score promises.</h1>
+        <p class="section-intro" style="max-width:760px;margin-top:18px">This page explains the candidate, what the local holdout result means, and how to submit it manually if—and only if—you choose to spend a DrivenData submission slot after reviewing the data-provenance caveat and official rules.</p>
+      </section>
+
+      <section class="section" id="upload" aria-labelledby="download-title" style="padding-top:32px">
+        <div class="section-head"><div><p class="kicker">The file you would upload</p><h2 id="download-title">Download the unique H35-01 candidate.</h2></div></div>
+        <div class="file-panel">
+          <div>
+            <span class="pill">Local proxy gate passed · not organizer-scored</span>
+            <h3 style="margin-top:12px">Unique artifact</h3>
+            <p>Do not rename it to a generic prior filename. The configuration ID and UTC run stamp make this output identifiable.</p>
+            <code class="file-name">gemsdoe35-h35-01-e58e5dbee6-20261004T164802Z-candidate.tif</code>
+            <div class="file-actions">
+              <a class="btn btn-dark" href="downloads/gemsdoe35-h35-01-e58e5dbee6-20261004T164802Z-candidate.tif" download>Download `.tif` file</a>
+              <button class="btn btn-plain" id="copy-note" type="button">Copy DrivenData note</button>
+            </div>
+            <p class="copy-status" id="copy-status" aria-live="polite"></p>
+          </div>
+          <div>
+            <h3>Submission name</h3>
+            <code class="file-name">GEMSDOE35-H35-01-e58e5dbee6</code>
+            <h3 style="margin:18px 0 8px">Suggested short note</h3>
+            <code class="file-name" id="submission-note">GEMSDOE35 H35-01 LHS h35-01-e58e5dbee6; NW blocked proxy DTI delta +0.0103 vs tmi_hg; owner mirror unverified; not organizer-scored.</code>
+          </div>
+        </div>
+      </section>
+
+      <div class="alert" role="alert" style="margin-top:24px">
+        <div class="alert-icon" aria-hidden="true">!</div>
+        <p><strong>Do not mistake local validation for competition scoring.</strong> The TIFF passed the spatial-blocked screen against the current in-repository proxy incumbent, but the labels are existing catalogue faults, not the newly identified private test faults. Input bytes were obtained from a public owner-maintained mirror and are not organizer-authenticated; each of the six selected feature bands also contains 3,061 sentinel cells inside the label/template footprint, which the detector nearest-fills without a separate sensitivity analysis. No public, private or final leaderboard score has been produced for this candidate.</p>
+      </div>
+
+      <section class="section" aria-labelledby="format-title">
+        <div class="section-head"><div><p class="kicker">Before upload</p><h2 id="format-title">Check the file contract.</h2></div></div>
+        <div class="grid-3">
+          <article class="card"><span class="metric-label">GeoTIFF</span><h3 style="margin:8px 0">Single raster band</h3><p class="muted small">32-bit float; shape 3292 × 3730; output reopened and checked after writing.</p></article>
+          <article class="card"><span class="metric-label">Grid</span><h3 style="margin:8px 0">EPSG:32611 · 100 m</h3><p class="muted small">Transform and bounds match the local sample/template raster. Official data authentication is still blocked by login.</p></article>
+          <article class="card"><span class="metric-label">Values and nodata</span><h3 style="margin:8px 0">[0, 1] · NaN outside</h3><p class="muted small">All finite footprint values are in range. The outside-footprint mask is NaN/nodata.</p></article>
+        </div>
+        <p class="table-note">Machine validation: <a href="evidence/submission-validation.json">submission validation receipt</a> · SHA-256 `5d26cdea082e18e97b693365de0fcfb41f97a432e18ff138d08cd7c622679929`.</p>
+      </section>
+
+      <section class="section" aria-labelledby="steps-title">
+        <div class="section-head"><div><p class="kicker">Manual DrivenData workflow</p><h2 id="steps-title">How to make the submission.</h2></div></div>
+        <div class="steps">
+          <article class="step"><h3>Confirm account and eligibility</h3><p>Sign in to the official <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/" target="_blank" rel="noopener">GEMS Prize page</a>, enroll, and review the current rules/eligibility requirements. Do not share credentials with this project.</p></article>
+          <article class="step"><h3>Review data provenance</h3><p>Compare against files available through your enrolled account. This artifact uses an owner mirror, not organizer-authenticated bytes; if your official grid/data differ, regenerate from your authorized files rather than uploading blindly.</p></article>
+          <article class="step"><h3>Open the submit form</h3><p>On DrivenData, choose the competition's <strong>Submit</strong> action, then <strong>Make new submission</strong>. Upload the `.tif` directly as the single GeoTIFF prediction file; do not upload a report or rename an old submission.</p></article>
+          <article class="step"><h3>Name and identify it</h3><p>Use `GEMSDOE35-H35-01-e58e5dbee6` and paste the short note above if the form offers a description/note field; otherwise keep it with your local entry record. Check the site response and retain the final organizer receipt/score separately.</p></article>
+        </div>
+        <div class="quote" style="margin-top:18px">
+          <p><strong>Submission-slot discipline.</strong> The September 2026 official rules allow three submissions per week and note that public scores may differ from private prize scores. This local gate passes versus `tmi_hg`, but does not validate hidden-test gain; the pipeline never submits automatically. Do not spend a slot unless you accept the mirror caveat and judge this local proxy improvement sufficient for a manual test.</p>
+          <p class="small" style="margin-bottom:0"><a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf" target="_blank" rel="noopener">Official Rules, Sections 3.2–3.4 and Appendix A</a> · <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/" target="_blank" rel="noopener">Official submission format and scoring description</a>.</p>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="ai-title">
+        <div class="section-head"><div><p class="kicker">Required narrative disclosure</p><h2 id="ai-title">Disclose generative-AI assistance.</h2></div></div>
+        <div class="card">
+          <p>The September 2026 official rules state that generative AI use is allowed, but must be described in the submission narrative, including how it contributed to the submission elements. If you submit this artifact, review and adapt this truthful draft:</p>
+          <blockquote class="quote" style="margin:0"><strong>Suggested AI-use statement:</strong> “Generative AI assisted with source review, hypothesis and experiment documentation, code implementation, test design, and review of the submission workflow. The candidate raster, experiment results, checksums, and format checks were produced and verified by the repository scripts. The input rasters came from a public owner-maintained mirror that has not been authenticated by DrivenData. No public, private, or organizer-scored result is claimed for this file.”</blockquote>
+          <p class="table-note">Rules source: <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf" target="_blank" rel="noopener">GEMS Prize Official Rules (September 2026), Section 3.2</a>. You are responsible for the accuracy and authorship of any statement submitted.</p>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="evidence-title">
+        <div class="section-head"><div><p class="kicker">What improved locally</p><h2 id="evidence-title">The proxy result, with context.</h2></div></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Fold</th><th scope="col">H35-01 DTI</th><th scope="col">Baseline DTI</th><th scope="col">Difference</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">NE · development</th><td class="num">0.014244</td><td class="num">0.011281</td><td class="num delta-positive">+0.002962</td></tr>
+              <tr><th scope="row">SW · development</th><td class="num">0.047369</td><td class="num">0.012181</td><td class="num delta-positive">+0.035188</td></tr>
+              <tr><th scope="row">SE · development</th><td class="num">0.024249</td><td class="num">0.019044</td><td class="num delta-positive">+0.005205</td></tr>
+              <tr><th scope="row">NW · frozen holdout</th><td class="num">0.026904</td><td class="num">0.016573</td><td class="num delta-positive">+0.010331</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">These are DTI scores on spatially held-out parts of the existing public label raster. They measure transfer to held-out existing labels; the actual private target is new fault pixels. They are not a public/private leaderboard estimate.</p>
+        <p><a class="btn btn-secondary" style="background:var(--forest);color:white" href="evidence/latest-experiment.json">Open full experiment report</a></p>
+      </section>
+
+      <section class="section" aria-labelledby="sources-title">
+        <div class="section-head"><div><p class="kicker">Need to verify something?</p><h2 id="sources-title">Official source links.</h2></div></div>
+        <div class="source-list">
+          <a class="source" href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/" target="_blank" rel="noopener"><span><b>Problem description &amp; submission format</b><small>Competition objective, scoring and raster requirements</small></span><span aria-hidden="true">↗</span></a>
+          <a class="source" href="https://community.drivendata.org/t/scoring-clarification-are-known-usgs-ingenious-faults-masked-when-scoring-and-are-they-in-the-final-round-label-set/11516/4" target="_blank" rel="noopener"><span><b>Staff note: exact catalogue mask</b><small>Known labels masked exactly; nearby scores are not buffered</small></span><span aria-hidden="true">↗</span></a>
+          <a class="source" href="https://docs.nlr.gov/docs/fy26osti/96647.pdf" target="_blank" rel="noopener"><span><b>Official rules (September 2026)</b><small>Submission limit, eligibility, use and AI narrative disclosure</small></span><span aria-hidden="true">↗</span></a>
+          <a class="source" href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/" target="_blank" rel="noopener"><span><b>Public leaderboard</b><small>Moving snapshot; not private/final prize outcome</small></span><span aria-hidden="true">↗</span></a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer"><div class="footer-inner"><p><strong>Maximize P(Win) · Own the Outcome.</strong><br>This page does not submit files or access DrivenData authentication. All uploads are manual and belong to the enrolled competitor.</p><div class="footer-links"><a href="index.html">Project home</a><a href="https://github.com/buffedlizard55-lab/GEMSDOE35/blob/main/docs/hypotheses.md" target="_blank" rel="noopener">Hypotheses</a><a href="https://github.com/buffedlizard55-lab/GEMSDOE35#readme" target="_blank" rel="noopener">README charter</a></div></div></footer>
+  </div>
+  <script src="assets/site.js" defer></script>
+</body>
+</html>
