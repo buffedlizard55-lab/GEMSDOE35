@@ -34,7 +34,7 @@
           <div>
             <span class="pill">Local proxy gate passed · not organizer-scored</span>
             <h3 style="margin-top:12px">Unique artifact</h3>
-            <p>Do not rename it to a generic prior filename. The configuration ID and UTC run stamp make this output identifiable.</p>
+            <p>This TIFF was generated from the H35-01 LHS configuration, not copied from a prior submission. Its pixels exactly reconstruct from the saved configuration and pinned owner-mirror inputs. The prior submission rasters were not supplied here, so a global duplicate comparison cannot be claimed. Keep the configuration ID and UTC run stamp intact.</p>
             <code class="file-name">gemsdoe35-h35-01-e58e5dbee6-20261004T164802Z-candidate.tif</code>
             <div class="file-actions">
               <a class="btn btn-dark" href="downloads/gemsdoe35-h35-01-e58e5dbee6-20261004T164802Z-candidate.tif" download>Download `.tif` file</a>
@@ -56,6 +56,14 @@
         <p><strong>Do not mistake local validation for competition scoring.</strong> The TIFF passed the spatial-blocked screen against the current in-repository proxy incumbent, but the labels are existing catalogue faults, not the newly identified private test faults. Input bytes were obtained from a public owner-maintained mirror and are not organizer-authenticated; each of the six selected feature bands also contains 3,061 sentinel cells inside the label/template footprint, which the detector nearest-fills without a separate sensitivity analysis. No public, private or final leaderboard score has been produced for this candidate.</p>
       </div>
 
+      <section class="section" aria-labelledby="challenger-title">
+        <div class="section-head"><div><p class="kicker">Latest experiment · H35-02</p><h2 id="challenger-title">A newer idea was tested—and rejected.</h2></div></div>
+        <div class="quote">
+          <p><strong>Result:</strong> the mixed-LHS strain-discontinuity challenger averaged +0.018067 DTI over `tmi_hg` on development folds, but improved only 2/3 blocks. On reused NW it scored 0.016990, below matched-mass `tmi_hg` (0.019426) and H35-01 rescored at the same 27,979-pixel budget (0.030867). H35-01's historic 0.026904 used 23,427 pixels and is not a fair comparison. H35-02 failed the preregistered gate, generated no TIFF, and used no competition slot.</p>
+          <p><strong>Validation caveat:</strong> NW had previously been inspected for H35-01, so this is a paired challenger result, not fresh independent confirmation. No further tuning should target NW. <a href="evidence/h35-02-latest.json">Open the full LHS design report</a>.</p>
+        </div>
+      </section>
+
       <section class="section" aria-labelledby="format-title">
         <div class="section-head"><div><p class="kicker">Before upload</p><h2 id="format-title">Check the file contract.</h2></div></div>
         <div class="grid-3">
@@ -63,7 +71,7 @@
           <article class="card"><span class="metric-label">Grid</span><h3 style="margin:8px 0">EPSG:32611 · 100 m</h3><p class="muted small">Transform and bounds match the local sample/template raster. Official data authentication is still blocked by login.</p></article>
           <article class="card"><span class="metric-label">Values and nodata</span><h3 style="margin:8px 0">[0, 1] · NaN outside</h3><p class="muted small">All finite footprint values are in range. The outside-footprint mask is NaN/nodata.</p></article>
         </div>
-        <p class="table-note">Machine validation: <a href="evidence/submission-validation.json">submission validation receipt</a> · SHA-256 `5d26cdea082e18e97b693365de0fcfb41f97a432e18ff138d08cd7c622679929`.</p>
+        <p class="table-note">Machine validation: <a href="evidence/submission-validation.json">submission validation receipt</a> · <a href="evidence/candidate-reconstruction.json">exact prediction-array reconstruction receipt</a> · SHA-256 `5d26cdea082e18e97b693365de0fcfb41f97a432e18ff138d08cd7c622679929`.</p>
       </section>
 
       <section class="section" aria-labelledby="steps-title">

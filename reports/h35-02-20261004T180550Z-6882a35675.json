@@ -1,0 +1,1310 @@
+{
+  "all_design_results": [
+    {
+      "config": {
+        "baseline": "single_scale_tmi_hg_and_current_H35-01_candidate",
+        "catalogue_mask": "pixel_exact_only_no_buffer",
+        "design_id": "h35-02-bf5712da68",
+        "development_blocks": [
+          "NE",
+          "SW",
+          "SE"
+        ],
+        "feature_detector": "multiscale_strain_gradient_orientation",
+        "final_holdout": "NW",
+        "holdout_status": "reused_paired_challenger_block_not_independent_confirmation",
+        "incumbent_design_id": "h35-01-e58e5dbee6",
+        "incumbent_report": "reports/h35-01-20261004T164802Z-e58e5dbee6.json",
+        "max_smoothing_sigma_m": 105.51666043413275,
+        "metric_radius_m": 300,
+        "min_orientation_coherence": 0.5967612872475834,
+        "n_scales": 3,
+        "prediction_fraction": 0.009871470928898032,
+        "spatial_grid": "2x2_contiguous_quadrants",
+        "spatial_margin_px": 30,
+        "strain_source": "all_three"
+      },
+      "design_id": "h35-02-bf5712da68",
+      "inner_folds": [
+        {
+          "actual_prediction_fraction": 0.009871198984032025,
+          "available_pixels": 1240984,
+          "baseline": {
+            "fn_weighted": 11388.709446124707,
+            "fp_weighted": 12008.076160562972,
+            "predicted_mass": 12250.0,
+            "score": 0.011190584148618734,
+            "tp_weighted": 130.29055387529422,
+            "truth_pixels": 11519
+          },
+          "budget_shortfall_pixels": 0,
+          "candidate": {
+            "fn_weighted": 11239.326443253574,
+            "fp_weighted": 11528.579145460626,
+            "predicted_mass": 12250.0,
+            "score": 0.0241580001201054,
+            "tp_weighted": 279.6735567464259,
+            "truth_pixels": 11519
+          },
+          "delta_dti": 0.012967415971486667,
+          "emitted_pixels_baseline": 12250,
+          "emitted_pixels_candidate": 12250,
+          "fold": "NE",
+          "prediction_fraction_requested": 0.009871470928898032,
+          "requested_budget": 12250,
+          "scoring_budget_cap": 12250,
+          "status": "scored",
+          "truth_pixels": 11519
+        },
+        {
+          "actual_prediction_fraction": 0.009871257514979944,
+          "available_pixels": 499835,
+          "baseline": {
+            "fn_weighted": 8350.659876680256,
+            "fp_weighted": 4771.481193049031,
+            "predicted_mass": 4934.0,
+            "score": 0.012205734036215938,
+            "tp_weighted": 94.34012331974438,
+            "truth_pixels": 8445
+          },
+          "budget_shortfall_pixels": 0,
+          "candidate": {
+            "fn_weighted": 8100.56407079342,
+            "fp_weighted": 4264.613061212491,
+            "predicted_mass": 4934.0,
+            "score": 0.044861221919373716,
+            "tp_weighted": 344.43592920657994,
+            "truth_pixels": 8445
+          },
+          "delta_dti": 0.03265548788315778,
+          "emitted_pixels_baseline": 4934,
+          "emitted_pixels_candidate": 4934,
+          "fold": "SW",
+          "prediction_fraction_requested": 0.009871470928898032,
+          "requested_budget": 4934,
+          "scoring_budget_cap": 4934,
+          "status": "scored",
+          "truth_pixels": 8445
+        },
+        {
+          "actual_prediction_fraction": 0.00987210487427524,
+          "available_pixels": 734899,
+          "baseline": {
+            "fn_weighted": 8600.277070596401,
+            "fp_weighted": 7035.100163804314,
+            "predicted_mass": 7255.0,
+            "score": 0.018908914221222935,
+            "tp_weighted": 159.72292940359884,
+            "truth_pixels": 8760
+          },
+          "budget_shortfall_pixels": 0,
+          "candidate": {
+            "fn_weighted": 8589.126167960425,
+            "fp_weighted": 6958.593801526149,
+            "predicted_mass": 7255.0,
+            "score": 0.02026037339674215,
+            "tp_weighted": 170.8738320395749,
+            "truth_pixels": 8760
+          },
+          "delta_dti": 0.0013514591755192165,
+          "emitted_pixels_baseline": 7255,
+          "emitted_pixels_candidate": 7255,
+          "fold": "SE",
+          "prediction_fraction_requested": 0.009871470928898032,
+          "requested_budget": 7255,
+          "scoring_budget_cap": 7255,
+          "status": "scored",
+          "truth_pixels": 8760
+        }
+      ],
+      "inner_mean_delta_dti": 0.015658121010054555,
+      "inner_positive_folds": 3
+    },
+    {
+      "config": {
+        "baseline": "single_scale_tmi_hg_and_current_H35-01_candidate",
+        "catalogue_mask": "pixel_exact_only_no_buffer",
+        "design_id": "h35-02-ad419d3294",
+        "development_blocks": [
+          "NE",
+          "SW",
+          "SE"
+        ],
+        "feature_detector": "multiscale_strain_gradient_orientation",
+        "final_holdout": "NW",
+        "holdout_status": "reused_paired_challenger_block_not_independent_confirmation",
+        "incumbent_design_id": "h35-01-e58e5dbee6",
+        "incumbent_report": "reports/h35-01-20261004T164802Z-e58e5dbee6.json",
+        "max_smoothing_sigma_m": 769.4425018696834,
+        "metric_radius_m": 300,
+        "min_orientation_coherence": 0.8405599560899162,
+        "n_scales": 3,
+        "prediction_fraction": 0.008740430422917488,
+        "spatial_grid": "2x2_contiguous_quadrants",
+        "spatial_margin_px": 30,
+        "strain_source": "geod_shearrate"
+      },
+      "design_id": "h35-02-ad419d3294",
+      "inner_folds": [
+        {
+          "actual_prediction_fraction": 0.008740644520799623,
+          "available_pixels": 1240984,
+          "baseline": {
+            "fn_weighted": 11395.935287620963,
+            "fp_weighted": 10623.235316053779,
+            "predicted_mass": 10847.0,
+            "score": 0.01082890980455369,
+            "tp_weighted": 123.06471237903753,
+            "truth_pixels": 11519
+          },
+          "budget_shortfall_pixels": 0,
+          "candidate": {
+            "fn_weighted": 11226.867456117234,
+            "fp_weighted": 10082.597307426557,
+            "predicted_mass": 10847.0,
+            "score": 0.0258750014970791,
+            "tp_weighted": 292.1325438827674,
+            "truth_pixels": 11519
+          },
+          "delta_dti": 0.015046091692525408,
+          "emitted_pixels_baseline": 10847,
+          "emitted_pixels_candidate": 10847,
+          "fold": "NE",
+          "prediction_fraction_requested": 0.008740430422917488,
+          "requested_budget": 10847,
+          "scoring_budget_cap": 10847,
+          "status": "scored",
+          "truth_pixels": 11519
+        },
+        {
+          "actual_prediction_fraction": 0.00874088449188232,
+          "available_pixels": 499835,
+          "baseline": {
+            "fn_weighted": 8358.419426896344,
+            "fp_weighted": 4224.7948048540875,
+            "predicted_mass": 4369.0,
+            "score": 0.01136485257418121,
+            "tp_weighted": 86.58057310365717,
+            "truth_pixels": 8445
+          },
+          "budget_shortfall_pixels": 0,
+          "candidate": {
+            "fn_weighted": 8135.872251987714,
+            "fp_weighted": 3635.4335528525494,
+            "predicted_mass": 4369.0,
+            "score": 0.04097168228768757,
+            "tp_weighted": 309.12774801228556,
+            "truth_pixels": 8445
+          },
+          "delta_dti": 0.02960682971350636,
+          "emitted_pixels_baseline": 4369,
+          "emitted_pixels_candidate": 4369,
+          "fold": "SW",
+          "prediction_fraction_requested": 0.008740430422917488,
+          "requested_budget": 4369,
+          "scoring_budget_cap": 4369,
+          "status": "scored",
+          "truth_pixels": 8445
+        },
+        {
+          "actual_prediction_fraction": 0.008739976513779444,
+          "available_pixels": 734899,
+          "baseline": {
+            "fn_weighted": 8621.465028598448,
+            "fp_weighted": 6241.40208965913,
+            "predicted_mass": 6423.0,
+            "score": 0.01672322331119491,
+            "tp_weighted": 138.53497140155122,
+            "truth_pixels": 8760
+          },
+          "budget_shortfall_pixels": 0,
+          "candidate": {
+            "fn_weighted": 8680.552698813899,
+            "fp_weighted": 6243.384245063337,
+            "predicted_mass": 6423.0,
+            "score": 0.009603706784104854,
+            "tp_weighted": 79.44730118610042,
+            "truth_pixels": 8760
+          },
+          "delta_dti": -0.007119516527090055,
+          "emitted_pixels_baseline": 6423,
+          "emitted_pixels_candidate": 6423,
+          "fold": "SE",
+          "prediction_fraction_requested": 0.008740430422917488,
+          "requested_budget": 6423,
+          "scoring_budget_cap": 6423,
+          "status": "scored",
+          "truth_pixels": 8760
+        }
+      ],
+      "inner_mean_delta_dti": 0.012511134959647239,
+      "inner_positive_folds": 2
+    },
+    {
+      "config": {
+        "baseline": "single_scale_tmi_hg_and_current_H35-01_candidate",
+        "catalogue_mask": "pixel_exact_only_no_buffer",
+        "design_id": "h35-02-6882a35675",
+        "development_blocks": [
+          "NE",
+          "SW",
+          "SE"
+        ],
+        "feature_detector": "multiscale_strain_gradient_orientation",
+        "final_holdout": "NW",
+        "holdout_status": "reused_paired_challenger_block_not_independent_confirmation",
+        "incumbent_design_id": "h35-01-e58e5dbee6",
+        "incumbent_report": "reports/h35-01-20261004T164802Z-e58e5dbee6.json",
+        "max_smoothing_sigma_m": 542.4587366969913,
+        "metric_radius_m": 300,
+        "min_orientation_coherence": 0.6826588896179381,
+        "n_scales": 3,
+        "prediction_fraction": 0.01197603224326305,
+        "spatial_grid": "2x2_contiguous_quadrants",
+        "spatial_margin_px": 30,
+        "strain_source": "geod_dilaterate"
+      },
+      "design_id": "h35-02-6882a35675",
+      "inner_folds": [
+        {
+          "actual_prediction_fraction": 0.011975980351076243,
+          "available_pixels": 1240984,
+          "baseline": {
+            "fn_weighted": 11366.123659687079,
+            "fp_weighted": 14578.945807583412,
+            "predicted_mass": 14862.0,
+            "score": 0.012570450224405042,
+            "tp_weighted": 152.87634031292112,
+            "truth_pixels": 11519
+          },
+          "budget_shortfall_pixels": 0,
+          "candidate": {
+            "fn_weighted": 11204.667812164944,
+            "fp_weighted": 14001.900354890717,
+            "predicted_mass": 14862.0,
+            "score": 0.026024223198958155,
+            "tp_weighted": 314.332187835056,
+            "truth_pixels": 11519
+          },
+          "delta_dti": 0.013453772974553113,
+          "emitted_pixels_baseline": 14862,
+          "emitted_pixels_candidate": 14862,
+          "fold": "NE",
+          "prediction_fraction_requested": 0.01197603224326305,
+          "requested_budget": 14862,
+          "scoring_budget_cap": 14862,
+          "status": "scored",
+          "truth_pixels": 11519
+        },
+        {
+          "actual_prediction_fraction": 0.01197595206418118,
+          "available_pixels": 499835,
+          "baseline": {
+            "fn_weighted": 8338.065009259662,
+            "fp_weighted": 5789.789474336674,
+            "predicted_mass": 5986.0,
+            "score": 0.013475783621510888,
+            "tp_weighted": 106.93499074033703,
+            "truth_pixels": 8445
+          },
+          "budget_shortfall_pixels": 0,
+          "candidate": {
+            "fn_weighted": 8016.249410184016,
+            "fp_weighted": 5076.444704155859,
+            "predicted_mass": 5986.0,
+            "score": 0.054568977780005336,
+            "tp_weighted": 428.750589815984,
+            "truth_pixels": 8445
+          },
+          "delta_dti": 0.041093194158494446,
+          "emitted_pixels_baseline": 5986,
+          "emitted_pixels_candidate": 5986,
+          "fold": "SW",
+          "prediction_fraction_requested": 0.01197603224326305,
+          "requested_budget": 5986,
+          "scoring_budget_cap": 5986,
+          "status": "scored",
+          "truth_pixels": 8445
+        },
+        {
+          "actual_prediction_fraction": 0.011975795313369592,
+          "available_pixels": 734899,
+          "baseline": {
+            "fn_weighted": 8572.646510584806,
+            "fp_weighted": 8529.854383502989,
+            "predicted_mass": 8801.0,
+            "score": 0.021408300314695032,
+            "tp_weighted": 187.35348941519408,
+            "truth_pixels": 8760
+          },
+          "budget_shortfall_pixels": 0,
+          "candidate": {
+            "fn_weighted": 8575.989142177896,
+            "fp_weighted": 8459.753467774952,
+            "predicted_mass": 8801.0,
+            "score": 0.021061698855732534,
+            "tp_weighted": 184.01085782210345,
+            "truth_pixels": 8760
+          },
+          "delta_dti": -0.0003466014589624984,
+          "emitted_pixels_baseline": 8801,
+          "emitted_pixels_candidate": 8801,
+          "fold": "SE",
+          "prediction_fraction_requested": 0.01197603224326305,
+          "requested_budget": 8801,
+          "scoring_budget_cap": 8801,
+          "status": "scored",
+          "truth_pixels": 8760
+        }
+      ],
+      "inner_mean_delta_dti": 0.018066788558028356,
+      "inner_positive_folds": 2
+    },
+    {
+      "config": {
+        "baseline": "single_scale_tmi_hg_and_current_H35-01_candidate",
+        "catalogue_mask": "pixel_exact_only_no_buffer",
+        "design_id": "h35-02-f00b9666ea",
+        "development_blocks": [
+          "NE",
+          "SW",
+          "SE"
+        ],
+        "feature_detector": "multiscale_strain_gradient_orientation",
+        "final_holdout": "NW",
+        "holdout_status": "reused_paired_challenger_block_not_independent_confirmation",
+        "incumbent_design_id": "h35-01-e58e5dbee6",
+        "incumbent_report": "reports/h35-01-20261004T164802Z-e58e5dbee6.json",
+        "max_smoothing_sigma_m": 559.8153726899434,
+        "metric_radius_m": 300,
+        "min_orientation_coherence": 0.577668964379253,
+        "n_scales": 3,
+        "prediction_fraction": 0.006766532510491885,
+        "spatial_grid": "2x2_contiguous_quadrants",
+        "spatial_margin_px": 30,
+        "strain_source": "geod_2ndinv"
+      },
+      "design_id": "h35-02-f00b9666ea",
+      "inner_folds": [
+        {
+          "actual_prediction_fraction": 0.006766404723993218,
+          "available_pixels": 1240984,
+          "baseline": {
+            "fn_weighted": 11415.438002926343,
+            "fp_weighted": 8207.66257834146,
+            "predicted_mass": 8397.0,
+            "score": 0.00952080179510304,
+            "tp_weighted": 103.5619970736569,
+            "truth_pixels": 11519
+          },
+          "budget_shortfall_pixels": 0,
+          "candidate": {
+            "fn_weighted": 11283.843035412403,
+            "fp_weighted": 7782.545861049622,
+            "predicted_mass": 8397.0,
+            "score": 0.021736075763346255,
+            "tp_weighted": 235.15696458759768,
+            "truth_pixels": 11519
+          },
+          "delta_dti": 0.012215273968243215,
+          "emitted_pixels_baseline": 8397,
+          "emitted_pixels_candidate": 8397,
+          "fold": "NE",
+          "prediction_fraction_requested": 0.006766532510491885,
+          "requested_budget": 8397,
+          "scoring_budget_cap": 8397,
+          "status": "scored",
+          "truth_pixels": 11519
+        },
+        {
+          "actual_prediction_fraction": 0.006766232856842758,
+          "available_pixels": 499835,
+          "baseline": {
+            "fn_weighted": 8375.59026833739,
+            "fp_weighted": 3272.9794264546513,
+            "predicted_mass": 3382.0,
+            "score": 0.00934876946725755,
+            "tp_weighted": 69.4097316626119,
+            "truth_pixels": 8445
+          },
+          "budget_shortfall_pixels": 0,
+          "candidate": {
+            "fn_weighted": 8327.660922085186,
+            "fp_weighted": 3143.5876394811794,
+            "predicted_mass": 3382.0,
+            "score": 0.015839112073255415,
+            "tp_weighted": 117.33907791481522,
+            "truth_pixels": 8445
+          },
+          "delta_dti": 0.006490342605997864,
+          "emitted_pixels_baseline": 3382,
+          "emitted_pixels_candidate": 3382,
+          "fold": "SW",
+          "prediction_fraction_requested": 0.006766532510491885,
+          "requested_budget": 3382,
+          "scoring_budget_cap": 3382,
+          "status": "scored",
+          "truth_pixels": 8445
+        },
+        {
+          "actual_prediction_fraction": 0.006766916270126915,
+          "available_pixels": 734899,
+          "baseline": {
+            "fn_weighted": 8647.846057843166,
+            "fp_weighted": 4832.563021989072,
+            "predicted_mass": 4973.0,
+            "score": 0.014024601231690892,
+            "tp_weighted": 112.15394215683449,
+            "truth_pixels": 8760
+          },
+          "budget_shortfall_pixels": 0,
+          "candidate": {
+            "fn_weighted": 8683.933728058615,
+            "fp_weighted": 4829.971808340102,
+            "predicted_mass": 4973.0,
+            "score": 0.00952112845190174,
+            "tp_weighted": 76.06627194138369,
+            "truth_pixels": 8760
+          },
+          "delta_dti": -0.004503472779789151,
+          "emitted_pixels_baseline": 4973,
+          "emitted_pixels_candidate": 4973,
+          "fold": "SE",
+          "prediction_fraction_requested": 0.006766532510491885,
+          "requested_budget": 4973,
+          "scoring_budget_cap": 4973,
+          "status": "scored",
+          "truth_pixels": 8760
+        }
+      ],
+      "inner_mean_delta_dti": 0.004734047931483976,
+      "inner_positive_folds": 2
+    },
+    {
+      "config": {
+        "baseline": "single_scale_tmi_hg_and_current_H35-01_candidate",
+        "catalogue_mask": "pixel_exact_only_no_buffer",
+        "design_id": "h35-02-d545603080",
+        "development_blocks": [
+          "NE",
+          "SW",
+          "SE"
+        ],
+        "feature_detector": "multiscale_strain_gradient_orientation",
+        "final_holdout": "NW",
+        "holdout_status": "reused_paired_challenger_block_not_independent_confirmation",
+        "incumbent_design_id": "h35-01-e58e5dbee6",
+        "incumbent_report": "reports/h35-01-20261004T164802Z-e58e5dbee6.json",
+        "max_smoothing_sigma_m": 395.08319870620136,
+        "metric_radius_m": 300,
+        "min_orientation_coherence": 0.48584367775245996,
+        "n_scales": 3,
+        "prediction_fraction": 0.004150496730488025,
+        "spatial_grid": "2x2_contiguous_quadrants",
+        "spatial_margin_px": 30,
+        "strain_source": "all_three"
+      },
+      "design_id": "h35-02-d545603080",
+      "inner_folds": [
+        {
+          "actual_prediction_fraction": 0.004150738446265222,
+          "available_pixels": 1240984,
+          "baseline": {
+            "fn_weighted": 11461.177831614154,
+            "fp_weighted": 5055.925475203788,
+            "predicted_mass": 5151.0,
+            "score": 0.005647827059867153,
+            "tp_weighted": 57.8221683858473,
+            "truth_pixels": 11519
+          },
+          "budget_shortfall_pixels": 0,
+          "candidate": {
+            "fn_weighted": 11361.767268423984,
+            "fp_weighted": 4783.009985315519,
+            "predicted_mass": 5151.0,
+            "score": 0.015410065814583793,
+            "tp_weighted": 157.23273157601596,
+            "truth_pixels": 11519
+          },
+          "delta_dti": 0.00976223875471664,
+          "emitted_pixels_baseline": 5151,
+          "emitted_pixels_candidate": 5151,
+          "fold": "NE",
+          "prediction_fraction_requested": 0.004150496730488025,
+          "requested_budget": 5151,
+          "scoring_budget_cap": 5151,
+          "status": "scored",
+          "truth_pixels": 11519
+        },
+        {
+          "actual_prediction_fraction": 0.004151369952084188,
+          "available_pixels": 499835,
+          "baseline": {
+            "fn_weighted": 8395.658731181979,
+            "fp_weighted": 2003.7148733360477,
+            "predicted_mass": 2075.0,
+            "score": 0.006884881465633147,
+            "tp_weighted": 49.341268818021724,
+            "truth_pixels": 8445
+          },
+          "budget_shortfall_pixels": 0,
+          "candidate": {
+            "fn_weighted": 8272.761523842502,
+            "fp_weighted": 1774.203056558187,
+            "predicted_mass": 2075.0,
+            "score": 0.024105182151960794,
+            "tp_weighted": 172.23847615749784,
+            "truth_pixels": 8445
+          },
+          "delta_dti": 0.01722030068632765,
+          "emitted_pixels_baseline": 2075,
+          "emitted_pixels_candidate": 2075,
+          "fold": "SW",
+          "prediction_fraction_requested": 0.004150496730488025,
+          "requested_budget": 2075,
+          "scoring_budget_cap": 2075,
+          "status": "scored",
+          "truth_pixels": 8445
+        },
+        {
+          "actual_prediction_fraction": 0.004150230167682906,
+          "available_pixels": 734899,
+          "baseline": {
+            "fn_weighted": 8698.271129227642,
+            "fp_weighted": 2979.5265012699315,
+            "predicted_mass": 3050.0,
+            "score": 0.008104889159940454,
+            "tp_weighted": 61.72887077235795,
+            "truth_pixels": 8760
+          },
+          "budget_shortfall_pixels": 0,
+          "candidate": {
+            "fn_weighted": 8691.369439988404,
+            "fp_weighted": 2932.723640348293,
+            "predicted_mass": 3050.0,
+            "score": 0.009020520096383157,
+            "tp_weighted": 68.63056001159525,
+            "truth_pixels": 8760
+          },
+          "delta_dti": 0.0009156309364427035,
+          "emitted_pixels_baseline": 3050,
+          "emitted_pixels_candidate": 3050,
+          "fold": "SE",
+          "prediction_fraction_requested": 0.004150496730488025,
+          "requested_budget": 3050,
+          "scoring_budget_cap": 3050,
+          "status": "scored",
+          "truth_pixels": 8760
+        }
+      ],
+      "inner_mean_delta_dti": 0.009299390125828998,
+      "inner_positive_folds": 3
+    },
+    {
+      "config": {
+        "baseline": "single_scale_tmi_hg_and_current_H35-01_candidate",
+        "catalogue_mask": "pixel_exact_only_no_buffer",
+        "design_id": "h35-02-f6ce158f4c",
+        "development_blocks": [
+          "NE",
+          "SW",
+          "SE"
+        ],
+        "feature_detector": "multiscale_strain_gradient_orientation",
+        "final_holdout": "NW",
+        "holdout_status": "reused_paired_challenger_block_not_independent_confirmation",
+        "incumbent_design_id": "h35-01-e58e5dbee6",
+        "incumbent_report": "reports/h35-01-20261004T164802Z-e58e5dbee6.json",
+        "max_smoothing_sigma_m": 803.7905056837569,
+        "metric_radius_m": 300,
+        "min_orientation_coherence": 0.1895612560047059,
+        "n_scales": 3,
+        "prediction_fraction": 0.005651574939405862,
+        "spatial_grid": "2x2_contiguous_quadrants",
+        "spatial_margin_px": 30,
+        "strain_source": "geod_shearrate"
+      },
+      "design_id": "h35-02-f6ce158f4c",
+      "inner_folds": [
+        {
+          "actual_prediction_fraction": 0.005651966504000051,
+          "available_pixels": 1240984,
+          "baseline": {
+            "fn_weighted": 11430.9184884301,
+            "fp_weighted": 6862.945196732066,
+            "predicted_mass": 7014.0,
+            "score": 0.008305341354931179,
+            "tp_weighted": 88.0815115699001,
+            "truth_pixels": 11519
+          },
+          "budget_shortfall_pixels": 0,
+          "candidate": {
+            "fn_weighted": 11328.162905956357,
+            "fp_weighted": 6539.153997871735,
+            "predicted_mass": 7014.0,
+            "score": 0.018069644191647447,
+            "tp_weighted": 190.83709404364316,
+            "truth_pixels": 11519
+          },
+          "delta_dti": 0.009764302836716268,
+          "emitted_pixels_baseline": 7014,
+          "emitted_pixels_candidate": 7014,
+          "fold": "NE",
+          "prediction_fraction_requested": 0.005651574939405862,
+          "requested_budget": 7014,
+          "scoring_budget_cap": 7014,
+          "status": "scored",
+          "truth_pixels": 11519
+        },
+        {
+          "actual_prediction_fraction": 0.005651865115488111,
+          "available_pixels": 499835,
+          "baseline": {
+            "fn_weighted": 8391.306821818645,
+            "fp_weighted": 2744.1148926748338,
+            "predicted_mass": 2825.0,
+            "score": 0.007339583891596831,
+            "tp_weighted": 53.69317818135534,
+            "truth_pixels": 8445
+          },
+          "budget_shortfall_pixels": 0,
+          "candidate": {
+            "fn_weighted": 8210.225624219465,
+            "fp_weighted": 2291.182265736047,
+            "predicted_mass": 2825.0,
+            "score": 0.03233276265086287,
+            "tp_weighted": 234.77437578053488,
+            "truth_pixels": 8445
+          },
+          "delta_dti": 0.02499317875926604,
+          "emitted_pixels_baseline": 2825,
+          "emitted_pixels_candidate": 2825,
+          "fold": "SW",
+          "prediction_fraction_requested": 0.005651574939405862,
+          "requested_budget": 2825,
+          "scoring_budget_cap": 2825,
+          "status": "scored",
+          "truth_pixels": 8445
+        },
+        {
+          "actual_prediction_fraction": 0.005651116684061347,
+          "available_pixels": 734899,
+          "baseline": {
+            "fn_weighted": 8661.48319056438,
+            "fp_weighted": 4037.1200059154553,
+            "predicted_mass": 4153.0,
+            "score": 0.01257373427009815,
+            "tp_weighted": 98.51680943561973,
+            "truth_pixels": 8760
+          },
+          "budget_shortfall_pixels": 0,
+          "candidate": {
+            "fn_weighted": 8701.152679475113,
+            "fp_weighted": 4032.6810576775315,
+            "predicted_mass": 4153.0,
+            "score": 0.007519169703280252,
+            "tp_weighted": 58.847320524886214,
+            "truth_pixels": 8760
+          },
+          "delta_dti": -0.005054564566817898,
+          "emitted_pixels_baseline": 4153,
+          "emitted_pixels_candidate": 4153,
+          "fold": "SE",
+          "prediction_fraction_requested": 0.005651574939405862,
+          "requested_budget": 4153,
+          "scoring_budget_cap": 4153,
+          "status": "scored",
+          "truth_pixels": 8760
+        }
+      ],
+      "inner_mean_delta_dti": 0.009900972343054804,
+      "inner_positive_folds": 2
+    },
+    {
+      "config": {
+        "baseline": "single_scale_tmi_hg_and_current_H35-01_candidate",
+        "catalogue_mask": "pixel_exact_only_no_buffer",
+        "design_id": "h35-02-cfff708042",
+        "development_blocks": [
+          "NE",
+          "SW",
+          "SE"
+        ],
+        "feature_detector": "multiscale_strain_gradient_orientation",
+        "final_holdout": "NW",
+        "holdout_status": "reused_paired_challenger_block_not_independent_confirmation",
+        "incumbent_design_id": "h35-01-e58e5dbee6",
+        "incumbent_report": "reports/h35-01-20261004T164802Z-e58e5dbee6.json",
+        "max_smoothing_sigma_m": 995.0928690771204,
+        "metric_radius_m": 300,
+        "min_orientation_coherence": 0.2578588232034903,
+        "n_scales": 3,
+        "prediction_fraction": 0.0077961867169439045,
+        "spatial_grid": "2x2_contiguous_quadrants",
+        "spatial_margin_px": 30,
+        "strain_source": "geod_dilaterate"
+      },
+      "design_id": "h35-02-cfff708042",
+      "inner_folds": [
+        {
+          "actual_prediction_fraction": 0.007796232666980396,
+          "available_pixels": 1240984,
+          "baseline": {
+            "fn_weighted": 11402.544763329211,
+            "fp_weighted": 9463.127824216699,
+            "predicted_mass": 9675.0,
+            "score": 0.010462134278908386,
+            "tp_weighted": 116.4552366707888,
+            "truth_pixels": 11519
+          },
+          "budget_shortfall_pixels": 0,
+          "candidate": {
+            "fn_weighted": 11357.021912431484,
+            "fp_weighted": 9226.936505924235,
+            "predicted_mass": 9675.0,
+            "score": 0.014601851346537494,
+            "tp_weighted": 161.9780875685159,
+            "truth_pixels": 11519
+          },
+          "delta_dti": 0.004139717067629108,
+          "emitted_pixels_baseline": 9675,
+          "emitted_pixels_candidate": 9675,
+          "fold": "NE",
+          "prediction_fraction_requested": 0.0077961867169439045,
+          "requested_budget": 9675,
+          "scoring_budget_cap": 9675,
+          "status": "scored",
+          "truth_pixels": 11519
+        },
+        {
+          "actual_prediction_fraction": 0.007796572869046786,
+          "available_pixels": 499835,
+          "baseline": {
+            "fn_weighted": 8367.709763494846,
+            "fp_weighted": 3768.3109829488467,
+            "predicted_mass": 3897.0,
+            "score": 0.010270963652428257,
+            "tp_weighted": 77.29023650515448,
+            "truth_pixels": 8445
+          },
+          "budget_shortfall_pixels": 0,
+          "candidate": {
+            "fn_weighted": 8098.871620646853,
+            "fp_weighted": 3134.8776143310947,
+            "predicted_mass": 3897.0,
+            "score": 0.04644646194091147,
+            "tp_weighted": 346.1283793531459,
+            "truth_pixels": 8445
+          },
+          "delta_dti": 0.03617549828848321,
+          "emitted_pixels_baseline": 3897,
+          "emitted_pixels_candidate": 3897,
+          "fold": "SW",
+          "prediction_fraction_requested": 0.0077961867169439045,
+          "requested_budget": 3897,
+          "scoring_budget_cap": 3897,
+          "status": "scored",
+          "truth_pixels": 8445
+        },
+        {
+          "actual_prediction_fraction": 0.007795629059231268,
+          "available_pixels": 734899,
+          "baseline": {
+            "fn_weighted": 8633.904708270582,
+            "fp_weighted": 5567.991843839101,
+            "predicted_mass": 5729.0,
+            "score": 0.015477859036064374,
+            "tp_weighted": 126.09529172941859,
+            "truth_pixels": 8760
+          },
+          "budget_shortfall_pixels": 0,
+          "candidate": {
+            "fn_weighted": 8633.03099341445,
+            "fp_weighted": 5467.328199603198,
+            "predicted_mass": 5729.0,
+            "score": 0.015623379179080804,
+            "tp_weighted": 126.96900658555013,
+            "truth_pixels": 8760
+          },
+          "delta_dti": 0.00014552014301642997,
+          "emitted_pixels_baseline": 5729,
+          "emitted_pixels_candidate": 5729,
+          "fold": "SE",
+          "prediction_fraction_requested": 0.0077961867169439045,
+          "requested_budget": 5729,
+          "scoring_budget_cap": 5729,
+          "status": "scored",
+          "truth_pixels": 8760
+        }
+      ],
+      "inner_mean_delta_dti": 0.013486911833042917,
+      "inner_positive_folds": 3
+    },
+    {
+      "config": {
+        "baseline": "single_scale_tmi_hg_and_current_H35-01_candidate",
+        "catalogue_mask": "pixel_exact_only_no_buffer",
+        "design_id": "h35-02-af80988322",
+        "development_blocks": [
+          "NE",
+          "SW",
+          "SE"
+        ],
+        "feature_detector": "multiscale_strain_gradient_orientation",
+        "final_holdout": "NW",
+        "holdout_status": "reused_paired_challenger_block_not_independent_confirmation",
+        "incumbent_design_id": "h35-01-e58e5dbee6",
+        "incumbent_report": "reports/h35-01-20261004T164802Z-e58e5dbee6.json",
+        "max_smoothing_sigma_m": 258.21522861052006,
+        "metric_radius_m": 300,
+        "min_orientation_coherence": 0.3291105096116598,
+        "n_scales": 3,
+        "prediction_fraction": 0.01015146417424112,
+        "spatial_grid": "2x2_contiguous_quadrants",
+        "spatial_margin_px": 30,
+        "strain_source": "geod_2ndinv"
+      },
+      "design_id": "h35-02-af80988322",
+      "inner_folds": [
+        {
+          "actual_prediction_fraction": 0.010151621616394732,
+          "available_pixels": 1240984,
+          "baseline": {
+            "fn_weighted": 11387.218734139706,
+            "fp_weighted": 12353.961778646137,
+            "predicted_mass": 12598.0,
+            "score": 0.011251480831106872,
+            "tp_weighted": 131.78126586029407,
+            "truth_pixels": 11519
+          },
+          "budget_shortfall_pixels": 0,
+          "candidate": {
+            "fn_weighted": 11207.61458894887,
+            "fp_weighted": 11761.308944454471,
+            "predicted_mass": 12598.0,
+            "score": 0.02677492715033311,
+            "tp_weighted": 311.3854110511298,
+            "truth_pixels": 11519
+          },
+          "delta_dti": 0.015523446319226239,
+          "emitted_pixels_baseline": 12598,
+          "emitted_pixels_candidate": 12598,
+          "fold": "NE",
+          "prediction_fraction_requested": 0.01015146417424112,
+          "requested_budget": 12598,
+          "scoring_budget_cap": 12598,
+          "status": "scored",
+          "truth_pixels": 11519
+        },
+        {
+          "actual_prediction_fraction": 0.01015134994548201,
+          "available_pixels": 499835,
+          "baseline": {
+            "fn_weighted": 8350.32654334692,
+            "fp_weighted": 4909.169358083114,
+            "predicted_mass": 5074.0,
+            "score": 0.012205270259746655,
+            "tp_weighted": 94.67345665307772,
+            "truth_pixels": 8445
+          },
+          "budget_shortfall_pixels": 0,
+          "candidate": {
+            "fn_weighted": 8234.209239092672,
+            "fp_weighted": 4690.209729361155,
+            "predicted_mass": 5074.0,
+            "score": 0.027247325332285566,
+            "tp_weighted": 210.79076090732863,
+            "truth_pixels": 8445
+          },
+          "delta_dti": 0.015042055072538911,
+          "emitted_pixels_baseline": 5074,
+          "emitted_pixels_candidate": 5074,
+          "fold": "SW",
+          "prediction_fraction_requested": 0.01015146417424112,
+          "requested_budget": 5074,
+          "scoring_budget_cap": 5074,
+          "status": "scored",
+          "truth_pixels": 8445
+        },
+        {
+          "actual_prediction_fraction": 0.010151054770791633,
+          "available_pixels": 734899,
+          "baseline": {
+            "fn_weighted": 8598.707669285568,
+            "fp_weighted": 7237.083778677521,
+            "predicted_mass": 7460.0,
+            "score": 0.01900312235070849,
+            "tp_weighted": 161.29233071443193,
+            "truth_pixels": 8760
+          },
+          "budget_shortfall_pixels": 0,
+          "candidate": {
+            "fn_weighted": 8627.738879976809,
+            "fp_weighted": 7226.207341670671,
+            "predicted_mass": 7460.0,
+            "score": 0.015597393587776133,
+            "tp_weighted": 132.26112002319053,
+            "truth_pixels": 8760
+          },
+          "delta_dti": -0.003405728762932358,
+          "emitted_pixels_baseline": 7460,
+          "emitted_pixels_candidate": 7460,
+          "fold": "SE",
+          "prediction_fraction_requested": 0.01015146417424112,
+          "requested_budget": 7460,
+          "scoring_budget_cap": 7460,
+          "status": "scored",
+          "truth_pixels": 8760
+        }
+      ],
+      "inner_mean_delta_dti": 0.009053257542944263,
+      "inner_positive_folds": 2
+    }
+  ],
+  "baseline": "single-scale supplied tmi_hg edge-strength ranking; matched emitted mass",
+  "design_csv": "reports/h35-02-20261004T180550Z-6882a35675-design.csv",
+  "design_seed": 20261004,
+  "design_spec": "configs/h35-02-lhs.json",
+  "final_holdout": {
+    "actual_prediction_fraction": 0.011976127360693357,
+    "available_pixels": 2336231,
+    "baseline": {
+      "fn_weighted": 27364.06072414718,
+      "fp_weighted": 26815.23921892816,
+      "predicted_mass": 27979.0,
+      "score": 0.01942630413374159,
+      "tp_weighted": 539.939275852821,
+      "truth_pixels": 27904
+    },
+    "budget_shortfall_pixels": 0,
+    "candidate": {
+      "fn_weighted": 27431.603513849972,
+      "fp_weighted": 26931.237128118297,
+      "predicted_mass": 27979.0,
+      "score": 0.01699027949752632,
+      "tp_weighted": 472.39648615002477,
+      "truth_pixels": 27904
+    },
+    "delta_dti": -0.00243602463621527,
+    "emitted_pixels_baseline": 27979,
+    "emitted_pixels_candidate": 27979,
+    "fold": "NW",
+    "prediction_fraction_requested": 0.01197603224326305,
+    "requested_budget": 27979,
+    "scoring_budget_cap": 27979,
+    "status": "scored",
+    "truth_pixels": 27904
+  },
+  "gate": {
+    "baseline_gate_passed": false,
+    "beats_incumbent": false,
+    "criterion": "all three development block deltas > 0 and NW spatial holdout delta > 0 versus matched-mass single-scale tmi_hg; when an incumbent is supplied, rescore it at the selected challenger prediction fraction and require identical actual emitted pixel counts across challenger, incumbent, and each matched-mass tmi_hg reference before comparing DTI",
+    "incumbent_budget_equal": true,
+    "passed": false,
+    "slot_eligible": false,
+    "slot_note": "A local proxy pass does not certify official-data provenance or hidden-test gain. Reused NW comparisons are not independent confirmation. No competition slot is spent automatically."
+  },
+  "generated_utc": "2026-10-04T18:05:50+00:00",
+  "holdout_reuse_note": "NW was used once to screen H35-01 and is reused here as a paired challenger block. This comparison is not an untouched independent confirmation; future promotion must use fresh outer spatial blocks or another preregistered geography.",
+  "hypothesis_register": "docs/hypotheses.md#next-untested-batch-registered-before-implementation-2026-10-04-utc",
+  "incumbent_budget_comparison": {
+    "challenger_baseline_emitted_pixels": 27979,
+    "challenger_emitted_pixels": 27979,
+    "common_scoring_budget_pixels": 27979,
+    "equal_emitted_mass_all_arms": true,
+    "incumbent_baseline_emitted_pixels": 27979,
+    "incumbent_emitted_pixels": 27979,
+    "prediction_fraction": 0.01197603224326305,
+    "requested_budget_pixels": 27979,
+    "status": "matched"
+  },
+  "incumbent_holdout": {
+    "actual_prediction_fraction": 0.011976127360693357,
+    "available_pixels": 2336231,
+    "baseline": {
+      "fn_weighted": 27364.06072414718,
+      "fp_weighted": 26815.23921892816,
+      "predicted_mass": 27979.0,
+      "score": 0.01942630413374159,
+      "tp_weighted": 539.939275852821,
+      "truth_pixels": 27904
+    },
+    "budget_shortfall_pixels": 0,
+    "candidate": {
+      "fn_weighted": 27045.69906148099,
+      "fp_weighted": 26557.523035132523,
+      "predicted_mass": 27979.0,
+      "score": 0.030867067480955624,
+      "tp_weighted": 858.3009385190092,
+      "truth_pixels": 27904
+    },
+    "comparison_prediction_fraction": 0.01197603224326305,
+    "delta_dti": 0.011440763347214035,
+    "design_id": "h35-01-e58e5dbee6",
+    "emitted_pixels_baseline": 27979,
+    "emitted_pixels_candidate": 27979,
+    "fold": "NW",
+    "prediction_fraction_requested": 0.01197603224326305,
+    "requested_budget": 27979,
+    "scoring_budget_cap": 27979,
+    "source_config_prediction_fraction": 0.010027565359928364,
+    "status": "scored",
+    "truth_pixels": 27904
+  },
+  "incumbent_reference": {
+    "candidate_sha256": "5d26cdea082e18e97b693365de0fcfb41f97a432e18ff138d08cd7c622679929",
+    "design_id": "h35-01-e58e5dbee6",
+    "hypothesis_id": "H35-01",
+    "report": "reports/h35-01-20261004T164802Z-e58e5dbee6.json",
+    "rescored_nw_at_challenger_budget": {
+      "budget_equal_to_challenger": true,
+      "dti": 0.030867067480955624,
+      "emitted_pixels": 27979,
+      "prediction_fraction": 0.01197603224326305
+    },
+    "source_config_prediction_fraction": 0.010027565359928364,
+    "source_report_nw": {
+      "comparison_note": "H35-01's archived result at its own smaller emission fraction; not used for the H35-02 promotion comparison",
+      "dti": 0.026903885174681442,
+      "emitted_pixels": 23427,
+      "prediction_fraction": 0.010027565359928364
+    }
+  },
+  "input_provenance": {
+    "band_count": 19,
+    "crs": "EPSG:32611",
+    "domain_pixels": 5167373,
+    "feature_band_descriptions": {
+      "1": "mag_anom - Magnetic anomaly - deviation from expected Earth's magnetic field",
+      "10": "deq_n100a15 - Distance to earthquake (n=100km radius, a=15\u00b0 azimuth parameters)",
+      "11": "iso_grav_anom_vg - Isostatic gravity anomaly vertical gradient - vertical rate of change",
+      "12": "det_elev - Detrended elevation - topography with regional trends removed",
+      "13": "iso_grav_anom - Isostatic gravity anomaly - gravity after compensating for topographic mass",
+      "14": "tmi - Total magnetic intensity - total strength of magnetic field",
+      "15": "depth_to_base_surf - Depth to basement surface - thickness of sedimentary cover",
+      "16": "ieq_n100a15 - Earthquake intensity or density (n=100km radius, a=15\u00b0 parameters)",
+      "17": "cond_surf - Conductivity surface - electrical conductivity of subsurface",
+      "18": "iso_grav_anom_hg - Isostatic gravity anomaly horizontal gradient - horizontal rate of change",
+      "19": "det_elev_slope - Detrended elevation slope - gradient of elevation after detrending",
+      "2": "rtp - Reduced to pole magnetic data - magnetic anomaly corrected for latitude effects",
+      "3": "tmi_hg - Total magnetic intensity horizontal gradient - rate of change in horizontal direction",
+      "4": "geod_2ndinv - Geodetic second invariant - measure of strain rate tensor magnitude",
+      "5": "iso_grav_anom_slope - Isostatic gravity anomaly slope - gradient of gravity after isostatic correction",
+      "6": "tc - Tilt angle or total curvature - magnetic field derivative for edge detection",
+      "7": "geod_shearrate - Geodetic shear rate - rate of angular deformation from GPS/InSAR",
+      "8": "geod_dilaterate - Geodetic dilatation rate - rate of volumetric strain (expansion/contraction)",
+      "9": "tmi_vg - Total magnetic intensity vertical gradient - rate of change in vertical direction"
+    },
+    "feature_missing_inside_domain": {
+      "depth_to_base_surf": 3061,
+      "det_elev_slope": 3061,
+      "geod_2ndinv": 3061,
+      "geod_dilaterate": 3061,
+      "geod_shearrate": 3061,
+      "iso_grav_anom_hg": 3061,
+      "rtp": 3061,
+      "tmi": 3061,
+      "tmi_hg": 3061
+    },
+    "features_file": "/home/user/GEMSDOE35/data/raw/training_features.tif",
+    "features_sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+    "height": 3730,
+    "label_positive_pixels": 60988,
+    "label_template_footprints_identical": true,
+    "labels_file": "/home/user/GEMSDOE35/data/raw/labels.tif",
+    "labels_sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+    "official_data_tab_requires_login": true,
+    "pixel_size_m": 100.0,
+    "provenance_class": "public owner-maintained mirror; pinned file hashes match; not organizer-authenticated",
+    "template_file": "/home/user/GEMSDOE35/data/raw/sample_submission.tif",
+    "template_sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+    "template_values_used": false,
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "width": 3292
+  },
+  "instrument": "official DTI formula, used locally against withheld public catalogue labels",
+  "organizer_score": null,
+  "organizer_scoring_clarification": "Known USGS/INGENIOUS catalogue pixels are masked pixel-exactly; no surrounding radius is excluded. Final candidate emission zeros only exact known-label pixels.",
+  "public_score": null,
+  "result": "NO TIFF GENERATED: H35-02 did not beat every predeclared local promotion gate",
+  "run_id": "h35-02-20261004T180550Z-6882a35675",
+  "schema_version": "gemsdoe35-exact-mask-holdout-v4-matched-incumbent-budget",
+  "selected_config": {
+    "baseline": "single_scale_tmi_hg_and_current_H35-01_candidate",
+    "catalogue_mask": "pixel_exact_only_no_buffer",
+    "design_id": "h35-02-6882a35675",
+    "development_blocks": [
+      "NE",
+      "SW",
+      "SE"
+    ],
+    "feature_detector": "multiscale_strain_gradient_orientation",
+    "final_holdout": "NW",
+    "holdout_status": "reused_paired_challenger_block_not_independent_confirmation",
+    "incumbent_design_id": "h35-01-e58e5dbee6",
+    "incumbent_report": "reports/h35-01-20261004T164802Z-e58e5dbee6.json",
+    "max_smoothing_sigma_m": 542.4587366969913,
+    "metric_radius_m": 300,
+    "min_orientation_coherence": 0.6826588896179381,
+    "n_scales": 3,
+    "prediction_fraction": 0.01197603224326305,
+    "spatial_grid": "2x2_contiguous_quadrants",
+    "spatial_margin_px": 30,
+    "strain_source": "geod_dilaterate"
+  },
+  "selected_design_id": "h35-02-6882a35675",
+  "selected_inner_folds": [
+    {
+      "actual_prediction_fraction": 0.011975980351076243,
+      "available_pixels": 1240984,
+      "baseline": {
+        "fn_weighted": 11366.123659687079,
+        "fp_weighted": 14578.945807583412,
+        "predicted_mass": 14862.0,
+        "score": 0.012570450224405042,
+        "tp_weighted": 152.87634031292112,
+        "truth_pixels": 11519
+      },
+      "budget_shortfall_pixels": 0,
+      "candidate": {
+        "fn_weighted": 11204.667812164944,
+        "fp_weighted": 14001.900354890717,
+        "predicted_mass": 14862.0,
+        "score": 0.026024223198958155,
+        "tp_weighted": 314.332187835056,
+        "truth_pixels": 11519
+      },
+      "delta_dti": 0.013453772974553113,
+      "emitted_pixels_baseline": 14862,
+      "emitted_pixels_candidate": 14862,
+      "fold": "NE",
+      "prediction_fraction_requested": 0.01197603224326305,
+      "requested_budget": 14862,
+      "scoring_budget_cap": 14862,
+      "status": "scored",
+      "truth_pixels": 11519
+    },
+    {
+      "actual_prediction_fraction": 0.01197595206418118,
+      "available_pixels": 499835,
+      "baseline": {
+        "fn_weighted": 8338.065009259662,
+        "fp_weighted": 5789.789474336674,
+        "predicted_mass": 5986.0,
+        "score": 0.013475783621510888,
+        "tp_weighted": 106.93499074033703,
+        "truth_pixels": 8445
+      },
+      "budget_shortfall_pixels": 0,
+      "candidate": {
+        "fn_weighted": 8016.249410184016,
+        "fp_weighted": 5076.444704155859,
+        "predicted_mass": 5986.0,
+        "score": 0.054568977780005336,
+        "tp_weighted": 428.750589815984,
+        "truth_pixels": 8445
+      },
+      "delta_dti": 0.041093194158494446,
+      "emitted_pixels_baseline": 5986,
+      "emitted_pixels_candidate": 5986,
+      "fold": "SW",
+      "prediction_fraction_requested": 0.01197603224326305,
+      "requested_budget": 5986,
+      "scoring_budget_cap": 5986,
+      "status": "scored",
+      "truth_pixels": 8445
+    },
+    {
+      "actual_prediction_fraction": 0.011975795313369592,
+      "available_pixels": 734899,
+      "baseline": {
+        "fn_weighted": 8572.646510584806,
+        "fp_weighted": 8529.854383502989,
+        "predicted_mass": 8801.0,
+        "score": 0.021408300314695032,
+        "tp_weighted": 187.35348941519408,
+        "truth_pixels": 8760
+      },
+      "budget_shortfall_pixels": 0,
+      "candidate": {
+        "fn_weighted": 8575.989142177896,
+        "fp_weighted": 8459.753467774952,
+        "predicted_mass": 8801.0,
+        "score": 0.021061698855732534,
+        "tp_weighted": 184.01085782210345,
+        "truth_pixels": 8760
+      },
+      "delta_dti": -0.0003466014589624984,
+      "emitted_pixels_baseline": 8801,
+      "emitted_pixels_candidate": 8801,
+      "fold": "SE",
+      "prediction_fraction_requested": 0.01197603224326305,
+      "requested_budget": 8801,
+      "scoring_budget_cap": 8801,
+      "status": "scored",
+      "truth_pixels": 8760
+    }
+  ],
+  "selected_inner_mean_delta_dti": 0.018066788558028356,
+  "selected_surface_diagnostics": {
+    "config": {
+      "baseline": "single_scale_tmi_hg_and_current_H35-01_candidate",
+      "catalogue_mask": "pixel_exact_only_no_buffer",
+      "design_id": "h35-02-6882a35675",
+      "development_blocks": [
+        "NE",
+        "SW",
+        "SE"
+      ],
+      "feature_detector": "multiscale_strain_gradient_orientation",
+      "final_holdout": "NW",
+      "holdout_status": "reused_paired_challenger_block_not_independent_confirmation",
+      "incumbent_design_id": "h35-01-e58e5dbee6",
+      "incumbent_report": "reports/h35-01-20261004T164802Z-e58e5dbee6.json",
+      "max_smoothing_sigma_m": 542.4587366969913,
+      "metric_radius_m": 300,
+      "min_orientation_coherence": 0.6826588896179381,
+      "n_scales": 3,
+      "prediction_fraction": 0.01197603224326305,
+      "spatial_grid": "2x2_contiguous_quadrants",
+      "spatial_margin_px": 30,
+      "strain_source": "geod_dilaterate"
+    },
+    "median_orientation_coherence_valid": 0.17100849747657776,
+    "median_persistence_valid": 0.01829337142407894,
+    "method": "multiscale_strain_gradient_orientation_persistence",
+    "p95_persistence_valid": 0.7941206693649292,
+    "smoothing_sigma_levels_m": [
+      180.8195788989971,
+      361.63915779799424,
+      542.4587366969913
+    ],
+    "strain_source": "geod_dilaterate"
+  },
+  "split": {
+    "catalogue_mask": "pixel-exact only at final output; no neighbourhood buffer",
+    "development_folds": [
+      "NE",
+      "SW",
+      "SE"
+    ],
+    "final_holdout": "NW",
+    "grid": "2x2 contiguous spatial quadrants",
+    "label_use": "no model fitting; only NE/SW/SE labels select the configuration, then NW is scored once",
+    "metric_radius_m": 300.0,
+    "selection": "maximize mean inner-fold delta over single-scale tmi_hg baseline; final NW labels are not used for selection",
+    "spatial_margin_px": 30
+  },
+  "submission": null,
+  "target_population_caveat": "The public labels are existing mapped faults, whereas the competition's initial private labels are newly identified fault pixels absent from USGS/INGENIOUS. Staff state new pixels may be within 300 m of known traces and nearby predictions are not buffered from scoring. This holdout is a spatial screening proxy, not a leaderboard-score estimate."
+}

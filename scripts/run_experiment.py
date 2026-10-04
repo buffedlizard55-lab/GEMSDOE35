@@ -39,9 +39,12 @@ def main() -> int:
         design_spec["categorical_factors"],
         seed=int(design_spec["seed"]),
         prefix="h35-01",
+        # Include every preregistered protocol value in the configuration ID,
+        # not only factors consumed directly by the surface transformer. This
+        # prevents identical numeric settings under different splits/baselines
+        # from colliding under a misleadingly partial ID.
         fixed={
-            "catalogue_mask": design_spec["fixed_factors"]["catalogue_mask"],
-            "feature_detector": design_spec["fixed_factors"]["feature_detector"],
+            **design_spec["fixed_factors"],
             "continuation_levels": int(design_spec["fixed_factors"]["continuation_levels"]),
         },
     )

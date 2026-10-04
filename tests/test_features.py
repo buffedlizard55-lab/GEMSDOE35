@@ -2,7 +2,7 @@ import json
 
 import numpy as np
 
-from gemsdoe35.features import candidate_surface, magnetic_persistence
+from gemsdoe35.features import candidate_surface, magnetic_persistence, strain_discontinuity_surface
 
 
 def _line_data(shape=(64, 64)):
@@ -52,3 +52,36 @@ def test_candidate_surface_uses_declared_layers_and_masks_outside():
     assert np.all(score[~domain] == 0)
     assert diagnostics["method"] == "poisson_continuation_gradient_orientation_persistence"
     json.dumps(diagnostics, allow_nan=False)
+
+
+def test_strain_discontinuity_targets_multiscale_edges_not_hotspot_magnitude():
+    shape = (80, 96)
+    yy, xx = np.indices(shape)
+    domain = np.ones(shape, dtype=bool)
+    step = np.where(xx >= 48, 10.0, 0.0).astype(np.float32)
+    bands = {
+        "geod_2ndinv": step,
+        "geod_shearrate": -step,
+        "geod_dilaterate": step * 0.5,
+    }
+    config = {
+        "feature_detector": "multiscale_strain_gradient_orientation",
+        "strain_source": "all_three",
+        "max_smoothing_sigma_m": 500.0,
+        "min_orientation_coherence": 0.2,
+        "n_scales": 3,
+        "prediction_fraction": 0.01,
+    }
+    score, diagnostics = strain_discontinuity_surface(
+        bands, domain, config, pixel_size_m=100.0
+    )
+    assert score.shape == shape
+    assert np.isfinite(score).all()
+    assert score[:, 48].max() > 0.0
+    assert score[:, 20].max() == 0.0
+    assert diagnostics["method"] == "multiscale_strain_gradient_orientation_persistence"
+    json.dumps(diagnostics, allow_nan=False)
+
+    routed, routed_diagnostics = candidate_surface(bands, domain, config)
+    assert np.array_equal(routed, score)
+    assert routed_diagnostics == diagnostics

@@ -76,3 +76,65 @@ def test_nested_screen_keeps_final_fold_out_of_selection():
     )
     assert altered.report["selected_design_id"] == result.report["selected_design_id"]
     assert altered.report["selected_inner_folds"] == result.report["selected_inner_folds"]
+
+
+def test_challenger_gate_requires_beating_exact_incumbent_on_reused_outer_block():
+    h = w = 96
+    yy, xx = np.indices((h, w))
+    domain = np.ones((h, w), dtype=bool)
+    labels = np.zeros((h, w), dtype=np.uint8)
+    labels[10:36, 22] = 1
+    labels[10:36, 72] = 1
+    labels[60:86, 22] = 1
+    labels[60:86, 72] = 1
+    rtp = (xx >= 22).astype(np.float32) + 0.5 * (xx >= 72).astype(np.float32)
+    bands = {
+        "rtp": rtp,
+        "tmi": rtp.copy(),
+        "tmi_hg": np.abs(np.gradient(rtp, axis=1)).astype(np.float32),
+        "depth_to_base_surf": (xx + yy).astype(np.float32),
+        "iso_grav_anom_hg": np.abs(np.gradient(rtp, axis=0)).astype(np.float32),
+        "det_elev_slope": np.zeros((h, w), dtype=np.float32),
+    }
+    config = {
+        "design_id": "challenger-0",
+        "feature_detector": "deterministic_poisson_gradient_persistence",
+        "magnetic_source": "rtp",
+        "max_continuation_m": 200.0,
+        "min_orientation_coherence": 0.1,
+        "depth_edge_weight": 0.0,
+        "gravity_edge_weight": 0.0,
+        "quiescence_weight": 0.0,
+        "prediction_fraction": 0.02,
+    }
+    incumbent_config = {**config, "design_id": "incumbent-0", "prediction_fraction": 0.01}
+    result = run_nested_screen(
+        bands,
+        labels,
+        domain,
+        [config],
+        pixel_size_m=100.0,
+        spatial_margin_px=8,
+        pad_px=8,
+        incumbent_config=incumbent_config,
+        holdout_reuse_note="synthetic reused block check",
+    )
+    gate = result.report["gate"]
+    outer = result.report["final_holdout"]
+    incumbent = result.report["incumbent_holdout"]
+    budget = result.report["incumbent_budget_comparison"]
+    assert result.report["holdout_reuse_note"] == "synthetic reused block check"
+    assert incumbent["design_id"] == "incumbent-0"
+    assert incumbent["source_config_prediction_fraction"] == 0.01
+    assert incumbent["comparison_prediction_fraction"] == config["prediction_fraction"]
+    assert outer["prediction_fraction_requested"] == incumbent["prediction_fraction_requested"]
+    assert outer["requested_budget"] == incumbent["requested_budget"]
+    assert outer["emitted_pixels_candidate"] == incumbent["emitted_pixels_candidate"]
+    assert outer["emitted_pixels_candidate"] == outer["emitted_pixels_baseline"]
+    assert incumbent["emitted_pixels_candidate"] == incumbent["emitted_pixels_baseline"]
+    assert budget["status"] == "matched"
+    assert budget["equal_emitted_mass_all_arms"] is True
+    assert gate["incumbent_budget_equal"] is True
+    assert gate["beats_incumbent"] is False
+    assert gate["passed"] is False
+    assert result.prediction is None

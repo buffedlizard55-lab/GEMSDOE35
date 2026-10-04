@@ -2,6 +2,8 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlparse
 
+import pytest
+
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
 
@@ -49,9 +51,33 @@ def test_site_visible_evidence_is_current_and_caveated():
     validation = DOCS / "evidence/submission-validation.json"
     assert report.is_file()
     assert validation.is_file()
+    challenger = DOCS / "evidence/h35-02-latest.json"
+    reconstruction = DOCS / "evidence/candidate-reconstruction.json"
+    assert challenger.is_file()
+    assert reconstruction.is_file()
+    assert (ROOT / "docs/original-project-prompt.md").is_file()
     index_html = (DOCS / "index.html").read_text(encoding="utf-8")
     executive_html = (DOCS / "executive-summary.html").read_text(encoding="utf-8")
     assert "0.3262" in index_html
     assert "owner-maintained" in index_html
+    assert "H35-02 failed" in index_html
+    assert "no prior submission TIFs were supplied" in index_html
     assert "Generative AI" in executive_html
     assert "three submissions per week" in executive_html
+
+    import json
+
+    challenger_report = json.loads(challenger.read_text(encoding="utf-8"))
+    reconstruction_report = json.loads(reconstruction.read_text(encoding="utf-8"))
+    assert challenger_report["gate"]["passed"] is False
+    assert challenger_report["submission"] is None
+    budget = challenger_report["incumbent_budget_comparison"]
+    assert budget["status"] == "matched"
+    assert budget["equal_emitted_mass_all_arms"] is True
+    assert budget["challenger_emitted_pixels"] == budget["incumbent_emitted_pixels"] == 27979
+    assert challenger_report["incumbent_holdout"]["candidate"]["score"] == pytest.approx(0.030867067480955624)
+    superseded = json.loads((ROOT / "reports/h35-02-20261004T175239Z-6882a35675.json").read_text(encoding="utf-8"))
+    assert superseded["report_status"].startswith("superseded")
+    assert superseded["comparison_integrity_warning"]["corrected_report"].endswith("180550Z-6882a35675.json")
+    assert reconstruction_report["status"] == "exact_prediction_reproduction_passed"
+    assert reconstruction_report["exact_prediction_array_match_on_domain"] is True

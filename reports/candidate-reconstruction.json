@@ -1,0 +1,27 @@
+{
+  "candidate_bytes": 273752,
+  "candidate_file": "docs/downloads/gemsdoe35-h35-01-e58e5dbee6-20261004T164802Z-candidate.tif",
+  "candidate_sha256": "5d26cdea082e18e97b693365de0fcfb41f97a432e18ff138d08cd7c622679929",
+  "config_id": "h35-01-e58e5dbee6",
+  "emitted_cells_reconstructed": 51205,
+  "exact_prediction_array_match_on_domain": true,
+  "feature_detector": "poisson_continuation_gradient_orientation_persistence",
+  "finite_footprint_matches_template": true,
+  "generated_utc": "2026-10-04T18:08:37+00:00",
+  "global_duplicate_comparison": "not possible from this checkout because prior submission rasters were not supplied; this receipt proves exact reconstruction from the saved local config, not uniqueness versus every external artifact",
+  "grid_matches_owner_mirror_template": true,
+  "hypothesis_id": "H35-01",
+  "nodata_tag_is_nan": true,
+  "organizer_score": null,
+  "outside_cells_are_nan": true,
+  "positive_cells_in_tif": 51205,
+  "prediction_array_sha256": "762a82411ba82ec15ace903591406a8df9b7ad9174715e6955a84b93aa565653",
+  "provenance_class": "pinned public owner-maintained mirror; not organizer-authenticated",
+  "schema_version": "gemsdoe35-candidate-reproduction-v1",
+  "source_hashes": {
+    "features": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+    "labels": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+    "template": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc"
+  },
+  "status": "exact_prediction_reproduction_passed"
+}

@@ -78,6 +78,7 @@ def _paired_fold_scores(
     heldout_name: str,
     prediction_fraction: float,
     pixel_size_m: float,
+    scoring_budget: int | None = None,
 ) -> dict[str, Any]:
     eval_mask = core_masks[heldout_name] & domain
     available = int(eval_mask.sum())
@@ -90,8 +91,11 @@ def _paired_fold_scores(
             "available_pixels": available,
             "truth_pixels": int(truth.sum()),
         }
-    pred, emitted = _top_k_mask(candidate_score, eval_mask, target_k)
-    baseline, baseline_emitted = _top_k_mask(baseline_score, eval_mask, target_k)
+    # `scoring_budget` is used only when matching all arms in a separate
+    # incumbent comparison. The requested mass remains visible in the report.
+    initial_scoring_budget = target_k if scoring_budget is None else min(target_k, max(0, int(scoring_budget)))
+    pred, emitted = _top_k_mask(candidate_score, eval_mask, initial_scoring_budget)
+    baseline, baseline_emitted = _top_k_mask(baseline_score, eval_mask, initial_scoring_budget)
     # Both arms have the same scoring domain and target budget. If a field has
     # fewer positive scores, report and match the actual emitted mass.
     matched_k = min(emitted, baseline_emitted)
@@ -105,9 +109,13 @@ def _paired_fold_scores(
         "fold": heldout_name,
         "status": "scored",
         "available_pixels": available,
+        "prediction_fraction_requested": float(prediction_fraction),
         "requested_budget": target_k,
+        "scoring_budget_cap": initial_scoring_budget,
         "emitted_pixels_candidate": emitted,
         "emitted_pixels_baseline": baseline_emitted,
+        "actual_prediction_fraction": float(emitted / available),
+        "budget_shortfall_pixels": int(target_k - emitted),
         "truth_pixels": int(truth.sum()),
         "candidate": cand_metric.as_dict(),
         "baseline": base_metric.as_dict(),
@@ -124,6 +132,8 @@ def run_nested_screen(
     pixel_size_m: float = 100.0,
     spatial_margin_px: int = 30,
     pad_px: int = 48,
+    incumbent_config: Mapping[str, Any] | None = None,
+    holdout_reuse_note: str | None = None,
 ) -> ValidationOutput:
     """Select on three spatial blocks and evaluate once on frozen NW.
 
@@ -197,14 +207,99 @@ def run_nested_screen(
         prediction_fraction=float(selected_config["prediction_fraction"]),
         pixel_size_m=pixel_size_m,
     )
+    incumbent_outer: dict[str, Any] | None = None
+    incumbent_budget_comparison: dict[str, Any] | None = None
+    beats_incumbent: bool | None = None
+    if incumbent_config is not None:
+        incumbent = dict(incumbent_config)
+        comparison_fraction = float(selected_config["prediction_fraction"])
+        incumbent_surface, _ = candidate_surface(
+            bands, domain, incumbent, pixel_size_m=pixel_size_m, pad_px=pad_px
+        )
+        incumbent_outer = _paired_fold_scores(
+            incumbent_surface,
+            baseline,
+            y,
+            domain,
+            core,
+            heldout_name=FINAL_HOLDOUT,
+            # The incumbent is rescored at the selected challenger fraction;
+            # its own historical emission fraction is metadata, not a fair
+            # comparison budget.
+            prediction_fraction=comparison_fraction,
+            pixel_size_m=pixel_size_m,
+        )
+        incumbent_outer["design_id"] = str(incumbent.get("design_id", "unknown"))
+        incumbent_outer["source_config_prediction_fraction"] = float(incumbent.get("prediction_fraction", 0.0))
+        incumbent_outer["comparison_prediction_fraction"] = comparison_fraction
+        if outer.get("status") == "scored" and incumbent_outer.get("status") == "scored":
+            common_emitted = min(
+                int(outer["emitted_pixels_candidate"]),
+                int(incumbent_outer["emitted_pixels_candidate"]),
+            )
+            # Recompute both candidate-vs-baseline pairs at the common actual
+            # mass. This handles sparse score surfaces as well as unequal
+            # fractions, and lets us assert exact cross-arm budget equality.
+            outer = _paired_fold_scores(
+                selected_surface,
+                baseline,
+                y,
+                domain,
+                core,
+                heldout_name=FINAL_HOLDOUT,
+                prediction_fraction=comparison_fraction,
+                pixel_size_m=pixel_size_m,
+                scoring_budget=common_emitted,
+            )
+            incumbent_outer = _paired_fold_scores(
+                incumbent_surface,
+                baseline,
+                y,
+                domain,
+                core,
+                heldout_name=FINAL_HOLDOUT,
+                prediction_fraction=comparison_fraction,
+                pixel_size_m=pixel_size_m,
+                scoring_budget=common_emitted,
+            )
+            incumbent_outer["design_id"] = str(incumbent.get("design_id", "unknown"))
+            incumbent_outer["source_config_prediction_fraction"] = float(incumbent.get("prediction_fraction", 0.0))
+            incumbent_outer["comparison_prediction_fraction"] = comparison_fraction
+            equal_budget = (
+                int(outer["emitted_pixels_candidate"]) == int(incumbent_outer["emitted_pixels_candidate"])
+                == int(outer["emitted_pixels_baseline"]) == int(incumbent_outer["emitted_pixels_baseline"])
+            )
+            incumbent_budget_comparison = {
+                "status": "matched" if equal_budget else "mismatch",
+                "prediction_fraction": comparison_fraction,
+                "requested_budget_pixels": int(outer["requested_budget"]),
+                "common_scoring_budget_pixels": int(common_emitted),
+                "challenger_emitted_pixels": int(outer["emitted_pixels_candidate"]),
+                "incumbent_emitted_pixels": int(incumbent_outer["emitted_pixels_candidate"]),
+                "challenger_baseline_emitted_pixels": int(outer["emitted_pixels_baseline"]),
+                "incumbent_baseline_emitted_pixels": int(incumbent_outer["emitted_pixels_baseline"]),
+                "equal_emitted_mass_all_arms": bool(equal_budget),
+            }
+            beats_incumbent = bool(
+                equal_budget
+                and float(outer["candidate"]["score"]) > float(incumbent_outer["candidate"]["score"])
+            )
+        else:
+            beats_incumbent = False
+            incumbent_budget_comparison = {
+                "status": "unscored",
+                "prediction_fraction": comparison_fraction,
+                "equal_emitted_mass_all_arms": False,
+            }
     selected_row = next(row for row in design_results if row["design_id"] == selected_config["design_id"])
     inner_deltas = [r["delta_dti"] for r in selected_row["inner_folds"] if r["status"] == "scored"]
-    gate = (
+    baseline_gate = (
         len(inner_deltas) == len(INNER_FOLDS)
         and all(delta > 0.0 for delta in inner_deltas)
         and outer.get("status") == "scored"
         and float(outer["delta_dti"]) > 0.0
     )
+    gate = bool(baseline_gate and (beats_incumbent is not False))
     prediction: np.ndarray | None = None
     if gate:
         # The organizer masks known catalogue pixels exactly. No buffer is
@@ -220,10 +315,11 @@ def run_nested_screen(
             prediction = None
 
     report = {
-        "schema_version": "gemsdoe35-h35-01-exact-mask-holdout-v3",
+        "schema_version": "gemsdoe35-exact-mask-holdout-v4-matched-incumbent-budget",
         "instrument": "official DTI formula, used locally against withheld public catalogue labels",
         "target_population_caveat": "The public labels are existing mapped faults, whereas the competition's initial private labels are newly identified fault pixels absent from USGS/INGENIOUS. Staff state new pixels may be within 300 m of known traces and nearby predictions are not buffered from scoring. This holdout is a spatial screening proxy, not a leaderboard-score estimate.",
         "organizer_scoring_clarification": "Known USGS/INGENIOUS catalogue pixels are masked pixel-exactly; no surrounding radius is excluded. Final candidate emission zeros only exact known-label pixels.",
+        "holdout_reuse_note": holdout_reuse_note,
         "split": {
             "grid": "2x2 contiguous spatial quadrants",
             "development_folds": list(INNER_FOLDS),
@@ -241,11 +337,16 @@ def run_nested_screen(
         "selected_inner_folds": selected_row["inner_folds"],
         "selected_inner_mean_delta_dti": best_inner_mean,
         "final_holdout": outer,
+        "incumbent_holdout": incumbent_outer,
+        "incumbent_budget_comparison": incumbent_budget_comparison,
         "gate": {
-            "criterion": "all three development block deltas > 0 and final NW spatial holdout delta > 0, all compared to a matched-mass single-scale tmi_hg baseline",
+            "criterion": "all three development block deltas > 0 and NW spatial holdout delta > 0 versus matched-mass single-scale tmi_hg; when an incumbent is supplied, rescore it at the selected challenger prediction fraction and require identical actual emitted pixel counts across challenger, incumbent, and each matched-mass tmi_hg reference before comparing DTI",
+            "baseline_gate_passed": bool(baseline_gate),
+            "beats_incumbent": beats_incumbent,
+            "incumbent_budget_equal": None if incumbent_budget_comparison is None else incumbent_budget_comparison.get("equal_emitted_mass_all_arms", False),
             "passed": bool(gate),
             "slot_eligible": False,
-            "slot_note": "Local proxy pass is relative only to this repository's single-scale baseline; it does not certify official-data provenance or hidden-test gain. No competition slot is spent automatically.",
+            "slot_note": "A local proxy pass does not certify official-data provenance or hidden-test gain. Reused NW comparisons are not independent confirmation. No competition slot is spent automatically.",
         },
         "all_design_results": design_results,
     }

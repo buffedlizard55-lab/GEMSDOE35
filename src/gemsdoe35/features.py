@@ -144,6 +144,100 @@ def _gradient_magnitude(values: np.ndarray, domain: np.ndarray, pixel_size_m: fl
     return magnitude
 
 
+def strain_discontinuity_surface(
+    bands: Mapping[str, np.ndarray],
+    domain: np.ndarray,
+    config: Mapping[str, Any],
+    *,
+    pixel_size_m: float = 100.0,
+) -> tuple[np.ndarray, dict[str, Any]]:
+    """Build H35-02's multi-scale strain-boundary ranking surface.
+
+    The signal is the spatial gradient magnitude of provided geodetic-strain
+    fields, not their absolute magnitude. Gradient axes are compared as
+    unoriented (180-degree) line normals across three smoothing scales. This is
+    a deterministic hypothesis transform, not a calibrated fault probability.
+    """
+    if pixel_size_m <= 0:
+        raise ValueError("pixel_size_m must be positive")
+    source = str(config["strain_source"])
+    sources = (
+        ["geod_2ndinv", "geod_shearrate", "geod_dilaterate"]
+        if source == "all_three"
+        else [source]
+    )
+    if not sources or any(name not in {"geod_2ndinv", "geod_shearrate", "geod_dilaterate"} for name in sources):
+        raise ValueError(f"unsupported strain_source {source!r}")
+    if any(name not in bands for name in sources):
+        raise ValueError(f"missing strain band(s): {[name for name in sources if name not in bands]}")
+    max_sigma_m = float(config["max_smoothing_sigma_m"])
+    if not np.isfinite(max_sigma_m) or max_sigma_m <= 0:
+        raise ValueError("max_smoothing_sigma_m must be finite and positive")
+    n_scales = int(config.get("n_scales", 3))
+    if n_scales < 2:
+        raise ValueError("n_scales must be at least two")
+
+    source_persistence: list[np.ndarray] = []
+    source_coherence: list[np.ndarray] = []
+    sigma_levels_m = np.linspace(max_sigma_m / n_scales, max_sigma_m, num=n_scales).tolist()
+    for name in sources:
+        values = np.asarray(bands[name], dtype=np.float32)
+        if values.shape != domain.shape:
+            raise ValueError(f"strain band {name!r} shape does not match domain")
+        filled = _fill_nearest(values, domain)
+        grad_sum = np.zeros(domain.shape, dtype=np.float32)
+        orient_x_sum = np.zeros(domain.shape, dtype=np.float32)
+        orient_y_sum = np.zeros(domain.shape, dtype=np.float32)
+        for sigma_m in sigma_levels_m:
+            sigma_px = float(sigma_m / pixel_size_m)
+            gx = ndimage.gaussian_filter(filled, sigma=sigma_px, order=(0, 1), mode="reflect") / pixel_size_m
+            gy = ndimage.gaussian_filter(filled, sigma=sigma_px, order=(1, 0), mode="reflect") / pixel_size_m
+            magnitude = np.hypot(gx, gy).astype(np.float32, copy=False)
+            scale = float(np.quantile(magnitude[domain], 0.95))
+            if not np.isfinite(scale) or scale <= 0:
+                normalized = np.zeros(domain.shape, dtype=np.float32)
+            else:
+                normalized = np.clip(magnitude / scale, 0.0, 1.0)
+            denom = gx * gx + gy * gy + np.finfo(np.float32).eps
+            axial_cos = (gx * gx - gy * gy) / denom
+            axial_sin = (2.0 * gx * gy) / denom
+            weight = normalized * domain
+            grad_sum += weight
+            orient_x_sum += weight * axial_cos
+            orient_y_sum += weight * axial_sin
+            del gx, gy, magnitude, normalized, denom, axial_cos, axial_sin, weight
+        mean_gradient = grad_sum / float(n_scales)
+        coherence = np.zeros(domain.shape, dtype=np.float32)
+        active = grad_sum > 0
+        coherence[active] = np.clip(
+            np.hypot(orient_x_sum[active], orient_y_sum[active]) / grad_sum[active], 0.0, 1.0
+        )
+        persistence = mean_gradient * coherence
+        persistence[~domain] = 0.0
+        coherence[~domain] = 0.0
+        source_persistence.append(persistence)
+        source_coherence.append(coherence)
+        del filled, grad_sum, orient_x_sum, orient_y_sum, mean_gradient, active
+
+    persistence = np.mean(np.stack(source_persistence, axis=0), axis=0, dtype=np.float32)
+    coherence = np.mean(np.stack(source_coherence, axis=0), axis=0, dtype=np.float32)
+    threshold = float(config["min_orientation_coherence"])
+    if not np.isfinite(threshold) or not 0.0 <= threshold <= 1.0:
+        raise ValueError("min_orientation_coherence must be in [0,1]")
+    score = np.where(coherence >= threshold, persistence, 0.0).astype(np.float32)
+    score[~domain] = 0.0
+    diagnostics = {
+        "method": "multiscale_strain_gradient_orientation_persistence",
+        "strain_source": source,
+        "smoothing_sigma_levels_m": sigma_levels_m,
+        "median_persistence_valid": float(np.median(persistence[domain])),
+        "p95_persistence_valid": float(np.quantile(persistence[domain], 0.95)),
+        "median_orientation_coherence_valid": float(np.median(coherence[domain])),
+        "config": dict(config),
+    }
+    return score, diagnostics
+
+
 def candidate_surface(
     bands: Mapping[str, np.ndarray],
     domain: np.ndarray,
@@ -152,7 +246,14 @@ def candidate_surface(
     pixel_size_m: float = 100.0,
     pad_px: int = 48,
 ) -> tuple[np.ndarray, dict[str, Any]]:
-    """Build one H35-01 ranking field from the pre-registered configuration."""
+    """Build a deterministic ranking field from a pre-registered configuration."""
+    detector = str(config.get("feature_detector", "deterministic_poisson_gradient_persistence"))
+    if detector == "multiscale_strain_gradient_orientation":
+        return strain_discontinuity_surface(
+            bands, domain, config, pixel_size_m=pixel_size_m
+        )
+    if detector != "deterministic_poisson_gradient_persistence":
+        raise ValueError(f"unsupported feature_detector {detector!r}")
     source = str(config["magnetic_source"])
     height = float(config["max_continuation_m"])
     if source not in {"rtp", "tmi", "blend"}:
