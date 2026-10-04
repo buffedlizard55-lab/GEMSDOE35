@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - main
-      - arena/01a107a8-gemsdoe35
+      - arena/01a10896-gemsdoe35
 
 jobs:
   tests:

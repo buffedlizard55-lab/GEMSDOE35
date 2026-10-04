@@ -353,6 +353,106 @@ def magnetic_low_halo_surface(
     return score, diagnostics
 
 
+def multiphysics_edge_concurrence_surface(
+    bands: Mapping[str, np.ndarray],
+    domain: np.ndarray,
+    config: Mapping[str, Any],
+    *,
+    pixel_size_m: float = 100.0,
+) -> tuple[np.ndarray, dict[str, Any]]:
+    """Rank co-located, directionally concordant magnetic/gravity/strain edges.
+
+    This is a falsifiable cross-physics screening transform, not a fault
+    classifier or calibrated probability. It combines multi-scale Gaussian
+    derivative magnitudes from one magnetic anomaly, isostatic gravity anomaly,
+    and geodetic shear-rate layers. The axial orientation term rewards shared
+    edge-normal direction (orientation modulo 180 degrees).
+    """
+    if pixel_size_m <= 0.0 or not np.isfinite(pixel_size_m):
+        raise ValueError("pixel_size_m must be finite and positive")
+    magnetic_source = str(config["magnetic_source"])
+    if magnetic_source not in {"mag_anom", "rtp"}:
+        raise ValueError(f"unsupported magnetic_source {magnetic_source!r}")
+    names = (magnetic_source, "iso_grav_anom", "geod_shearrate")
+    missing = [name for name in names if name not in bands]
+    if missing:
+        raise ValueError(f"missing cross-physics edge band(s): {missing}")
+    for name in names:
+        if np.asarray(bands[name]).shape != domain.shape:
+            raise ValueError(f"band {name!r} shape does not match the scoring domain")
+
+    max_scale_m = float(config["max_scale_m"])
+    orientation_power = float(config["orientation_power"])
+    balance = float(config["multiphysics_balance"])
+    n_scales = int(config.get("smoothing_scales", 3))
+    if not np.isfinite(max_scale_m) or max_scale_m <= 0.0:
+        raise ValueError("max_scale_m must be finite and positive")
+    if not np.isfinite(orientation_power) or orientation_power < 0.0:
+        raise ValueError("orientation_power must be finite and nonnegative")
+    if not np.isfinite(balance) or not 0.0 <= balance <= 1.0:
+        raise ValueError("multiphysics_balance must be in [0,1]")
+    if n_scales < 2:
+        raise ValueError("smoothing_scales must be at least two")
+
+    sigma_levels_m = np.linspace(max_scale_m / n_scales, max_scale_m, n_scales)
+    family_strengths: list[np.ndarray] = []
+    orientation_x = np.zeros(domain.shape, dtype=np.float32)
+    orientation_y = np.zeros(domain.shape, dtype=np.float32)
+    orientation_weight = np.zeros(domain.shape, dtype=np.float32)
+    for name in names:
+        raw = np.asarray(bands[name], dtype=np.float32)
+        filled = _fill_nearest(raw, domain)
+        strength_sum = np.zeros(domain.shape, dtype=np.float32)
+        for sigma_m in sigma_levels_m:
+            sigma_px = float(sigma_m / pixel_size_m)
+            gx = ndimage.gaussian_filter(filled, sigma=sigma_px, order=(0, 1), mode="reflect") / pixel_size_m
+            gy = ndimage.gaussian_filter(filled, sigma=sigma_px, order=(1, 0), mode="reflect") / pixel_size_m
+            magnitude = np.hypot(gx, gy).astype(np.float32, copy=False)
+            # Scale-wise robust normalization prevents units and amplitudes of
+            # disparate geophysical layers from dominating the ensemble.
+            unit = _robust_unit(magnitude, domain)
+            strength_sum += unit
+            denominator = gx * gx + gy * gy + np.finfo(np.float32).eps
+            axial_cos = (gx * gx - gy * gy) / denominator
+            axial_sin = (2.0 * gx * gy) / denominator
+            orientation_x += unit * axial_cos
+            orientation_y += unit * axial_sin
+            orientation_weight += unit
+            del gx, gy, magnitude, unit, denominator, axial_cos, axial_sin
+        family_strengths.append(strength_sum / float(n_scales))
+        del filled, strength_sum
+
+    stack = np.stack(family_strengths, axis=0)
+    strongest = np.max(stack, axis=0)
+    # Geometric concurrence suppresses a one-layer edge; the preregistered
+    # balance factor controls interpolation toward that stricter criterion.
+    concurrence = np.exp(np.mean(np.log(np.maximum(stack, 1.0e-6)), axis=0)).astype(np.float32)
+    consensus = np.zeros(domain.shape, dtype=np.float32)
+    active = orientation_weight > 0.0
+    consensus[active] = np.clip(
+        np.hypot(orientation_x[active], orientation_y[active])
+        / (orientation_weight[active] + np.finfo(np.float32).eps),
+        0.0,
+        1.0,
+    )
+    score = ((1.0 - balance) * strongest + balance * concurrence)
+    score *= np.power(consensus, orientation_power).astype(np.float32, copy=False)
+    score[~domain] = 0.0
+    diagnostics = {
+        "method": "multiphysics_edge_concurrence",
+        "magnetic_source": magnetic_source,
+        "other_edge_families": ["iso_grav_anom", "geod_shearrate"],
+        "scale_levels_m": [float(value) for value in sigma_levels_m],
+        "median_orientation_consensus_valid": float(np.median(consensus[domain])),
+        "p95_orientation_consensus_valid": float(np.quantile(consensus[domain], 0.95)),
+        "median_score_valid": float(np.median(score[domain])),
+        "p95_score_valid": float(np.quantile(score[domain], 0.95)),
+        "config": dict(config),
+    }
+    del stack, strongest, concurrence, consensus, family_strengths
+    del orientation_x, orientation_y, orientation_weight
+    return score.astype(np.float32, copy=False), diagnostics
+
 def candidate_surface(
     bands: Mapping[str, np.ndarray],
     domain: np.ndarray,
@@ -363,6 +463,10 @@ def candidate_surface(
 ) -> tuple[np.ndarray, dict[str, Any]]:
     """Build a deterministic ranking field from a pre-registered configuration."""
     detector = str(config.get("feature_detector", "deterministic_poisson_gradient_persistence"))
+    if detector == "multiphysics_edge_concurrence":
+        return multiphysics_edge_concurrence_surface(
+            bands, domain, config, pixel_size_m=pixel_size_m
+        )
     if detector == "magnetic_low_flank_curvature_halo":
         return magnetic_low_halo_surface(
             bands, domain, config, pixel_size_m=pixel_size_m

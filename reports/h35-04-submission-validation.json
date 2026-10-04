@@ -1,0 +1,36 @@
+{
+  "bounds": [
+    243350.0,
+    4135550.0,
+    572550.0,
+    4508550.0
+  ],
+  "bytes": 251948,
+  "crs": "EPSG:32611",
+  "dtype": "float32",
+  "errors": [],
+  "file": "docs/downloads/gemsdoe35-h35-04-2101f9ab04-20261004T211253030616Z-candidate.tif",
+  "finite_pixels": 5167373,
+  "max_inside": 1.0,
+  "min_inside": 0.0,
+  "nodata": "NaN",
+  "positive_pixels": 45869,
+  "range_gate": "pass",
+  "sha256": "056e8a3cb954ae3e6dee2c993e569ef0c60d42c24f29b44487fef91a0993bfa3",
+  "shape": [
+    3730,
+    3292
+  ],
+  "transform": [
+    100.0,
+    0.0,
+    243350.0,
+    0.0,
+    -100.0,
+    4508550.0,
+    0.0,
+    0.0,
+    1.0
+  ],
+  "valid_pixels": 5167373
+}
