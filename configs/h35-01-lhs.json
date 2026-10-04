@@ -1,0 +1,36 @@
+{
+  "schema_version": "gemsdoe35-mixed-lhs-v2",
+  "hypothesis_id": "H35-01",
+  "seed": 20261004,
+  "n_designs": 8,
+  "numeric_factors": {
+    "max_continuation_m": [200.0, 1000.0],
+    "min_orientation_coherence": [0.25, 0.9],
+    "depth_edge_weight": [0.0, 0.8],
+    "gravity_edge_weight": [0.0, 0.8],
+    "quiescence_weight": [0.0, 0.8],
+    "prediction_fraction": [0.004, 0.012]
+  },
+  "categorical_factors": {
+    "magnetic_source": ["rtp", "tmi", "blend"]
+  },
+  "fixed_factors": {
+    "feature_detector": "deterministic_poisson_gradient_persistence",
+    "continuation_levels": 3,
+    "baseline": "single_scale_tmi_hg",
+    "catalogue_mask": "pixel_exact_only_no_buffer",
+    "spatial_grid": "2x2_contiguous_quadrants",
+    "development_blocks": ["NE", "SW", "SE"],
+    "final_holdout": "NW",
+    "spatial_margin_px": 30,
+    "metric_radius_m": 300
+  },
+  "rationale": {
+    "max_continuation_m": "2 to 10 grid cells at 100 m; probe whether persistence survives progressively broader potential-field wavelengths",
+    "min_orientation_coherence": "axial orientation agreement threshold, sampled rather than hand-selected",
+    "weights": "independent cover-depth, gravity-gradient, and low-relief corroboration weights",
+    "prediction_fraction": "controls emitted mass and is tuned only on spatial development blocks",
+    "categorical_factors": "balanced source choice; not a continuous Latin dimension",
+    "catalogue_mask": "organizer staff clarified masking is pixel-exact; new fault pixels can occur within 300 m of known traces so no buffer is applied"
+  }
+}

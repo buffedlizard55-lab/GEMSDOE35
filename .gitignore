@@ -1,0 +1,9 @@
+# Competition data and generated experiments are intentionally not versioned.
+/data/raw/
+/data/cache/
+/data/experiments/
+outputs/
+.venv/
+__pycache__/
+.pytest_cache/
+*.py[cod]

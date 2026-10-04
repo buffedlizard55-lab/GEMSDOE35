@@ -1,0 +1,14 @@
+{
+  "snapshot_date_utc": "2026-10-04",
+  "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+  "source_type": "official public leaderboard page, manually reviewed",
+  "score_category": "public leaderboard only; not initial private prize score or final prize-round outcome",
+  "observed_rows": [
+    {"rank": 1, "participant": "nchuzhoy", "best_public_dw_tversky": 0.3262},
+    {"rank": 2, "participant": "kinghorton42", "best_public_dw_tversky": 0.3222},
+    {"rank": 3, "participant": "DARD", "best_public_dw_tversky": 0.3195},
+    {"rank": 13, "participant": "extradr19", "best_public_dw_tversky": 0.2778}
+  ],
+  "h33_attribution": "unverified; the public 0.2778 row is associated with extradr19, and no organizer record links it to an H33 artifact",
+  "caveat": "Leaderboard is a moving public subset snapshot. It cannot establish a team's private test score, final round score, or the score of an unlinked local artifact."
+}
