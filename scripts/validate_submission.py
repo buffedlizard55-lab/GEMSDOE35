@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -12,6 +13,14 @@ import rasterio
 from rasterio.crs import CRS
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        while chunk := stream.read(8 * 1024 * 1024):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def main() -> int:
@@ -47,7 +56,9 @@ def main() -> int:
             expected = np.isfinite(tmpl)
             if template.nodata is not None and np.isfinite(template.nodata):
                 expected &= tmpl != template.nodata
-            label_valid = np.ones(label.shape, dtype=bool) if labels.nodata is None else label != labels.nodata
+            label_valid = np.isfinite(label)
+            if labels.nodata is not None and np.isfinite(labels.nodata):
+                label_valid &= label != labels.nodata
             if not np.array_equal(expected, label_valid):
                 errors.append("template and label footprints differ; cannot establish expected nodata mask")
             arr = pred.read(1)
@@ -56,16 +67,22 @@ def main() -> int:
                 errors.append("submission finite/nodata footprint differs from template")
             if np.any(~np.isfinite(arr[expected])):
                 errors.append("submission contains NaN/inf inside the valid footprint")
-            if np.any((arr[expected] < 0.0) | (arr[expected] > 1.0)):
+            if expected.any() and np.any((arr[expected] < 0.0) | (arr[expected] > 1.0)):
                 errors.append("submission predictions outside [0, 1]")
+            if (~expected).any() and not np.isnan(arr[~expected]).all():
+                errors.append("outside-footprint cells must be NaN; infinity is not accepted as nodata")
             if pred.nodata is None or not np.isnan(pred.nodata):
                 errors.append("submission must encode outside-footprint cells as NaN nodata")
             receipt = {
                 "file": str(submission_path.relative_to(ROOT)) if submission_path.is_relative_to(ROOT) else str(submission_path),
+                "sha256": sha256_file(submission_path),
+                "bytes": submission_path.stat().st_size,
                 "shape": list(arr.shape),
                 "dtype": pred.dtypes[0],
                 "crs": pred.crs.to_string() if pred.crs else None,
                 "transform": list(pred.transform),
+                "bounds": list(pred.bounds),
+                "nodata": "NaN" if pred.nodata is not None and np.isnan(pred.nodata) else pred.nodata,
                 "valid_pixels": int(expected.sum()),
                 "finite_pixels": int(actual.sum()),
                 "min_inside": float(arr[expected].min()) if expected.any() else None,

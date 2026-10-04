@@ -77,6 +77,19 @@
         <p class="table-note">The local DTI values above are spatial-blocked proxy results; they are not numerically comparable to the leaderboard values because the target label population differs. No organizer score exists for this candidate.</p>
       </section>
 
+      <section class="section" aria-labelledby="challenger-title">
+        <div class="section-head">
+          <div><p class="kicker">Latest LHS challenger · 04 Oct 2026</p><h2 id="challenger-title">H35-02 failed before any slot was spent.</h2></div>
+          <a href="evidence/h35-02-latest.json" class="small">Open complete challenger report →</a>
+        </div>
+        <div class="grid-3">
+          <article class="card metric-card caveat"><span class="metric-label">Development · selected strain setting</span><strong class="metric">2 / 3</strong><p>Positive blocks; mean Δ +0.01807 vs `tmi_hg`, but SE was −0.00035. The predeclared gate required all three development folds to improve.</p></article>
+          <article class="card metric-card local"><span class="metric-label">Reused NW challenger block</span><strong class="metric">0.01699</strong><p>Below matched-mass `tmi_hg` 0.01943 (Δ −0.00244) and H35-01 rescored at the same 27,979-pixel budget: 0.03087 (Δ −0.01388). H35-01's historic 0.02690 used only 23,427 pixels. NW was already seen; this is not independent confirmation.</p></article>
+          <article class="card metric-card board"><span class="metric-label">Outcome</span><strong class="metric">No TIFF</strong><p>H35-02 failed the baseline, development-consistency and incumbent gates. No H35-02 GeoTIFF was generated and no submission slot was used.</p></article>
+        </div>
+        <p class="table-note">This is a local comparison on existing catalogue labels from a pinned owner-maintained mirror, not a competition score. The H35-01 TIFF below remains the only download. Do not keep tuning on NW; future confirmation needs fresh outer geography.</p>
+      </section>
+
       <section class="section" aria-labelledby="file-title">
         <div class="section-head">
           <div><p class="kicker">One file · easy to identify</p><h2 id="file-title">Candidate GeoTIFF</h2></div>
@@ -86,7 +99,7 @@
           <div>
             <span class="pill">Candidate only · not organizer-scored</span>
             <h3 style="margin-top:12px">H35-01 · wavelength-persistent magnetic contacts</h3>
-            <p>Unique run file. The file was reopened and checked against the local grid template and labels. Save the note below with your upload so the entry is identifiable.</p>
+            <p>Newly generated from the H35-01 LHS configuration, not a renamed copy. Its prediction array exactly reconstructs from the saved config and pinned owner mirror; no prior submission TIFs were supplied for a global duplicate comparison. The file was reopened and checked against the local grid template and labels.</p>
             <code class="file-name" id="filename">gemsdoe35-h35-01-e58e5dbee6-20261004T164802Z-candidate.tif</code>
             <div class="file-actions">
               <a class="btn btn-dark" href="downloads/gemsdoe35-h35-01-e58e5dbee6-20261004T164802Z-candidate.tif" download>Download `.tif`</a>
@@ -104,12 +117,13 @@
             <div class="spec"><b>SHA-256</b><span class="mono" style="font-size:10px">5d26cdea082e…622679929</span></div>
           </div>
         </div>
+        <p class="table-note"><a href="evidence/submission-validation.json">Format receipt</a> · <a href="evidence/candidate-reconstruction.json">Exact prediction-array reconstruction receipt</a>. These verify bytes against the local owner mirror, not against organizer-authenticated downloads or every historical submission.</p>
       </section>
 
       <section class="section" aria-labelledby="folds-title">
         <div class="section-head">
           <div><p class="kicker">Transparent holdout</p><h2 id="folds-title">Every block, side by side.</h2></div>
-          <p class="section-intro">Same emitted mass in each comparison; the NW quadrant remained frozen until the best development configuration was selected.</p>
+          <p class="section-intro">Same emitted mass in each H35-01 comparison; NW was not used to select that configuration. H35-02 later reused the block as a paired challenger, so it is no longer a pristine holdout for future ideas.</p>
         </div>
         <div class="table-wrap">
           <table>
@@ -141,21 +155,21 @@
 
       <section class="section" aria-labelledby="hyp-title">
         <div class="section-head">
-          <div><p class="kicker">Research queue</p><h2 id="hyp-title">Four geological hypotheses.</h2></div>
+          <div><p class="kicker">Research queue</p><h2 id="hyp-title">Four fresh hypotheses; one tested and stopped.</h2></div>
           <a href="https://github.com/buffedlizard55-lab/GEMSDOE35/blob/main/docs/hypotheses.md" class="small" target="_blank" rel="noopener">Read the complete ranked register →</a>
         </div>
         <div class="hypothesis-list">
-          <article class="hypothesis"><span class="hypothesis-rank">H1</span><div><h3>Wavelength-persistent magnetic contacts beneath cover</h3><p>RTP/TMI + basement depth + gravity support; first implemented and spatially screened.</p></div><span class="status">screened</span></article>
-          <article class="hypothesis"><span class="hypothesis-rank">H2</span><div><h3>Strain-rate discontinuities, not hotspots</h3><p>Geodetic shear, dilation and second-invariant boundaries may expose unmapped block edges.</p></div><span class="status">queued</span></article>
-          <article class="hypothesis"><span class="hypothesis-rank">H3</span><div><h3>Hydrothermal demagnetization halo with flanking edges</h3><p>Test elongated magnetic lows plus gradients and independent conductance/gravity support.</p></div><span class="status">queued</span></article>
-          <article class="hypothesis"><span class="hypothesis-rank">H4</span><div><h3>Depth-connected MT conductance corridors</h3><p>Cross-depth USGS conductance may add context, but the public product is much coarser than 100 m.</p></div><span class="status">data audit pending</span></article>
+          <article class="hypothesis"><span class="hypothesis-rank">01</span><div><h3>H35-02 · Strain-field discontinuities</h3><p>Three-scale gradient/orientation features from geodetic strain; LHS screen failed the block-consistency and incumbent gates, so stopped without a TIFF.</p></div><span class="status">screen failed</span></article>
+          <article class="hypothesis"><span class="hypothesis-rank">02</span><div><h3>H35-03 · Hydrothermal demagnetization halo</h3><p>Test elongated magnetic lows bracketed by coherent gradients, with conductance/gravity support; mechanism is plausible but non-unique.</p></div><span class="status">registered</span></article>
+          <article class="hypothesis"><span class="hypothesis-rank">03</span><div><h3>H35-04 · Depth-connected MT conductance</h3><p>Cross-depth USGS conductance may add context; native CRS is EPSG:4269, while pixel size and target overlap still need an audit.</p></div><span class="status">data audit pending</span></article>
+          <article class="hypothesis"><span class="hypothesis-rank">04</span><div><h3>H35-05 · Seismicity-gradient terminations</h3><p>Use supplied earthquake-density/distance edges and terminations rather than hotspot ranks; spatial support and catalog completeness are risks.</p></div><span class="status">registered</span></article>
         </div>
       </section>
 
       <section class="section" aria-labelledby="score-title">
         <div class="section-head"><div><p class="kicker">The 0.2778 question</p><h2 id="score-title">Plausible to beat; unverified to attribute.</h2></div></div>
         <div class="quote">
-          <p><strong>What is verified:</strong> on the 2026-10-04 public leaderboard snapshot, 0.2778 is shown for `extradr19` at rank 13; the leader is 0.3262. This makes a score above 0.2778 plausible as a public result, but does not prove the score belongs to H33. The attribution of “H33 = 0.2778” was not linked to an organizer record. Neither a public row nor our local proxy establishes the private first-round or final score.</p>
+          <p><strong>What is verified:</strong> on the 2026-10-04 public-board snapshot, 0.2778 is shown for `extradr19` at rank 13; the leader is 0.3262. No organizer record links that row to H33. The owner’s <a href="https://github.com/buffedlizard55-lab/GEMSDOE32/pull/9" target="_blank" rel="noopener">H33 PR #9</a> describes a removal/pruning arm and a projected local 0.2747, explicitly not an organizer score. In principle, removing low-credit pixels can help if avoided false-positive cost exceeds lost true-positive credit, but that does not explain or attribute the public 0.2778. This project does not copy the near-catalogue buffer rule; staff say only known pixels are masked exactly and nearby predictions are scored normally. Neither this public row nor our local proxy establishes private or final-round performance.</p>
         </div>
       </section>
 
@@ -166,11 +180,13 @@
           <a class="source" href="https://community.drivendata.org/t/scoring-clarification-are-known-usgs-ingenious-faults-masked-when-scoring-and-are-they-in-the-final-round-label-set/11516/4" target="_blank" rel="noopener"><span><b>Organizer staff scoring clarification</b><small>Exact known-pixel mask; no buffer around nearby predictions</small></span><span aria-hidden="true">↗</span></a>
           <a class="source" href="https://community.drivendata.org/t/where-do-you-draw-the-line/11536/2" target="_blank" rel="noopener"><span><b>Organizer definition of a “new fault”</b><small>New geometry can belong to an existing system</small></span><span aria-hidden="true">↗</span></a>
           <a class="source" href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/" target="_blank" rel="noopener"><span><b>Official public leaderboard</b><small>Moving snapshot · 04 Oct 2026</small></span><span aria-hidden="true">↗</span></a>
+          <a class="source" href="https://www.drivendata.org/termsofuse/" target="_blank" rel="noopener"><span><b>Why the leaderboard is not auto-scraped</b><small>Terms prohibit automated monitoring/copying without permission</small></span><span aria-hidden="true">↗</span></a>
           <a class="source" href="evidence/leaderboard-20261004.json"><span><b>Saved leaderboard observation</b><small>Dated public rows; H33 attribution explicitly unverified</small></span><span aria-hidden="true">→</span></a>
           <a class="source" href="https://www.usgs.gov/data/electrical-conductance-maps-great-basin-usa" target="_blank" rel="noopener"><span><b>USGS Great Basin conductance data</b><small>Free public depth-slice raster release · H35-04</small></span><span aria-hidden="true">↗</span></a>
           <a class="source" href="https://github.com/buffedlizard55-lab/GEMSDOE35/blob/main/docs/hypotheses.md" target="_blank" rel="noopener"><span><b>Hypotheses &amp; evidence register</b><small>Ranked geological ideas and full source links</small></span><span aria-hidden="true">→</span></a>
           <a class="source" href="https://github.com/buffedlizard55-lab/GEMSDOE35/blob/main/docs/source-register.md" target="_blank" rel="noopener"><span><b>Claim-by-claim source register</b><small>What each source supports, what it cannot prove, and open blockers</small></span><span aria-hidden="true">→</span></a>
         </div>
+        <p class="table-note">The leaderboard entry is a dated human-reviewed snapshot, not a live feed. The current DrivenData Terms of Use prohibit automated monitoring/copying without written permission; a feed requires an organizer-approved API or written authorization.</p>
       </section>
     </main>
 

@@ -1,0 +1,20 @@
+{
+  "beats_current_incumbent_on_reused_NW": false,
+  "challenger_nw_dti": 0.01699027949752632,
+  "gate_passed": false,
+  "incumbent_budget_comparison": {
+    "challenger_baseline_emitted_pixels": 27979,
+    "challenger_emitted_pixels": 27979,
+    "common_scoring_budget_pixels": 27979,
+    "equal_emitted_mass_all_arms": true,
+    "incumbent_baseline_emitted_pixels": 27979,
+    "incumbent_emitted_pixels": 27979,
+    "prediction_fraction": 0.01197603224326305,
+    "requested_budget_pixels": 27979,
+    "status": "matched"
+  },
+  "incumbent_nw_dti_at_challenger_budget": 0.030867067480955624,
+  "report": "reports/h35-02-20261004T180550Z-6882a35675.json",
+  "run_id": "h35-02-20261004T180550Z-6882a35675",
+  "tif": null
+}

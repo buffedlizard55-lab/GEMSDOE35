@@ -7,19 +7,19 @@
       "sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5"
     },
     {
-      "action": "already_verified",
+      "action": "copied_and_verified",
       "bytes": 425830,
       "canonical": "labels.tif",
       "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093"
     },
     {
-      "action": "already_verified",
+      "action": "copied_and_verified",
       "bytes": 1599597,
       "canonical": "sample_submission.tif",
       "sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc"
     }
   ],
-  "generated_utc": "2026-10-04T17:01:41+00:00",
+  "generated_utc": "2026-10-04T17:43:06+00:00",
   "official_data_tab": "https://www.drivendata.org/competitions/306/competition-doe-gems/data/",
   "official_data_tab_bypassed": false,
   "source_bridge_path": "data/bridge",

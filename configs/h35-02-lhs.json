@@ -1,0 +1,35 @@
+{
+  "schema_version": "gemsdoe35-h35-02-mixed-lhs-v1",
+  "hypothesis_id": "H35-02",
+  "seed": 20261004,
+  "n_designs": 8,
+  "numeric_factors": {
+    "max_smoothing_sigma_m": [100.0, 1000.0],
+    "min_orientation_coherence": [0.15, 0.85],
+    "prediction_fraction": [0.004, 0.012]
+  },
+  "categorical_factors": {
+    "strain_source": ["geod_2ndinv", "geod_shearrate", "geod_dilaterate", "all_three"]
+  },
+  "fixed_factors": {
+    "feature_detector": "multiscale_strain_gradient_orientation",
+    "n_scales": 3,
+    "baseline": "single_scale_tmi_hg_and_current_H35-01_candidate",
+    "incumbent_report": "reports/h35-01-20261004T164802Z-e58e5dbee6.json",
+    "incumbent_design_id": "h35-01-e58e5dbee6",
+    "catalogue_mask": "pixel_exact_only_no_buffer",
+    "spatial_grid": "2x2_contiguous_quadrants",
+    "development_blocks": ["NE", "SW", "SE"],
+    "final_holdout": "NW",
+    "spatial_margin_px": 30,
+    "metric_radius_m": 300,
+    "holdout_status": "reused_paired_challenger_block_not_independent_confirmation"
+  },
+  "rationale": {
+    "max_smoothing_sigma_m": "100 to 1000 m Gaussian derivative scales, corresponding to 1 to 10 pixels on the competition grid; test whether geodetic strain boundaries persist beyond pixel noise",
+    "min_orientation_coherence": "axial orientation agreement across three strain-gradient scales; sampled rather than selected by candidate name",
+    "prediction_fraction": "candidate emitted mass, selected only from development quadrants and scored at the same per-candidate mass against each comparison arm",
+    "strain_source": "balanced categorical choice among the provided strain invariant, shear rate, dilatation rate, and their equal-evidence union",
+    "holdout_caveat": "NW was already inspected for H35-01. This challenger comparison is not an untouched validation; a positive result is a local promotion screen only and requires fresh-block confirmation before strong claims."
+  }
+}

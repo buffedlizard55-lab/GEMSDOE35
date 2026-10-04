@@ -1,4 +1,11 @@
 {
+  "bounds": [
+    243350.0,
+    4135550.0,
+    572550.0,
+    4508550.0
+  ],
+  "bytes": 273752,
   "crs": "EPSG:32611",
   "dtype": "float32",
   "errors": [],
@@ -6,8 +13,10 @@
   "finite_pixels": 5167373,
   "max_inside": 1.0,
   "min_inside": 0.0,
+  "nodata": "NaN",
   "positive_pixels": 51205,
   "range_gate": "pass",
+  "sha256": "5d26cdea082e18e97b693365de0fcfb41f97a432e18ff138d08cd7c622679929",
   "shape": [
     3730,
     3292
