@@ -33,7 +33,7 @@ def test_site_internal_links_resolve():
 
 def test_site_hero_points_to_current_unique_tiff():
     html = (DOCS / "index.html").read_text(encoding="utf-8")
-    filename = "gemsdoe35-h35-01-e58e5dbee6-20261004T164802Z-candidate.tif"
+    filename = "gemsdoe35-h35-04-2101f9ab04-20261004T211253030616Z-candidate.tif"
     assert f'downloads/{filename}' in html
     assert (DOCS / "downloads" / filename).is_file()
     assert "not organizer-scored" in html
@@ -53,17 +53,23 @@ def test_site_visible_evidence_is_current_and_caveated():
     assert validation.is_file()
     challenger = DOCS / "evidence/h35-02-latest.json"
     latest_h35_03 = DOCS / "evidence/h35-03-latest.json"
+    latest_h35_04 = DOCS / "evidence/h35-04-latest.json"
+    h35_04_validation = DOCS / "evidence/h35-04-submission-validation.json"
     reconstruction = DOCS / "evidence/candidate-reconstruction.json"
     assert challenger.is_file()
     assert latest_h35_03.is_file()
+    assert latest_h35_04.is_file()
+    assert h35_04_validation.is_file()
     assert reconstruction.is_file()
     assert (ROOT / "docs/original-project-prompt.md").is_file()
     index_html = (DOCS / "index.html").read_text(encoding="utf-8")
     executive_html = (DOCS / "executive-summary.html").read_text(encoding="utf-8")
     assert "0.3262" in index_html
     assert "owner-maintained" in index_html
-    assert "H35-03 failed" in index_html
-    assert "no prior submission TIFs were supplied" in index_html
+    assert "H35-04 cross-physics edge concurrence" in index_html
+    assert "proxy gate FAILED" in index_html
+    assert "not slot-eligible" in index_html
+    assert "no complete prior-submission raster archive was available" in index_html
     assert "Generative AI" in executive_html
     assert "three feedback submissions per week" in executive_html
 
@@ -71,6 +77,7 @@ def test_site_visible_evidence_is_current_and_caveated():
 
     challenger_report = json.loads(challenger.read_text(encoding="utf-8"))
     h35_03_report = json.loads(latest_h35_03.read_text(encoding="utf-8"))
+    h35_04_report = json.loads(latest_h35_04.read_text(encoding="utf-8"))
     latest_report = json.loads(report.read_text(encoding="utf-8"))
     reconstruction_report = json.loads(reconstruction.read_text(encoding="utf-8"))
     assert h35_03_report["hypothesis_id"] == "H35-03"
@@ -78,7 +85,15 @@ def test_site_visible_evidence_is_current_and_caveated():
     assert h35_03_report["submission"] is None
     assert h35_03_report["outer_summary"]["matched_actual_emission_all_outer_folds"] is True
     assert h35_03_report["outer_summary"]["positive_folds_vs_incumbent"] == 3
-    assert latest_report["hypothesis_id"] == "H35-03"
+    assert h35_04_report["hypothesis_id"] == "H35-04"
+    assert h35_04_report["gate"]["passed"] is False
+    assert h35_04_report["gate"]["slot_eligible"] is False
+    assert h35_04_report["competition_slot_used"] is False
+    assert h35_04_report["submission"]["positive_pixels"] == 45869
+    assert h35_04_report["duplicate_audit"]["unique_within_local_downloads"] is True
+    assert h35_04_validation.is_file()
+    assert latest_report["hypothesis_id"] == "H35-04"
+    assert latest_report["gate"]["passed"] is False
     assert challenger_report["gate"]["passed"] is False
     assert challenger_report["submission"] is None
     budget = challenger_report["incumbent_budget_comparison"]

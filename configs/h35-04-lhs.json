@@ -1,0 +1,52 @@
+{
+  "schema_version": "gemsdoe35-mixed-lhs-v1",
+  "hypothesis_id": "H35-04",
+  "seed": 20261004,
+  "n_designs": 8,
+  "numeric_factors": {
+    "max_scale_m": [200.0, 1000.0],
+    "orientation_power": [0.5, 3.0],
+    "multiphysics_balance": [0.2, 0.8],
+    "prediction_fraction": [0.004, 0.012]
+  },
+  "categorical_factors": {
+    "magnetic_source": ["mag_anom", "rtp"]
+  },
+  "fixed_factors": {
+    "feature_detector": "multiphysics_edge_concurrence",
+    "geophysics_layers": ["iso_grav_anom", "geod_shearrate"],
+    "smoothing_scales": 3,
+    "edge_family_aggregation": "geometric_mean_of_magnetic_gravity_strain",
+    "orientation": "axial_edge_normal_consensus",
+    "baseline": "single_scale_tmi_hg",
+    "incumbent_report": "reports/h35-01-20261004T164802Z-e58e5dbee6.json",
+    "incumbent_design_id": "h35-01-e58e5dbee6",
+    "catalogue_mask": "pixel_exact_only_no_buffer",
+    "spatial_grid": "3x2_contiguous_equal-index_tiles",
+    "spatial_rows": 3,
+    "spatial_cols": 2,
+    "outer_validation": "nested_leave_one_tile_out_selection_and_scoring",
+    "spatial_margin_px": 30,
+    "holdout_reuse_status": "same geography has historical quadrant/nested summary exposure; exploratory only",
+    "metric_radius_m": 300,
+    "prediction_encoding": "binary_top_k_confidence_on_domain_nan_outside"
+  },
+  "promotion_rule": {
+    "mean_outer_delta_vs_baseline_and_incumbent_must_be_positive": true,
+    "minimum_positive_outer_tiles_against_each_comparator": 5,
+    "outer_tile_count": 6,
+    "comparators": ["tmi_hg", "h35-01-e58e5dbee6"],
+    "require_exact_matched_actual_emission_in_every_outer_tile": true,
+    "emit_tiff_only_if_all_conditions_pass": true,
+    "competition_slot_automated": false
+  },
+  "rationale": {
+    "max_scale_m": "200 to 1000 m Gaussian derivative scales on 100 m grid; screening interval only",
+    "orientation_power": "0.5 to 3 tests weak versus strong direction-consensus weighting",
+    "multiphysics_balance": "0.2 to 0.8 balances co-located family concurrence against the strongest edge; not a calibrated probability",
+    "prediction_fraction": "0.4% to 1.2% fold eligible area; all comparator arms matched at actual emissions",
+    "magnetic_source": "balanced categorical choice between magnetic anomaly and reduced-to-pole band",
+    "geophysics_layers": "gravity anomaly and geodetic shear-rate are the fixed corroborating edge families",
+    "provenance": "existing competition features/labels are a public owner-maintained mirror, not organizer-authenticated"
+  }
+}

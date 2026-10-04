@@ -5,6 +5,7 @@ import numpy as np
 from gemsdoe35.features import (
     candidate_surface,
     magnetic_low_halo_surface,
+    multiphysics_edge_concurrence_surface,
     magnetic_persistence,
     strain_discontinuity_surface,
 )
@@ -140,3 +141,51 @@ def test_strain_discontinuity_targets_multiscale_edges_not_hotspot_magnitude():
     routed, routed_diagnostics = candidate_surface(bands, domain, config)
     assert np.array_equal(routed, score)
     assert routed_diagnostics == diagnostics
+
+
+def test_multiphysics_edge_concurrence_rewards_aligned_independent_families():
+    shape = (80, 96)
+    yy, xx = np.indices(shape)
+    domain = np.ones(shape, dtype=bool)
+    mag = np.where(xx >= 48, 8.0, 0.0).astype(np.float32)
+    gravity_aligned = np.where(xx >= 48, 4.0, 0.0).astype(np.float32)
+    strain_aligned = np.where(xx >= 48, 2.0, 0.0).astype(np.float32)
+    config = {
+        "feature_detector": "multiphysics_edge_concurrence",
+        "design_id": "test-h35-04",
+        "magnetic_source": "mag_anom",
+        "max_scale_m": 600.0,
+        "smoothing_scales": 3,
+        "orientation_power": 2.0,
+        "multiphysics_balance": 0.7,
+        "prediction_fraction": 0.01,
+    }
+    aligned, aligned_meta = multiphysics_edge_concurrence_surface(
+        {"mag_anom": mag, "iso_grav_anom": gravity_aligned, "geod_shearrate": strain_aligned},
+        domain, config, pixel_size_m=100.0
+    )
+    strain_cross = np.where(yy >= 40, 2.0, 0.0).astype(np.float32)
+    crossed, crossed_meta = candidate_surface(
+        {"mag_anom": mag, "iso_grav_anom": gravity_aligned, "geod_shearrate": strain_cross},
+        domain, config, pixel_size_m=100.0
+    )
+    assert np.isfinite(aligned).all() and np.isfinite(crossed).all()
+    assert np.all(aligned[~domain] == 0.0)
+    assert float(np.quantile(aligned[:, 45:52], 0.95)) > float(np.quantile(crossed[:, 45:52], 0.95))
+    assert aligned_meta["method"] == "multiphysics_edge_concurrence"
+    assert crossed_meta["method"] == "multiphysics_edge_concurrence"
+    assert aligned_meta["scale_levels_m"] == [200.0, 400.0, 600.0]
+    json.dumps(aligned_meta, allow_nan=False)
+
+
+def test_multiphysics_edge_concurrence_rejects_missing_or_invalid_factors():
+    shape = (16, 16)
+    domain = np.ones(shape, dtype=bool)
+    bands = {name: np.ones(shape, dtype=np.float32) for name in ("mag_anom", "iso_grav_anom")}
+    config = {"magnetic_source": "mag_anom", "max_scale_m": 300.0, "orientation_power": 1.0, "multiphysics_balance": 0.5}
+    with np.testing.assert_raises(ValueError):
+        multiphysics_edge_concurrence_surface(bands, domain, config)
+    bands["geod_shearrate"] = np.ones(shape, dtype=np.float32)
+    config["multiphysics_balance"] = 1.5
+    with np.testing.assert_raises(ValueError):
+        multiphysics_edge_concurrence_surface(bands, domain, config)
